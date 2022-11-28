@@ -1,0 +1,4 @@
+https://www.simplilearn.com/tutorials/php-tutorial/php-login-form
+
+INSERT INTO `login` (`LoginID`, `Login_username`, `Login_password`, `UserID`) VALUES ('12345', 'chachi', '123456', NULL);
+INSERT INTO `login` (`LoginID`, `Login_username`, `Login_password`, `UserID`) VALUES ('67890', 'example', '123456', NULL);
