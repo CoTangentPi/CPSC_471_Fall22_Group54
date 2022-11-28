@@ -1,5 +1,9 @@
 
+
 <?php
+
+    session_start();
+
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -118,7 +122,7 @@
     $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
     $result = $con->query($sql);
     while($row = $result->fetch_assoc()) {
-        if($row["UserID"] == 3) {
+        if($row["UserID"] == $_SESSION["UserID"]) {
 
             echo "Hello " . $row["First_name"]. " " . $row["Last_name"]. "!" ."<br>";
         }
