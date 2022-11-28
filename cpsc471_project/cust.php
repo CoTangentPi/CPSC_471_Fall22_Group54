@@ -1,5 +1,6 @@
 
 <?php
+session_start();
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -12,12 +13,9 @@
 
 
     if ($result->num_rows > 0) {
-        // output data of each row
-        
-    
-        
+   
         while($row = $result->fetch_assoc()) {
-            if($row["UserID"] == 1) {
+            if($row["UserID"] == $_SESSION["UserID"]) {
                 echo "UserID: " . $row["UserID"]. " - Name: " . $row["First_name"]. " " . $row["Middle_name"]. " " . $row["Last_name"]. "<br>";
             }
         }
@@ -62,7 +60,7 @@
         font-family: verdana;
         color: rgba(139,216,189,1);
         border-collapse: collapse;
-        width: 100%;
+        width: 98%;
     }
     th {
         font-size:1.5vw;
@@ -74,9 +72,15 @@
         padding: 1.5vw;
     }
 
+    .logout_table{
+        position: absolute;
+        bottom: 1vw;
+    }
+
     .logout_table td {
         text-align: right;
         padding 1.5vw;
+
     }
 
     button{
@@ -120,7 +124,7 @@
     $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users";
     $result = $con->query($sql);
     while($row = $result->fetch_assoc()) {
-        if($row["UserID"] == 1) {
+        if($row["UserID"] == $_SESSION["UserID"]) {
             echo "Hello " . $row["First_name"]. " " . $row["Middle_name"]. " " . $row["Last_name"]. "!" ."<br>";
         }
     }
@@ -134,94 +138,7 @@
 </br>
 </br>
 
-<table>
-  <tr>
-    <th>Revenue:<span> 
-    <?php
-    $con = mysqli_connect("localhost","root","","cwcrs_db");
-    if(!$con) {
-        exit("An error connecting occurred." .mysqli_connect_errno());
-    } else { }
 
-    $sql = "SELECT * FROM Owner";
-    $result = $con->query($sql);
-    while($row = $result->fetch_assoc()) {
-        if($row["O_UserID"] == 1) {
-            echo "$" . $row["Revenue"];
-        }
-    }
-    $con->close();
-
-?> 
-    </span></th>
-    <th>Expenses:<span> 
-    <?php
-    $con = mysqli_connect("localhost","root","","cwcrs_db");
-    if(!$con) {
-        exit("An error connecting occurred." .mysqli_connect_errno());
-    } else { }
-
-    $sql = "SELECT * FROM Owner";
-    $result = $con->query($sql);
-    while($row = $result->fetch_assoc()) {
-        if($row["O_UserID"] == 1) {
-            echo "$" . $row["Expenses"];
-        }
-    }
-    $con->close();
-
-?> 
-    </span>
-    </th>
-
-    <th>Profit:
-    <span> 
-    <?php
-    $con = mysqli_connect("localhost","root","","cwcrs_db");
-    if(!$con) {
-        exit("An error connecting occurred." .mysqli_connect_errno());
-    } else { }
-
-    $sql = "SELECT * FROM Owner";
-    $result = $con->query($sql);
-    while($row = $result->fetch_assoc()) {
-        if($row["O_UserID"] == 1) {
-            $number = $row["Revenue"] - $row["Expenses"];
-            echo "$" . number_format($number, 2);
-        }
-    }
-    $con->close();
-
-?> 
-    </span>
-    </th>
-  </tr>
-  </table>
-  <table>
-  <tr>
-    <td>
-</td>
-    <td>
-    <button class= "empbutton" type="button" onclick="alert('Go to Employees')">Employees</button>  
-</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>
-</td>
-    <td>
-    <button class= "empbutton" type="button" onclick="alert('Go to Vehicles')">Vehicles</button>  
-</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>
-</td>
-    <td>
-    <button class= "empbutton" type="button" onclick="alert('Go to Branches')">Branches</button>  
-</td>
-    <td></td>
-  </tr>
 </table>
   <table class="logout_table">
   <tr>
@@ -230,7 +147,7 @@
 <td>
 </td>
 <td>
-    <button class= "logoutbutton" type="button" onclick="alert('Go to Login')"> Log Out</button>  
+    <button class= "logoutbutton" type="button" onclick="window.location.href='login.php'""> Log Out</button>  
 </td>
 </tr>
 </table>
