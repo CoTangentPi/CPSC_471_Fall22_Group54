@@ -1,5 +1,7 @@
 
+
 <?php
+    session_start();
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -120,7 +122,7 @@
     $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users";
     $result = $con->query($sql);
     while($row = $result->fetch_assoc()) {
-        if($row["UserID"] == 1) {
+        if($row["UserID"] == $_SESSION["UserID"]) {
             echo "Hello " . $row["First_name"]. " " . $row["Middle_name"]. " " . $row["Last_name"]. "!" ."<br>";
         }
     }
@@ -230,7 +232,7 @@
 <td>
 </td>
 <td>
-    <button class= "logoutbutton" type="button" onclick="alert('Go to Login')"> Log Out</button>  
+    <button class= "logoutbutton" type="button" onclick="window.location.href='login.php'"> Log Out</button>  
 </td>
 </tr>
 </table>
