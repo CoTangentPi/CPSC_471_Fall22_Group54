@@ -18,51 +18,47 @@ session_start();
 
     echo "session keys: " . $_SESSION["Username"] . " " . $_SESSION["Password"];
 
-    $stmt = $con->prepare("SELECT UserID from Login WHERE Login_username = ? AND Login_password = ?"); 
+    $stmt = $con->prepare("SELECT * from Login WHERE Login_username = ? AND Login_password = ?"); 
     //VALUES (NULL, $First_name, $Middle_name, $Last_name, $Email, $Phone_number, $DOB, $Sex, $Street_no, $Street_name, $City, $Province, $Postal_code)";
     $stmt->bind_param("ss", $_SESSION["Username"], $_SESSION["Password"]);
     
     $stmt->execute();
     
     //echo " statement user: " . $stmt;
-    $stmt->bind_result($UserID);
-    $UserID = $stmt->fetch();
+    $stmt->bind_result($LoginID, $Login_username, $Login_password, $UserID);
+    echo "UserID: " . $UserID;
 
-    if($UserID)
-    echo " statement user: " . $UserID;
+    while($stmt->fetch()) {
+        echo "LoginID: " . $LoginID . " Login_username: " . $Login_username . " Login_password: " . $Login_password . " UserID: " . $UserID;
+    }
+
+    //$result = $stmt->fetch();
     $stmt->close();
 
-    echo "user: " . $UserID;
-/*
-    //echo "New record created successfully";
-    $last_id = $con->insert_id;
-    echo "New record created successfully. Last inserted ID is: " . $last_id;
-    $stmt->close();
-
-    $stmt2 = $con->prepare("INSERT INTO login
-    VALUES (NULL, ?, ?, ?)");
-    $stmt2->bind_param("sss", $Username, $Password, $last_id);
-    $stmt2->execute();
-    echo "Login record created successfully";
-    $stmt2->close();
+    $_SESSION["UserID"] = $UserID;
 
 
-    $sql = "INSERT INTO Customer VALUES ($last_id)";
+    $sql = "SELECT * FROM permission WHERE UserID = $UserID";
     $result = $con->query($sql);
 
-    if($result) {
-        echo "Customer record created successfully";
-        $sql2 = "INSERT INTO permission VALUES (NULL, 'Customer', $last_id)";
-        $result2 = $con->query($sql2);
-        if($result2) {
-            echo "Permission record created successfully";
-        } else {
-            echo "Error: " . $sql2 . "<br>" . $con->error;
+    if ($result->num_rows > 0) {
+     
+        while($row = $result->fetch_assoc()) {
+            if($row["PermissionName"] == "Owner") {
+                header("Location: owner_start.php");
+                } else if($row["PermissionName"] == "Customer") {
+                    header("Location: cust.php");
+                } else if($row["PermissionName"] == "Employee") {
+                    header("Location: emp_start.php");
+                } else {
+                    echo "Error: " . $sql . "<br>" . $con->error;
+                }
         }
+      } else {
+        echo "0 results";
+      }
+
     
-    } else {
-        echo "Error: " . $sql . "<br>" . $con->error;
-    }*/
         $con->close();
 ?>
 
