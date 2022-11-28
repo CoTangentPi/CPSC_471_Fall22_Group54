@@ -1,5 +1,7 @@
 
+
 <?php
+session_start();
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -56,6 +58,17 @@
         font-family:verdana;
         top: 50%;
         transform: translateY(50%);
+    }
+    input[type=text]{
+        width: 20%;
+        padding: 1.5vw 3vw;
+        margin: 1vw 0;
+        display: inline-block;
+        border: 1px solid rgba(139,216,189,1);
+        box-sizing: border-box;
+        background-color: rgba(35,70,101,1);
+        color: rgba(139,216,189,1);
+        font-size:1.5vw;
     }
 
     table {
@@ -129,7 +142,7 @@
     $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
     $result = $con->query($sql);
     while($row = $result->fetch_assoc()) {
-        if($row["UserID"] == 3) {
+        if($row["UserID"] == $_SESSION["UserID"]) {
             echo "Hello " . $row["First_name"]. " " . $row["Last_name"]. "!" ."<br>";
         }
     }
@@ -146,7 +159,7 @@
     $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
     $result = $con->query($sql);
     while($row = $result->fetch_assoc()) {
-        if($row["UserID"] == 3) {
+        if($row["UserID"] == $_SESSION["UserID"]) {
             echo "Hello " . $row["First_name"]. " " . $row["Last_name"]. "!" ."<br>";
         }
     }
@@ -163,6 +176,11 @@
 <table>
   <tr>
     <th>
+    <div class="searchbar">
+    <form action="/res_search.php">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
 </th>
     <th>Total Number of Reservations:<span> 
     <?php
@@ -200,7 +218,7 @@
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
-            if($row["Start_date"] == date("Y-m-d")) {
+            if($row["Start_date"] == date("Y-m-d") && $row["Pickup_location"] == $_SESSION["Branch_no"]) {
     
                 echo $row["COUNT(Start_date)"];
             }
@@ -223,14 +241,19 @@
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Owner";
+    $sql = "SELECT * FROM Reservation";
     $result = $con->query($sql);
-    while($row = $result->fetch_assoc()) {
-        if($row["O_UserID"] == 1) {
-            $number = $row["Revenue"] - $row["Expenses"];
-            echo "$" . number_format($number, 2);
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            if($row["End_date"] == date("Y-m-d") && $row["Dropoff_location"] == $_SESSION["Branch_no"]) {
+    
+                echo $row["COUNT(Start_date)"];
+            }
         }
     }
+        else{
+            echo "0";
+            }
     $con->close();
 
 ?> 
@@ -259,7 +282,7 @@
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Owner, Users WHERE O_UserID = UserID";
+    $sql = "SELECT * FROM Reservation";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         // output data of each row
@@ -267,9 +290,9 @@
     
         
         while($row = $result->fetch_assoc()) {
-            if($row["UserID"] == 1) {
-                echo "O_UserID: " . $row["O_UserID"]. " - Name: " . $row["First_name"]. " " . $row["Middle_name"]. " " . $row["Last_name"]. "<br>";
-            }
+            
+                echo "ReservationID: " . $row["ReservationID"]. " - Start Date: " . $row["Start_date"]. " End Date: " . $row["End_date"]. " PaymentID" . $row["PaymentID"] . " CustomerID" . $row["C_UserID"] . " Branch No:" . $row["Branch_no"] . " VIN: " . $row["VIN"] . " Pickup Location: " . $row["Pickup_location"] . " Dropoff Location: " . $row["Dropoff_location"] . "<br>";
+            
         }
       } else {
         echo "No Reservations to show";
@@ -282,7 +305,7 @@
   <table class="bottom_table">
   <tr>
     <td>
-    <button class= "backbutton" text-align=left type="button" onclick="alert('Go to Employee')"> Back</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_start.php'"> Back</button>  
 </td>
 <td>
 </td>
@@ -293,7 +316,7 @@
 <td>
 </td>
 <td>
-    <button class= "logoutbutton" type="button" onclick="alert('Go to Login')"> Log Out</button>  
+    <button class= "logoutbutton" type="button" onclick="window.location.href='login.php'"> Log Out</button>  
 </td>
 </tr>
 </table>
