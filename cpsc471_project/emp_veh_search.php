@@ -3,8 +3,16 @@
 session_start();
 
 //$_SESSION["VIN"] = "1HGBH41JXMN109186";
-$_SESSION["VIN"] ="13ABCD12EFGH345678";
-//$_SESSION["VIN"] = "1HGBH41JXMN109999";
+//$_SESSION["VIN"] ="3ABCD12EFGH345678";
+//$_SESSION["VIN"] = "1HGBH41JXMN109999"; //this is a VIN that does not exist in the database
+
+//$_SESSION["VIN"] = "2ZYXW98ZYXW987654";
+//$_SESSION["VIN"] = "4MNBV65LKJH765432";
+//$_SESSION["VIN"] = "5POIU98MNBV987652";
+//$_SESSION["VIN"] = "6ASDF56ASDF567890";
+//$_SESSION["VIN"] = "7BVCX76NBVC876543";
+$_SESSION["VIN"] = "8NMGH78GHJK456789";
+
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -106,18 +114,10 @@ $_SESSION["VIN"] ="13ABCD12EFGH345678";
         table-layout: fixed;
     }
 
-    .search_table {
-        border: 1px solid rgba(139,216,189,1);
-    }
-
-    .search_table2 {
-        border: 1px solid rgba(139,216,189,1);
-    }
     th {
         font-size:1.5vw;
         text-align: center;
         padding: 1vw;
-        border: 1px solid rgba(139,216,189,1);
     }
     .search_table2 td {
         font-size:1.5vw;
@@ -126,8 +126,6 @@ $_SESSION["VIN"] ="13ABCD12EFGH345678";
     }
 
     .searched_car th{
-        border: 1px solid rgba(139,216,189,1);
-        background-color: fuchsia;
         width: 50%;
         text-align: center;
     }
@@ -146,7 +144,7 @@ $_SESSION["VIN"] ="13ABCD12EFGH345678";
 
     .car{
         background-color: darkgrey;
-        border: 1px solid dimgray;
+        border: 1px solid black;
         text-align: center;
 
     }
@@ -250,14 +248,53 @@ Search Vehicles
 
 <table class = "searched_car">
 <tr>
-    <th></th>
+    <th>
+<?php
+    $con = mysqli_connect("localhost","root","","cwcrs_db");
+    if(!$con) {
+        exit("An error connecting occurred." .mysqli_connect_errno());
+    } else { }
+
+    $sql = "SELECT * FROM Vehicle";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        // output data of each row
+        
+    
+        
+        while($row = $result->fetch_assoc()) {
+
+            if(strcmp($row["VIN"],$_SESSION["VIN"]) == 0){
+
+                echo "Status: ". $row["Status"];
+            
+            }
+        }
+      } else {
+        
+      }
+    $con->close();
+
+?>  </th>
     <th>
             <?php 
                 if(strcmp($_SESSION["VIN"],"1HGBH41JXMN109186") == 0){
                    echo "<div class = 'car'><img src='vw jetta.png' alt='vw jetta'/></div>";
-                } else if (strcmp($_SESSION["VIN"],"13ABCD12EFGH345678") == 0){
-                    echo "div class = 'car'><img src='chevy spark.png' alt='vw jetta'/></div>";
-                } else{
+                } else if (strcmp($_SESSION["VIN"],"3ABCD12EFGH345678") == 0){
+                    echo "<div class = 'car'><img src='chevy spark.png' alt='vw jetta'/></div>";
+                } else if (strcmp($_SESSION["VIN"],"2ZYXW98ZYXW987654") == 0){
+                    echo "<div class = 'car'><img src='fiat 500.png' alt='vw jetta'/></div>";
+                }else if (strcmp($_SESSION["VIN"],"4MNBV65LKJH765432") == 0){
+                    echo "<div class = 'car'><img src='nissan versa.png' alt='vw jetta'/></div>";
+                }else if (strcmp($_SESSION["VIN"],"5POIU98MNBV987652") == 0){
+                    echo "<div class = 'car'><img src='kia forte.png' alt='vw jetta'/></div>";
+                }else if (strcmp($_SESSION["VIN"],"6ASDF56ASDF567890") == 0){
+                    echo "<div class = 'car'><img src='toyota camry.png' alt='vw jetta'/></div>";
+                }else if (strcmp($_SESSION["VIN"],"7BVCX76NBVC876543") == 0){
+                    echo "<div class = 'car'><img src='nissan maxima.png' alt='vw jetta'/></div>";
+                }else if (strcmp($_SESSION["VIN"],"8NMGH78GHJK456789") == 0){
+                    echo "<div class = 'car'><img src='chrysler 300.png' alt='vw jetta'/></div>";
+                }else{
                     echo "<div class = 'no_pic'>";
                     "IMAGE COMING SOON!</div>";
                 }
@@ -276,8 +313,10 @@ Search Vehicles
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Vehicle, Features
-            WHERE  Vehicle.VIN = Features.VIN";
+    $sql = "SELECT * FROM Vehicle, Features, Branch, Insurance
+            WHERE  Vehicle.VIN = Features.VIN
+            AND Vehicle.Branch_no = Branch.Branch_no
+            AND Vehicle.InsuranceID = Insurance.InsuranceID";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         // output data of each row
@@ -291,9 +330,12 @@ Search Vehicles
                 echo "<table class='search_table2'>
                         <tr> <td> <b>VIN: </b> </td><td>" . $row["VIN"]. "</td> <td> <b> Year: </b></td><td>" . 
                         $row["Year"] . "</td> </tr><tr> <td> <b> Make: </b></td><td>" . $row["Make"] . 
-                        "</td> <td> <b> Model: </b></td><td>" . $row["Model"] . "</td> </tr><tr> <td> <b> Category: </b></td><td>"
-                        . $row["Category"] . "</td> <td> <b> Trans \ Driven Wheels: </b></td><td>" . $row["Trans_Driven_wheels"] . 
-                        "</td> </tr><tr> <td> <b> Fuel \ Air Conditioning: </b></td><td>" . $row["Fuel_Air_con"] . 
+                        "</td> <td> <b> Model: </b></td><td>" . $row["Model"] . "</td> </tr><tr> <td> <b> Branch Located: </b></td><td>"
+                        . $row["Branch_name"] . "</td> <td> <b> Mileage: </b></td><td>" . $row["Mileage"] . " km</td> </tr><tr> <td> <b> Licence Plate Number: </b></td><td>"
+                        . $row["Licence_plate_no"] . "</td> <td> <b> Registration Province: </b></td><td>" . $row["Registration_province"] . 
+                        "</td> </tr><tr> <td> <b> Category: </b></td><td>" 
+                        . $row["Category"] . "</td> <td> <b> Trans / Driven Wheels: </b></td><td>" . $row["Trans_Driven_wheels"] . 
+                        "</td> </tr><tr> <td> <b> Fuel / Air Conditioning: </b></td><td>" . $row["Fuel_Air_con"] . 
                         "</td> <td> <b> Type: </b></td><td>" . $row["Type"] . "</td> </tr><tr> <td> <b> Horse Power: </b></td><td>" .
                         $row["Horse_power"] . "</td> <td> <b> Torque: </b></td><td>" . $row["Torque"] . 
                         "</td> </tr> <tr> <td> <b> Tonnage: </b></td><td>" . $row["Tonnage"] . "</td>  <td> <b> Sunroof: </b></td><td>". 
@@ -302,7 +344,9 @@ Search Vehicles
                         $row["Interior_colour"] . "</td> <td> <b> Fuel_economy: </b></td><td>" . $row["Fuel_economy"] . 
                         "</td> </tr><tr><td> <b> Child Seat Compatible: </b></td><td>" . $row["Childseat_compatibility"] . 
                         "</td> <td> <b> Number of Passengers: </b></td><td>".                        
-                        $row["Number_of_passengers"] . "</td>  </tr> </table> <br> <br>";
+                        $row["Number_of_passengers"] . "</td> </tr><tr><td> <b> Insurance Type: </b></td><td>" . $row["Ins_Type"] . 
+                        "</td> <td> <b> Insurance Cost: </b></td><td>$".                        
+                        $row["Cost"] . "</td>  </tr> </table> <br> <br>";
             
             }
         }
@@ -349,7 +393,7 @@ Search Vehicles
     </tr>
   <tr>
     <td>
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_cust.php'"> Back</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_veh.php'"> Back</button>  
 </td>
 <td>
 </td>
