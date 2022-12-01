@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2022 at 03:58 AM
+-- Generation Time: Dec 01, 2022 at 07:08 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -42,7 +42,9 @@ CREATE TABLE `branch` (
 --
 
 INSERT INTO `branch` (`Branch_no`, `Branch_name`, `Street_no`, `Street_name`, `City`, `Province`, `Postal_code`) VALUES
-(1111, 'Calgary Branch', 1111, '1st Avenue SE', 'Calgary', 'AB', 'T1A1A1');
+(0, 'Online Branch', 404, 'Not Found Way', 'Silicon Valley', 'YK', 'Y0Y0Y0'),
+(1111, 'Calgary Branch', 1111, '1st Avenue SE', 'Calgary', 'AB', 'T1A1A1'),
+(2222, 'Saskatoon Branch', 567, 'Circle Drive N', 'Saskatoon', 'SK', 'S2S2S2');
 
 -- --------------------------------------------------------
 
@@ -175,6 +177,13 @@ CREATE TABLE `features` (
 --
 
 INSERT INTO `features` (`Year`, `Make`, `Model`, `VIN`, `Category`, `Trans_Driven_wheels`, `Fuel_Air_con`, `Type`, `Horse_power`, `Torque`, `Tonnage`, `Sunroof`, `Seat_material`, `Body_colour`, `Interior_colour`, `Fuel_economy`, `Childseat_compatibility`, `Number_of_passengers`) VALUES
+(2021, 'Chevrolet', 'Spark', '3ABCD12EFGH345678', 'E: Economy', 'A: Auto Unspecified Drive', 'V: Petrol Air', 'C: 2/4 Door', '98 hp', '94 ft-lbs', '1019', 'No', 'Cloth', 'Black', 'Dark Grey', '7 L / 100km', 'Yes', 4),
+(2021, 'Chrysler', '300', '8NMGH78GHJK456789', 'L: Luxury', 'N: Manual 4WD', 'V: Petrol Air', 'D: 4-5 Door', '363 hp', '394 lb-ft', '4515 lbs', 'Yes', 'Leather', 'Black', 'White', '12 L / 100 km', 'Yes', 5),
+(2021, 'Nissan', 'Versa', '4MNBV65LKJH765432', 'C: Compact', 'D: Auto AWD', 'V: Petrol Air', 'D: 4-5 Door', '109 hp', '107 lb-ft', '2519 lbs', 'No', 'Cloth', 'Blue', 'Grey', '7.5 L / 100 km', 'Yes', 5),
+(2022, 'Fiat', '500', '2ZYXW98ZYXW987654', 'M: Mini', 'C: Manual AWD', 'V: Petrol Air', 'B: 2-3 Door', '135 hp', '200 lb-ft', '2366 lbs', 'No', 'Leather', 'White', 'White', '3.8 L / 100 km', 'No', 4),
+(2022, 'Kia', 'Forte', '5POIU98MNBV987652', 'I: Intermediate', 'A: Auto Unspecified Drive', 'V: Petrol Air', 'D: 4-5 Door', '147 hp', '70 lb-ft', '3079 lbs', 'Yes', 'Cloth', 'Red', 'Grey', '7.5 L / 100km', 'Yes', 5),
+(2022, 'Nissan', 'Maxima', '7BVCX76NBVC876543', 'P: Premium', 'C: Manual AWD', 'V: Petrol Air', 'E: Coupe', '300 hp', '261 lb-ft', '2352 lbs', 'Yes', 'Leather', 'Orange', 'Grey', '9.9 L / 100 km', 'Yes', 5),
+(2022, 'Toyota', 'Camry', '6ASDF56ASDF567890', 'F: Fullsize', 'D: Auto AWD', 'H: Hybrid Air', 'D: 4-5 Door', '301 hp', '186 lb-ft', '3340 lbs', 'No', 'Cloth', 'Black', 'Black', '9.4 L / 100 km', 'Yes', 5),
 (2022, 'Volkswagon', 'Jetta', '1HGBH41JXMN109186', 'S: Standard', 'D: Auto AWD', 'D: Diesel Air', 'D: 4-5 Door', '147 hp', '184 lb-ft', '3213 lbs', 'Yes', 'Leather', 'Silver', 'Grey', '7 L / 100 km', 'Yes', 5);
 
 -- --------------------------------------------------------
@@ -185,7 +194,7 @@ INSERT INTO `features` (`Year`, `Make`, `Model`, `VIN`, `Category`, `Trans_Drive
 
 CREATE TABLE `insurance` (
   `InsuranceID` int(11) NOT NULL,
-  `Type` varchar(10) NOT NULL,
+  `Ins_Type` varchar(10) NOT NULL,
   `Cost` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -193,8 +202,9 @@ CREATE TABLE `insurance` (
 -- Dumping data for table `insurance`
 --
 
-INSERT INTO `insurance` (`InsuranceID`, `Type`, `Cost`) VALUES
-(98765432, 'Full', 1300.27);
+INSERT INTO `insurance` (`InsuranceID`, `Ins_Type`, `Cost`) VALUES
+(98765432, 'Full', 1300.27),
+(1234567890, 'Liability', 543.21);
 
 -- --------------------------------------------------------
 
@@ -387,7 +397,7 @@ INSERT INTO `users` (`UserID`, `First_name`, `Middle_name`, `Last_name`, `Email`
 (3, 'Alice', 'Jane', 'Employee1', 'alice@cwcrs.com', '4035552345', '2002-09-01', 'F', '1', '1 Street SW', 'Calgary', 'AB', 'T1K1C1'),
 (5, 'Bob', 'Trevor', 'Employee2', 'bob@cwcrs.com', '4035553456', '2000-03-14', 'M', '2', '2nd Street NE', 'Calgary', 'AB', 'T2K2K2'),
 (7, 'Sylvestor', NULL, 'Stallone', 'sly@movies.com', '2504445432', '1946-07-06', 'M', '4', 'Mulholland Drive', 'Beverly Hills', 'ON', 'M4C4C4'),
-(8, 'A', 'asdf', 'adsf', 'asdf@aa', '9999999999', '2022-11-17', 'f', '4', 'asjdfl', 'adfs', 'ON', 'T4N7J7'),
+(8, 'Arthur', 'G', 'Bear', 'bear@mammal.com', '9876543210', '2022-11-04', 'm', '2', 'Forest Road', 'Rosetown', 'SK', 'S0K1K1'),
 (9, 'Arnold', 'J', 'Schwarzenegger', 'arnie@bigdeal.com', '6047778876', '1947-07-30', 'm', '2', 'Da Choppa Drive', 'Malibu', 'PE', 'C0A0A0'),
 (10, 'Bill', 'k', 'Jones', 'jones@gmail.com', '4444444444', '2022-11-10', 'm', '3', 'g street', 'Calgary', 'AB', 't1a3g3');
 
@@ -412,7 +422,14 @@ CREATE TABLE `vehicle` (
 --
 
 INSERT INTO `vehicle` (`VIN`, `Status`, `Mileage`, `Licence_plate_no`, `Registration_province`, `InsuranceID`, `Branch_no`) VALUES
-('1HGBH41JXMN109186', 'Ready', 20000, 'ABC123', 'AB', 98765432, 1111);
+('1HGBH41JXMN109186', 'Ready', 20000, 'ABC123', 'AB', 98765432, 1111),
+('2ZYXW98ZYXW987654', 'Ready', 9876, '777ABC', 'SK', 1234567890, 2222),
+('3ABCD12EFGH345678', 'Ready', 15432, 'ZYX987', 'AB', 98765432, 1111),
+('4MNBV65LKJH765432', 'Ready', 67453, '888DEF', 'SK', 98765432, 2222),
+('5POIU98MNBV987652', 'Not Ready', 1234, 'LMN098', 'AB', 98765432, 1111),
+('6ASDF56ASDF567890', 'Ready', 7651, 'JKL567', 'AB', 98765432, 1111),
+('7BVCX76NBVC876543', 'Not Ready', 876, '890QWE', 'SK', 98765432, 2222),
+('8NMGH78GHJK456789', 'Ready', 3456, 'FGH876', 'AB', 1234567890, 1111);
 
 --
 -- Indexes for dumped tables
@@ -714,3 +731,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
