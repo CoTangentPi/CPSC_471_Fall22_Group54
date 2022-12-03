@@ -129,7 +129,7 @@ Add Branch
 </br>
 </br>
 <div>
-    <form action='new_branch_post.php' method='post'>
+    <form action='owner_branch_add_post.php' method='post'>
         <table>
             <tr>
                 <td>Branch Number:</td>
