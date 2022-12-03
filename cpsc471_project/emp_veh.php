@@ -107,8 +107,9 @@ session_start();
         border: 1px solid rgba(139,216,189,1);
     }
 
-    .cust_table2 {
-        border: 1px solid rgba(139,216,189,1);
+    .car_table {
+        width = 70%;
+        
     }
     th {
         font-size:1.5vw;
@@ -116,17 +117,35 @@ session_start();
         padding: 1vw;
         border: 1px solid rgba(139,216,189,1);
     }
-    .cust_table2 td {
+    .car_table td {
         font-size:1.5vw;
         text-align: left;
         padding: 1vw;
-        border: 1px solid rgba(139,216,189,1);
     }
 
     .no_veh {
         text-align: center;
         font-size: 2vw;
         padding: 2vw;
+    }
+    .no_pic {
+        width:18vw;
+        height:15vw;
+        color = rgba(139,216,189,1);
+        background-color: rgba(35,70,101,1);
+    }
+
+    .car img {
+        float: center;
+        height: 11.5vw;
+    }
+
+    .car{
+        background-color: darkgrey;
+        border: 1px solid black;
+        text-align: center;
+        width: 24vw;
+
     }
 
     .bottom_table{
@@ -180,7 +199,25 @@ session_start();
         flex-direction:row;
         align-items:center;
       }
-    
+
+      .carbutton{
+        padding: 0%;
+      }
+
+      .column {
+        float: left;
+        width: 80%;
+        padding: 0 10px;
+      }
+      .column2{
+        float: left;
+        width: 20%;
+        padding: 0 10px;
+      }
+      * {
+  box-sizing: border-box;
+}
+
     
    </style>
 <title>Canada Wide Car Rental Service - Employee: View Vehicles</title>
@@ -211,21 +248,17 @@ Vehicles
 
   <br>
   <br>
-
-  <table class="veh_table">
+  <div class="row">
+  <div class="column2">
+  <table class = "features">
     <tr>
-        <th width = 11.35%>Customer ID</th>
-        <th width = 20%>Name</th>
-        <th width = 18%>Email</th>
-        <th width = 12%>Phone Number</th>
-        <th width = 7%>D.O.B</th>
-        <th width = 4%>Sex</th>
-        <th width = 35%>Address</th>
-
-</tr>
-
-        </table>
-        <table>
+      <th>Features</th>
+    </tr>
+    </table>
+    </div>
+  <div class="column">
+  <table class='car_table'>
+  <!--<form action='emp_veh_post.php' method='post'>-->
 
 <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
@@ -233,29 +266,85 @@ Vehicles
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Customer, Users WHERE Customer.C_UserID = Users.UserID";
+    $sql = "SELECT * FROM Vehicle";
     $result = $con->query($sql);
+    $count = 0;
     if ($result->num_rows > 0) {
         // output data of each row
         
-    
+    //echo "Number of rows: " . $result->num_rows;
         
         while($row = $result->fetch_assoc()) {
+         // echo "<form action='emp_veh_post.php' method='post'>";
 
-                echo "<table class='cust_table2'>
-                        <tr> 
-                        <td width = 11.35%>" . $row["C_UserID"] . "</td> <td width = 20%>" . $row["First_name"] . 
-                        " " . $row["Middle_name"] . " " . $row["Last_name"] . "</td> <td width = 18%>" . 
-                        $row["Email"] . "</td> <td width = 12%>" . $row["Phone_number"] . "</td> <td width = 7%>" . 
-                        $row["DOB"] . "</td> <td width = 4%>" . $row["Sex"] . "</td> <td width = 35%>" . 
-                        $row["Street_no"] . " " . $row["Street_name"] . " " . $row["City"] . "," . $row["Province"] . " " .
-                        $row["Postal_code"] . "</td> </tr> </table>";
+            if($count % 3 == 0) {
+                echo "<tr>";
+            }
+
+                echo "<td >";
+
+                if(strcmp($row["VIN"],"1HGBH41JXMN109186") == 0){
+                  echo "<form action='emp_veh_post.php' method='post'>
+                        <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                        <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                        <div class = 'car'><img src='vw jetta.png' alt='vw jetta'/></div></button></form>";
+                 // echo "<div class = 'car'><img src='vw jetta.png' alt='vw jetta'/></div>";
+               } else if (strcmp($row["VIN"],"3ABCD12EFGH345678") == 0){
+                  echo "<form action='emp_veh_post.php' method='post'>
+                        <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                        <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                        <div class = 'car'><img src='chevy spark.png' alt='chevy spark'/></div></button></form>";
+                  // echo "<div class = 'car'><img src='chevy spark.png' alt='chevy spark'/></div>";
+               } else if (strcmp($row["VIN"],"2ZYXW98ZYXW987654") == 0){
+                echo "<form action='emp_veh_post.php' method='post'>
+                      <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                        <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                        <div class = 'car'><img src='fiat 500.png' alt='fiat 500'/></div></button></form>";
+                 //  echo "<div class = 'car'><img src='fiat 500.png' alt='fiat 500'/></div>";
+               }else if (strcmp($row["VIN"],"4MNBV65LKJH765432") == 0){
+                echo "<form action='emp_veh_post.php' method='post'>
+                      <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                      <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                      <div class = 'car'><img src='nissan versa.png' alt='nissan versa'/></div></button></form>";
+                  // echo "<div class = 'car'><img src='nissan versa.png' alt='nissan versa'/></div>";
+               }else if (strcmp($row["VIN"],"5POIU98MNBV987652") == 0){
+                echo "<form action='emp_veh_post.php' method='post'>
+                      <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                      <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                      <div class = 'car'><img src='kia forte.png' alt='kia forte'/></div></button></form>";
+                  // echo "<div class = 'car'><img src='kia forte.png' alt='kia forte'/></div>";
+               }else if (strcmp($row["VIN"],"6ASDF56ASDF567890") == 0){
+                echo "<form action='emp_veh_post.php' method='post'>
+                      <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                      <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                      <div class = 'car'><img src='toyota camry.png' alt='toyota camry'/></div></button></form>";
+                  // echo "<div class = 'car'><img src='toyota camry.png' alt='toyota camry'/></div>";
+               }else if (strcmp($row["VIN"],"7BVCX76NBVC876543") == 0){
+                echo "<form action='emp_veh_post.php' method='post'>
+                      <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                      <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                      <div class = 'car'><img src='nissan maxima.png' alt='nissan maxima'/></div></button></form>";
+                  // echo "<div class = 'car'><img src='nissan maxima.png' alt='nissan maxima'/></div>";
+               }else if (strcmp($row["VIN"],"8NMGH78GHJK456789") == 0){
+                echo "<form action='emp_veh_post.php' method='post'>
+                      <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                      <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                      <div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div></button></form>";
+                  // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
+               }else{
+                echo "<form action='emp_veh_post.php' method='post'>
+                      <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                      <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                      <div class = 'no_pic'>IMAGE COMING SOON!</div></button></form>";
+                 //  echo "<div class = 'no_pic'>";
+                   //"IMAGE COMING SOON!</div>";
+               }
+                echo"</td>";
             
-               /* echo "Customer ID: " . $row["C_UserID"]. " Name: " . $row["First_name"] . " " . $row["Middle_name"] . 
-                " " . $row["Last_name"] . " Email: " . $row["Email"] . " Phone Number :" . $row["Phone_number"] . 
-                " DOB: " . $row["DOB"] . " Sex: " . $row["Sex"] . " Address: " . $row["Street_no"] . " " .
-                $row["Street_name"] . " " . $row["City"] . "," . $row["Province"] . " " .$row["Postal_code"] ."<br>";*/
-            
+              if($count % 3 == 2){
+              echo "</tr>";
+            }
+                $count += 1;
         }
       } else {
         echo "<br>";
@@ -271,7 +360,10 @@ Vehicles
     $con->close();
 
 ?> 
+</form>
 </table>
+</div>
+    </div>
   <table class="bottom_table">
   <tr>
     <td>

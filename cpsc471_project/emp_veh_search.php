@@ -11,7 +11,7 @@ session_start();
 //$_SESSION["VIN"] = "5POIU98MNBV987652";
 //$_SESSION["VIN"] = "6ASDF56ASDF567890";
 //$_SESSION["VIN"] = "7BVCX76NBVC876543";
-$_SESSION["VIN"] = "8NMGH78GHJK456789";
+//$_SESSION["VIN"] = "8NMGH78GHJK456789";
 
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
@@ -267,6 +267,7 @@ Search Vehicles
             if(strcmp($row["VIN"],$_SESSION["VIN"]) == 0){
 
                 echo "Status: ". $row["Status"];
+                $_SESSION["Current_branch"] = $row["Branch_no"];
             
             }
         }
@@ -337,16 +338,16 @@ Search Vehicles
                         . $row["Category"] . "</td> <td> <b> Trans / Driven Wheels: </b></td><td>" . $row["Trans_Driven_wheels"] . 
                         "</td> </tr><tr> <td> <b> Fuel / Air Conditioning: </b></td><td>" . $row["Fuel_Air_con"] . 
                         "</td> <td> <b> Type: </b></td><td>" . $row["Type"] . "</td> </tr><tr> <td> <b> Horse Power: </b></td><td>" .
-                        $row["Horse_power"] . "</td> <td> <b> Torque: </b></td><td>" . $row["Torque"] . 
-                        "</td> </tr> <tr> <td> <b> Tonnage: </b></td><td>" . $row["Tonnage"] . "</td>  <td> <b> Sunroof: </b></td><td>". 
+                        $row["Horse_power"] . " hp</td> <td> <b> Torque: </b></td><td>" . $row["Torque"] . 
+                        " lb-ft</td> </tr> <tr> <td> <b> Tonnage: </b></td><td>" . $row["Tonnage"] . " lbs</td>  <td> <b> Sunroof: </b></td><td>". 
                         $row["Sunroof"] . "</td> </tr><tr> <td> <b> Seat Material: </b></td><td>" . $row["Seat_material"] . 
                         "</td><td> <b> Body Colour: </b></td><td>" . $row["Body_colour"] . "</td> </tr><tr> <td> <b> Interior Colour: </b></td><td>".
                         $row["Interior_colour"] . "</td> <td> <b> Fuel_economy: </b></td><td>" . $row["Fuel_economy"] . 
-                        "</td> </tr><tr><td> <b> Child Seat Compatible: </b></td><td>" . $row["Childseat_compatibility"] . 
+                        " L / 100 km</td> </tr><tr><td> <b> Child Seat Compatible: </b></td><td>" . $row["Childseat_compatibility"] . 
                         "</td> <td> <b> Number of Passengers: </b></td><td>".                        
                         $row["Number_of_passengers"] . "</td> </tr><tr><td> <b> Insurance Type: </b></td><td>" . $row["Ins_Type"] . 
                         "</td> <td> <b> Insurance Cost: </b></td><td>$".                        
-                        $row["Cost"] . "</td>  </tr> </table> <br> <br>";
+                        number_format($row["Cost"], 2) . "</td>  </tr> </table> <br> <br>";
             
             }
         }

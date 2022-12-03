@@ -1,5 +1,4 @@
 
-
 <?php
 session_start();
     $con = mysqli_connect("localhost","root","","cwcrs_db");
@@ -8,6 +7,24 @@ session_start();
     } else {
         echo "Connection successful\n";
     }
+
+    $sql2 = "SELECT * FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
+    $result2 = $con->query($sql2);
+
+    if ($result2->num_rows > 0) {
+
+        while($row = $result2->fetch_assoc()) {
+
+            if($row["UserID"] == $_SESSION["UserID"]) {
+                echo "UserID: " . $row["UserID"]. " - Name: " . $row["First_name"] .  " works at Branch: " . $row["Branch_no"] . "<br>";
+            }
+        }
+      } else {
+        echo "Can't find employee";
+      }
+
+
+
 
     $sql = "SELECT * FROM Reservation";
     $result = $con->query($sql);
@@ -59,8 +76,13 @@ session_start();
         top: 50%;
         transform: translateY(50%);
     }
-    input[type=text]{
-        width: 20%;
+
+    ::placeholder{
+        color: rgba(139,216,189,1);
+    }
+
+    input[type=search]{
+        width: 80%;
         padding: 1.5vw 3vw;
         margin: 1vw 0;
         display: inline-block;
@@ -69,6 +91,7 @@ session_start();
         background-color: rgba(35,70,101,1);
         color: rgba(139,216,189,1);
         font-size:1.5vw;
+        placeholder-color: rgba(139,216,189,1);
     }
 
     table {
@@ -76,6 +99,7 @@ session_start();
         color: rgba(139,216,189,1);
         border-collapse: collapse;
         width: 100%;
+        vertical-align: middle;
     }
 
     .res_table {
@@ -91,6 +115,12 @@ session_start();
         text-align: center;
         padding: 1.5vw;
         border: 1px solid rgba(139,216,189,1);
+    }
+
+    .no_res {
+        text-align: center;
+        font-size: 2vw;
+        padding: 2vw;
     }
 
     .bottom_table{
@@ -121,6 +151,31 @@ session_start();
         background-color: rgba(139,216,189,1);
         color: rgba(35,70,101,1);
     }
+
+    .searchbutton {
+        padding: 1.14vw 1vw;
+        border: 1px solid rgba(139,216,189,1);
+    }
+
+    svg {
+        color: rgba(139,216,189,1);
+        fill: currentColor;
+        width: 2.5vw;
+        height: 2.5vw;
+        
+      }
+
+      svg:hover {
+        color: rgba(35,70,101,1);
+      }
+
+      .searchbar {
+        display:flex;
+        flex-direction:row;
+        align-items:center;
+      }
+
+    
     
    </style>
 <title>Canada Wide Car Rental Service - Employee: View Reservations</title>
@@ -173,13 +228,17 @@ session_start();
 </br>
 </br>
 </br>
-<table>
+
+<table class = "toptable">
+<form action="res_post.php" method="post">
   <tr>
     <th>
-    <div class="searchbar">
-    <form action="/res_search.php">
-      <input type="text" placeholder="Search.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
+    <div class = "searchbar">
+      <input type="search" placeholder="Search.." name="search" required>
+     <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
+     <button class = "searchbutton" type="submit" name="submit" value="Submit">
+        <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
+      </button>
     </form>
 </th>
     <th>Total Number of Reservations:<span> 
@@ -259,8 +318,14 @@ session_start();
 ?> 
     </span>
     </th>
+    <th class = "addbutton">
+    <button class= "backbutton" text-align=right type="button" onclick="window.location.href='add_res.php'"> Make Reservation</button> 
+    </th>
   </tr>
   </table>
+
+  <br>
+  <br>
 
   <table class="res_table">
     <tr>
@@ -275,7 +340,10 @@ session_start();
         <th>Branch Created</th>
 
 </tr>
-<tr>
+
+        </table>
+        <table>
+
 <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
@@ -295,12 +363,19 @@ session_start();
             
         }
       } else {
-        echo "No Reservations to show";
+        echo "<br>";
+        echo "<br>";
+        echo "<table class='no_res'>";
+        echo "<tr>";
+        echo "<td>";
+        echo "No Reservations to Display";
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
       }
     $con->close();
 
 ?> 
-</tr>
 </table>
   <table class="bottom_table">
   <tr>

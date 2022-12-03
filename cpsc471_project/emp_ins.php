@@ -1,6 +1,11 @@
 
 <?php
 session_start();
+
+$_SESSION["RemoveIns"] = false;
+$_SESSION["InsInUse"] = false;
+$_SESSION["SamePolicy"] = false;
+$_SESSION["EditIns"] = false;
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -82,7 +87,7 @@ session_start();
     }
 
     input[type=search]{
-        width: 20%;
+        width: 40%;
         padding: 1.5vw 3vw;
         margin: 1vw 0;
         display: inline-block;
@@ -107,6 +112,7 @@ session_start();
         border: 1px solid rgba(139,216,189,1);
     }
 
+
     .ins_table2 {
         border: 1px solid rgba(139,216,189,1);
     }
@@ -116,6 +122,7 @@ session_start();
         padding: 1vw;
         border: 1px solid rgba(139,216,189,1);
     }
+    
     .ins_table2 td {
         font-size:1.5vw;
         text-align: left;
@@ -180,6 +187,10 @@ session_start();
         flex-direction:row;
         align-items:center;
       }
+
+      .addbutton{
+        text-align: right;
+      }
     
     
    </style>
@@ -200,14 +211,24 @@ Insurance
 </br>
 </br>
 </br>
-
-    <form action="emp_ins_search.php" class = "searchbar" method="post">
-      <input type="search" placeholder="Search.." name="search">
+<table class = "toptable">
+    <form action="emp_ins_post.php"  method="post">
+      <tr>
+        <td>
+          <div class = "searchbar">
+      <input type="search" placeholder="Search.." name="search" required>
      <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
      <button class = "searchbutton" class= "submitbutton" type="submit" name="submit" value="Submit">
         <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
       </button>
-    </form>
+      </form>
+          </div>
+    </td>
+    <td class = "addbutton">
+    <button class= "backbutton" text-align=right type="button" onclick="window.location.href='add_ins.php'"> Add Insurance</button> 
+    </td>
+      </tr>
+</table>
 
   <br>
   <br>
@@ -240,8 +261,8 @@ Insurance
 
                 echo "<table class='ins_table2'>
                         <tr> 
-                        <td>" . $row["InsuranceID"] . "</td> <td>" . $row["Type"] . "</td> <td> $" . 
-                        $row["Cost"] . "</td> </tr> </table>";
+                        <td>" . $row["InsuranceID"] . "</td> <td>" . $row["Ins_Type"] . "</td> <td> $" . 
+                        number_format($row["Cost"], 2) . "</td> </tr> </table>";
             
                /* echo "Customer ID: " . $row["C_UserID"]. " Name: " . $row["First_name"] . " " . $row["Middle_name"] . 
                 " " . $row["Last_name"] . " Email: " . $row["Email"] . " Phone Number :" . $row["Phone_number"] . 

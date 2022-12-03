@@ -4,8 +4,6 @@ session_start();
 ?>
 <html>
     <body>
-        Welcome <?php echo $_POST["First_name"]; ?><br>
-        Your email address is: <?php echo $_POST["Email"]; ?>
 
         <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
@@ -15,7 +13,7 @@ session_start();
         echo "Connection successful\n";
     }
     
-
+/*
     $First_name = $_REQUEST["First_name"];
     $Middle_name = $_REQUEST["Middle_name"];
     $Last_name = $_REQUEST["Last_name"];
@@ -37,24 +35,6 @@ session_start();
     echo "Sex: " . $Sex . "<br>";
     echo "Address: " . $Street_no . " " . $Street_name . " " . $City . " " . $Province . " " . $Postal_code . "<br>";
 
-    //check if user is over 25
-    //adapted from stack overflow
-    // https://stackoverflow.com/questions/2040560/finding-the-number-of-days-between-two-dates
-    $DOB_to_today = strtotime("$DOB");
-    $today = strtotime("today");
-    $diff = $today - $DOB_to_today;
-
-    $age = floor($diff / (365.2*60*60*24));
-
-
-    echo "Num of years between dob and today = " . $age;
-
-    if($age < 25){
-        $_SESSION["Under25"] = true;
-    }
-
-    if(!$_SESSION["Under25"]){
-
     $stmt = $con->prepare("UPDATE users SET First_name = ?, Middle_name = ?, Last_name = ?, Email = ?, Phone_number = ?,
     DOB = ?, Sex = ?, Street_no = ?, Street_name = ?, City = ?, Province = ?, Postal_code = ?
     WHERE UserID = ?");
@@ -65,10 +45,7 @@ session_start();
     $stmt->close();
 
         
-        header("Location: emp_cust.php");
-    } else {
-        header("Location: edit_cust.php");
-    }
+        header("Location: emp_cust.php");*/
         $con->close();
 ?>
 

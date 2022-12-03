@@ -164,6 +164,12 @@ session_start();
         border: 1px solid rgba(139,216,189,1);
     }
 
+    .isInUse{
+      color: tomato;
+      font-size: 1.75vw;
+      text-align: center;
+    }
+
     svg {
         color: #fff;
         fill: currentColor;
@@ -193,6 +199,88 @@ session_start();
         bottom: -1vw;
         right:-40vw;
       }
+
+      
+/* Float cancel and delete buttons and add an equal width */
+.cancelbtn, .deletebtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add a color to the cancel button */
+.cancelbtn {
+  background-color: rgba(35,70,101,1);
+  color: rgba(139,216,189,1);
+}
+
+/* Add a color to the delete button */
+.deletebtn {
+  background-color: tomato;
+  color: rgba(0,0,0,0.6499999761581421);
+}
+
+.deletebtn:hover {
+    background-color: rgba(0,0,0,0.6499999761581421);
+    color: tomato;
+}
+
+/* Add padding and center-align text to the container */
+.container {
+  padding: 16px;
+  text-align: center;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(35,70,101,0.5);
+  padding-top: 50px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: rgba(0,0,0,0.6499999761581421);
+  margin: 25% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid black;
+  margin-bottom: 25px;
+}
+ 
+/* The Modal Close Button (x) */
+.close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+  color: tomato;
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
     
     
    </style>
@@ -213,28 +301,50 @@ Search Insurance
 </br>
 </br>
 
-
 <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Insurance";
-    $result = $con->query($sql);
-    if ($result->num_rows > 0) {
+   // $sql = "SELECT * FROM Insurance";
+    //$result = $con->query($sql);
+    //if ($result->num_rows > 0) {
         // output data of each row
         
+        if(count($_SESSION["SearchResult"]) > 0){
+        
+          for($i = 0; $i < count($_SESSION["SearchResult"]); $i++) {
     
         
-        while($row = $result->fetch_assoc()) {
+      //  while($row = $result->fetch_assoc()) {
 
-                echo "<table class='search_table2'>
+            if($_SESSION["InsInUse"] && $_SESSION["InsuranceID"] == $_SESSION["SearchResult"][$i]["InsuranceID"]){
+              echo "<div> <span class='isInUse'>
+               Insurance ID: " .$_SESSION["InsuranceID"] ." is currently in use. Please remove all vehicles using this insurance before removing.
+               </div></span> <br>";
+               $_SESSION["InsInUse"] = false;
+               $_SESSION["RemoveIns"] = false;
+            }
+
+                echo "<table class='search_table2'><form action='emp_ins_search_post.php' method='post'>
+                        <tr> <th> Insurance ID: " . $_SESSION["SearchResult"][$i]["InsuranceID"]. 
+                        "</th> </tr> <tr> <td> <b> Type: </b>" . $_SESSION["SearchResult"][$i]["Ins_Type"] . 
+                        "</td> </tr> <tr> <td> <div class = 'edit'> <b> Cost: $ </b>" . number_format($_SESSION["SearchResult"][$i]["Cost"], 2) . 
+                        "<div class = 'edit'>
+                        <input type = 'hidden' name = 'InsuranceID'  id = 'InsuranceID' value = " . $_SESSION["SearchResult"][$i]["InsuranceID"] .">
+                        <input type = 'hidden' name = 'Ins_type'  id = 'Ins_type' value = " . $_SESSION["SearchResult"][$i]["Ins_Type"] .">
+                        <input type = 'hidden' name = 'Cost'  id = 'Cost' value = " . $_SESSION["SearchResult"][$i]["Cost"] .">
+                        <button class= 'editbutton' name='submitbutton' text-align=left type='submit' value='Edit'>Edit</button>
+                        <button class= 'removebutton' name='submitbutton'text-align=left type='submit' value='Remove'> Remove </button>
+                        </div></form></td> </tr> </table> <br> <br>";
+
+                        /*echo "<table class='search_table2'>
                         <tr> <th> Insurance ID: " . $row["InsuranceID"]. "</th> </tr> <tr> <td> <b> Type: </b>" . 
-                        $row["Type"] . "</td> </tr> <tr> <td> <div class = 'edit'> <b> Cost: $ </b>" . $row["Cost"] . 
+                        $row["Ins_Type"] . "</td> </tr> <tr> <td> <div class = 'edit'> <b> Cost: $ </b>" . $row["Cost"] . 
                         "<button class= 'editbutton' text-align=left type='button' onclick='window.location.href='emp_ins_edit.php''> Edit </button>  
                         <button class= 'removebutton' text-align=left type='button' onclick='window.location.href='emp_ins_remove.php''> Remove </button>
-                        </div></td> </tr> </table> <br> <br>";
+                        </div></td> </tr> </table> <br> <br>";*/
             
                
         }
@@ -253,6 +363,37 @@ Search Insurance
 
 ?> 
 </table>
+<button onclick="document.getElementById('id01').style.display='block'">Open Modal</button>
+
+<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
+  <form class="modal-content" action="emp_ins_search_post.php" method = "post">
+    <div class="container">
+      <h1>Delete Account</h1>
+      <p>Are you sure you want to delete your account?</p>
+    
+      <div class="clearfix">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+        <!--<button type="submit" class="deletebtn">Delete</button>-->
+        <button class= "deletebtn" name='submitbutton'text-align=left type='submit' value='Remove'> Remove </button>
+                        
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
   <table class="bottom_table">
   <tr>
     <td>

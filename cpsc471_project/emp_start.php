@@ -1,8 +1,13 @@
 
-
 <?php
 
     session_start();
+    $_SESSION["Invalid"] = false;
+    $_SESSION["Start_after_end"] = false;    
+    $_SESSION["Current_mileage"] = 0;
+    $_SESSION["Mileage_less_than_current"] = false;
+    $_SESSION["Start_branch_same_as_end_branch"] = false;
+    $_SESSION["Under25"] = false;
 
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
@@ -144,7 +149,7 @@
     <td>
 </td>
     <td>
-    <button class= "insbutton" type="button" onclick="alert('Go to Insurance')">Insurance</button>  
+    <button class= "insbutton" type="button" onclick="window.location.href='emp_ins.php'">Insurance</button>  
 </td>
     <td></td>
   </tr>
@@ -152,7 +157,7 @@
     <td>
 </td>
     <td>
-    <button class= "resbutton" type="button" onclick="window.location.href='res.php'">Reservations</button>  
+    <button class= "resbutton" type="button" onclick="window.location.href='emp_res.php'">Reservations</button>  
 </td>
     <td></td>
   </tr>
@@ -160,7 +165,7 @@
     <td>
 </td>
     <td>
-    <button class= "vehiclebutton" type="button" onclick="alert('Go to Vehicles')">Vehicles</button>  
+    <button class= "vehiclebutton" type="button" onclick="window.location.href='emp_veh.php'">Vehicles</button>  
 </td>
     <td></td>
   </tr>
@@ -168,7 +173,7 @@
     <td>
 </td>
     <td>
-    <button class= "custbutton" type="button" onclick="alert('Go to Customers')">Customers</button>  
+    <button class= "custbutton" type="button" onclick="window.location.href='emp_cust.php'">Customers</button>  
 </td>
     <td></td>
   </tr>

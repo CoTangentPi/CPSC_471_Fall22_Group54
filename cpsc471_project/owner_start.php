@@ -1,7 +1,7 @@
 
-
 <?php
     session_start();
+    $_SESSION["Invalid"] = false;
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -149,7 +149,7 @@
     $result = $con->query($sql);
     while($row = $result->fetch_assoc()) {
         if($row["O_UserID"] == 1) {
-            echo "$" . $row["Revenue"];
+            echo "$" . number_format($row["Revenue"], 2);
         }
     }
     $con->close();
@@ -167,7 +167,7 @@
     $result = $con->query($sql);
     while($row = $result->fetch_assoc()) {
         if($row["O_UserID"] == 1) {
-            echo "$" . $row["Expenses"];
+            echo "$" . number_format($row["Expenses"], 2);
         }
     }
     $con->close();

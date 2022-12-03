@@ -1,14 +1,20 @@
 
 <?php
+    //start session for shared variables
+    session_start();
+
+    //checking if we can connect to database
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
+        //echo "Connection successful\n";
     }
-
         $con->close();
 ?>
+
+<!-- code heavily adapted from W3 Schools HTML Tutorials
+     https://www.w3schools.com/html/default.asp -->
 
 <!DOCTYPE html>
 <html>
@@ -73,6 +79,7 @@
         padding: 2vw;
     }
     td {
+        width: 50%;
         text-align: center;
         padding: 1.5vw;
     }
@@ -111,24 +118,43 @@
         text-align: center;
         padding 1.5vw;
     }
+
+    .errortable td{
+        text-align: center;
+    }
+
+
+    .taken, .no_match{
+        color: tomato;
+    }
     
    </style>
+   <!-- set title for page -->
 <title>Canada Wide Car Rental Service - Create New Customer</title>
 </head>
 
 <body>
 
 <div class="header">
-
+<!-- header with logo and title -->
 <h1 style="font-size:3vw">
 Create New Customer
 </h1>  
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
 </br>
-</br>
-</br>
+<?php
+                //if user input is incorrect, display error message
+                if($_SESSION["NotSame"] || $_SESSION["Same_Username"] || $_SESSION["Under25"]){
+                    echo "<table class = 'error table'><tr><td class = 'taken'> 
+                    Errors exist below. Please correct them and try again.
+                    </td></tr></table>";
+                }
+
+            ?>
+
 <div>
+    <!-- form for user to sign up -->
     <form action='new_cust_post.php' method='post'>
         <table>
             <tr>
@@ -151,9 +177,19 @@ Create New Customer
                 <td>Phone Number:</td>
                 <td><input type = "text" name = "Phone_number" required></td>
             </tr>
+            <?php
+                //if user is not over 25, display error message
+                if($_SESSION["Under25"]){
+                    echo "<tr> <td> </td> <td class = 'taken'> 
+                    Oh No! You must be 25 or older to rent a car.
+                    </td></tr>";
+                    $_SESSION["Under25"] = false;
+                }
+
+            ?>
             <tr>
                 <td>Date of Birth:</td>
-                <td><input type = "date" name = "DOB" required></td>
+                <td><input type = "date" name = "DOB" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]"required></td>
             </tr>
             <tr>
                 <td>Gender:</td>
@@ -169,7 +205,7 @@ Create New Customer
             </tr>
             <tr>
                 <td>Street Number:</td>
-                <td><input type = "text" name = "Street_no" required></td>
+                <td><input type = "text" name = "Street_no" required pattern = "[0-9]+"></td>
             </tr>
             <tr>
                 <td>Street Name:</td>
@@ -200,28 +236,47 @@ Create New Customer
             </tr>
             <tr>
                 <td>Postal Code:</td>
-                <td><input type = "text" name = "Postal_code" required></td>
+                <td><input type = "text" name = "Postal_code" required pattern = "/[A-Z][0-9][A-Z]][0-9][A-Z]][0-9]/i"></td>
             </tr>
+            <?php
+                //if user tries to use a username already taken, display error message
+                if($_SESSION["Same_Username"]){
+                    echo "<tr> <td> </td> <td class = 'taken'> 
+                    Username: " . $_SESSION["Taken"] ." is already taken!
+                    <br> Please choose a different one.
+                    </td></tr>";
+                    $_SESSION["Same_Username"] = false;
+                }
+
+            ?>
             <tr>
                 <td>Username:</td>
                 <td><input type = "text" name = "Username" required></td>
             </tr>
+            <?php
+                //if user fails to confirm password, display error message
+                if($_SESSION["NotSame"]){
+                    echo "<tr> <td> </td> <td class = 'no_match'> 
+                    Passwords do not match!
+                    </td></tr>";
+                    $_SESSION["NotSame"] = false;
+                }
+
+            ?>
             <tr>
                 <td>Password:</td>
                 <td><input type = "password" name = "Password" required></td>
             </tr>
             <tr>
                 <td>Confirm Password:</td>
-                <td><input type = "password" name = "Password" required></td>
+                <td><input type = "password" name = "Confirm_password" required></td>
                 </tr>
             <tr>
+                <!-- back button goes to login screen, submit button creates a new customer-->
                 <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='login.php'"> Back</button>  
                 <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Create</button></td>
             </tr>
             </table>
     </form>
-<!-- Name: <input type="text" name="name" value="<?php echo $name;?>"> </br>-->
-
-
     </body>
     </html>

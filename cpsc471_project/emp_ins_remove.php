@@ -19,7 +19,7 @@
 
         $con->close();
 
-  //  $_SESSION["C_UserID"] = 8;
+    $_SESSION["C_UserID"] = 8;
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +49,7 @@
         transform: translateY(50%);
     }
     #Province{
-        width: 80%;
+        width: 50%;
         background-color: rgba(35,70,101,1);
         color: rgba(139,216,189,1);
         font-family: verdana;
@@ -64,7 +64,7 @@
 
 
 
-    input[type=text],  
+    input[type=text], input[type=password], 
     input[type=email], input[type=date]{
         width: 80%;
         padding: 1vw 4vw;
@@ -146,7 +146,7 @@
 <div class="header">
 
 <h1 style="font-size:3vw">
-Edit Customer
+Remove Insurance
 </h1>  
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
@@ -310,17 +310,6 @@ Edit Customer
                 <td><b>New Phone Number:</b></td>
                 <td><input type = "text" name = "Phone_number" required></td>
             </tr>
-            <?php
-                //if user is not over 25, display error message
-                if($_SESSION["Under25"]){
-                    echo "<tr> <td> </td> <td> </td> <td></td><td class = 'taken'> 
-                    Oh No! Customer must be 25 or older to rent a car.
-                    </td></tr>";
-                    $_SESSION["Under25"] = false;
-                }
-
-            ?>
-            <tr>
             <tr>
                 <td><b>Date of Birth:</b></td>
                 <td><?php
@@ -342,7 +331,7 @@ Edit Customer
 
         ?></td>
                 <td><b>New Date of Birth:<b></td>
-                <td><input type = "date" name = "DOB" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]"required></td>
+                <td><input type = "date" name = "DOB" required></td>
             </tr>
             <tr>
                 <td><b>Gender:</b></td>

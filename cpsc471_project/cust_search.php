@@ -257,27 +257,36 @@ Search Customers
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Customer, Users WHERE Customer.C_UserID = Users.UserID";
-    $result = $con->query($sql);
-    if ($result->num_rows > 0) {
+    //$sql = "SELECT * FROM Customer, Users WHERE Customer.C_UserID = Users.UserID";
+    //$result = $con->query($sql);
+    //if ($result->num_rows > 0) {
         // output data of each row
-        
-    
-        
-        while($row = $result->fetch_assoc()) {
 
-                echo "<table class='search_table2'>
-                        <tr> <th> Customer ID: " . $row["C_UserID"]. "</th> </tr> <tr> <td> <b> Name: </b>" . 
-                        $row["First_name"] . " " . $row["Middle_name"] . " " . $row["Last_name"] . 
-                        "</td> </tr> <tr> <td> <b> Email: </b>" . $row["Email"] . "</td> </tr> <tr> <td> <b> Phone Number: </b>" . 
-                        $row["Phone_number"] . "</td> </tr> <tr> <td> <b> D.O.B.: </b>" . $row["DOB"] . "</td> </tr> <tr> <td> <b> Sex: </b>" . 
-                        $row["Sex"] . "</td> </tr> <tr> <td> <div class = 'edit'> <b> Address: </b>" . $row["Street_no"] . " " . 
-                        $row["Street_name"] . " " . $row["City"] . ", " . $row["Province"] . " " .
-                        $row["Postal_code"] . "<button class= 'editbutton' text-align=left type='button' onclick='window.location.href='emp_cust_edit.php''> Edit </button>  
-                        <button class= 'removebutton' text-align=left type='button' onclick='window.location.href='emp_cust_remove.php''> Remove </button>
-                        </div></td> </tr> </table> <br> <br>";
-            
-               
+        if(count($_SESSION["SearchResult"]) > 0){
+        
+        for($i = 0; $i < count($_SESSION["SearchResult"]); $i++) {
+          //echo $_SESSION["SearchResult"][$i]["C_UserID"] . "<br>";
+      //}
+        
+       // while($row = $result->fetch_assoc()) {
+
+                echo "<table class='search_table2'><form action='cust_search_post.php' method='post'>
+                        <tr> <th> Customer ID: " . $_SESSION["SearchResult"][$i]["C_UserID"] . 
+                        "</th> </tr> <tr> <td> <b> Name: </b>" . $_SESSION["SearchResult"][$i]["First_name"] . 
+                        " " . $_SESSION["SearchResult"][$i]["Middle_name"] . " " . $_SESSION["SearchResult"][$i]["Last_name"] . 
+                        "</td> </tr> <tr> <td> <b> Email: </b>" . $_SESSION["SearchResult"][$i]["Email"] . 
+                        "</td> </tr> <tr> <td> <b> Phone Number: </b>" .  $_SESSION["SearchResult"][$i]["Phone_number"] . 
+                        "</td> </tr> <tr> <td> <b> D.O.B.: </b>" . $_SESSION["SearchResult"][$i]["DOB"] . 
+                        "</td> </tr> <tr> <td> <b> Sex: </b>" . $_SESSION["SearchResult"][$i]["Sex"] . 
+                        "</td> </tr> <tr> <td> <div class = 'edit'> <b> Address: </b>" . $_SESSION["SearchResult"][$i]["Street_no"] . " " . 
+                        $_SESSION["SearchResult"][$i]["Street_name"] . " " . $_SESSION["SearchResult"][$i]["City"] . ", " . 
+                        $_SESSION["SearchResult"][$i]["Province"] . " " . $_SESSION["SearchResult"][$i]["Postal_code"] . "
+                        <div class = 'edit'>
+                        <input type = 'hidden' name = 'C_UserID'  id = 'C_UserID' value = " . $_SESSION["SearchResult"][$i]["C_UserID"] .">
+                        <button class= 'editbutton' name='submitbutton' text-align=left type='submit' value='Edit'>Edit</button>
+                        <button class= 'removebutton' name='submitbutton'text-align=left type='submit' value='Remove'> Remove </button>
+                        </div></form></td> </tr> </table> <br> <br>";
+                           
         }
       } else {
         echo "<br>";

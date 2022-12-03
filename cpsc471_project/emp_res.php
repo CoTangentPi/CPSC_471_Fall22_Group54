@@ -1,6 +1,7 @@
 
 <?php
 session_start();
+$_SESSION["Start_after_end"] = false;    
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -193,7 +194,14 @@ session_start();
         flex-direction:row;
         align-items:center;
       }
+      .addbutton{
+        font-size: 1.8vw;
+        padding: 1vw 2.5vw;
+      }
 
+      .addbuttonbox{
+        text-align: right;
+      }
     
     
    </style>
@@ -212,18 +220,19 @@ Reservations
 </div>
 
 <article>
-<table>
+<table class = "toptable">
+<form action="emp_res_post.php" method="post">
   <tr>
-    <th>
-    <form action="emp_res_search.php" class = "searchbar" method="post">
-      <input type="search" placeholder="Search.." name="search">
+    <th width = 25%>
+    <div class = "searchbar">
+      <input type="search" placeholder="Search.." name="search" required>
      <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
      <button class = "searchbutton" type="submit" name="submit" value="Submit">
         <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
       </button>
     </form>
 </th>
-    <th>Total Number of <br> Reservations:<span> 
+    <th width = 20%>Total Number of Reservations:<span> 
     <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
@@ -248,7 +257,7 @@ Reservations
 
 ?> 
     </span></th>
-    <th>Number of Pick-Ups <br> Today:<span> 
+    <th width = 15%>Number of Pick-Ups Today:<span> 
     <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
@@ -274,7 +283,7 @@ Reservations
     </span>
     </th>
 
-    <th>Number of Drop-Offs <br> Today:
+    <th width = 15%>Number of Drop-Offs Today:
     <span> 
     <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
@@ -299,6 +308,9 @@ Reservations
 
 ?> 
     </span>
+    </th>
+    <th class = "addbuttonbox" width = 20%>
+    <button class= "addbutton" text-align=right type="button" onclick="window.location.href='add_res.php'"> Make Reservation</button> 
     </th>
   </tr>
   </table>

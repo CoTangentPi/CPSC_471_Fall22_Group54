@@ -1,6 +1,6 @@
-
 <?php
 session_start();
+$_SESSION["Invalid"] = false;
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
