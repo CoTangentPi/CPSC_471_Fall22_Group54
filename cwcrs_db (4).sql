@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2022 at 07:08 AM
+-- Generation Time: Dec 03, 2022 at 05:05 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -119,7 +119,8 @@ CREATE TABLE `employee` (
 
 INSERT INTO `employee` (`E_UserID`, `SIN`, `Branch_no`) VALUES
 (3, '987654321', 1111),
-(5, '234567891', 1111);
+(5, '234567891', 1111),
+(11, '135246579', 2222);
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,8 @@ CREATE TABLE `employs` (
 
 INSERT INTO `employs` (`E_UserID`, `O_UserID`, `Employment_status`, `Start_date`, `End_date`, `Salary`, `Severance`) VALUES
 (3, 1, 'Employed', '2020-07-14', NULL, 25000, NULL),
-(5, 1, 'Employed', '2022-11-01', NULL, 12000, NULL);
+(5, 1, 'Employed', '2022-11-01', NULL, 12000, NULL),
+(11, 1, 'Employed', '2012-12-21', NULL, 50123.4, NULL);
 
 -- --------------------------------------------------------
 
@@ -244,7 +246,8 @@ INSERT INTO `login` (`LoginID`, `Login_username`, `Login_password`, `UserID`) VA
 (4, 'arnie', 'notatuma', 9),
 (5, 'bill', 'password', 10),
 (6, 'sly', 'rambo', 7),
-(7, 'aaaa', '1111', 8);
+(7, 'aaaa', '1111', 8),
+(8, 'hook', 'peterpan', 11);
 
 -- --------------------------------------------------------
 
@@ -302,7 +305,8 @@ INSERT INTO `permission` (`PermissionID`, `PermissionName`, `UserID`) VALUES
 (4, 'Customer', 9),
 (5, 'Customer', 10),
 (6, 'Customer', 7),
-(7, 'Customer', 8);
+(7, 'Customer', 8),
+(8, 'Employee', 11);
 
 -- --------------------------------------------------------
 
@@ -366,6 +370,14 @@ CREATE TABLE `transfers` (
   `End_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `transfers`
+--
+
+INSERT INTO `transfers` (`E_UserID`, `VIN`, `Start_branch`, `End_branch`, `Start_date`, `End_date`) VALUES
+(5, '1HGBH41JXMN109186', 1111, 2222, '2022-11-30', '2022-12-01'),
+(11, '1HGBH41JXMN109186', 2222, 1111, '2022-12-02', '2022-12-02');
+
 -- --------------------------------------------------------
 
 --
@@ -399,7 +411,8 @@ INSERT INTO `users` (`UserID`, `First_name`, `Middle_name`, `Last_name`, `Email`
 (7, 'Sylvestor', NULL, 'Stallone', 'sly@movies.com', '2504445432', '1946-07-06', 'M', '4', 'Mulholland Drive', 'Beverly Hills', 'ON', 'M4C4C4'),
 (8, 'Arthur', 'G', 'Bear', 'bear@mammal.com', '9876543210', '2022-11-04', 'm', '2', 'Forest Road', 'Rosetown', 'SK', 'S0K1K1'),
 (9, 'Arnold', 'J', 'Schwarzenegger', 'arnie@bigdeal.com', '6047778876', '1947-07-30', 'm', '2', 'Da Choppa Drive', 'Malibu', 'PE', 'C0A0A0'),
-(10, 'Bill', 'k', 'Jones', 'jones@gmail.com', '4444444444', '2022-11-10', 'm', '3', 'g street', 'Calgary', 'AB', 't1a3g3');
+(10, 'Bill', 'k', 'Jones', 'jones@gmail.com', '4444444444', '2022-11-10', 'm', '3', 'g street', 'Calgary', 'AB', 't1a3g3'),
+(11, 'Captain', 'James', 'Hook', 'hook@cwcrs.com', '3069199191', '1953-02-05', 'M', '10', 'Jolly Rodger Way', 'Never Never Land', 'NU', 'X0A0X0');
 
 -- --------------------------------------------------------
 
@@ -422,7 +435,7 @@ CREATE TABLE `vehicle` (
 --
 
 INSERT INTO `vehicle` (`VIN`, `Status`, `Mileage`, `Licence_plate_no`, `Registration_province`, `InsuranceID`, `Branch_no`) VALUES
-('1HGBH41JXMN109186', 'Ready', 20000, 'ABC123', 'AB', 98765432, 1111),
+('1HGBH41JXMN109186', 'Ready', 90000002, 'ABC123', 'AB', 98765432, 1111),
 ('2ZYXW98ZYXW987654', 'Ready', 9876, '777ABC', 'SK', 1234567890, 2222),
 ('3ABCD12EFGH345678', 'Ready', 15432, 'ZYX987', 'AB', 98765432, 1111),
 ('4MNBV65LKJH765432', 'Ready', 67453, '888DEF', 'SK', 98765432, 2222),
@@ -588,13 +601,13 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `LoginID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `LoginID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `PermissionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `PermissionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `reservation`
@@ -606,7 +619,7 @@ ALTER TABLE `reservation`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
@@ -616,27 +629,27 @@ ALTER TABLE `users`
 -- Constraints for table `branch_phone_number`
 --
 ALTER TABLE `branch_phone_number`
-  ADD CONSTRAINT `branch_phone_number_ibfk_1` FOREIGN KEY (`Branch_no`) REFERENCES `branch` (`Branch_no`);
+  ADD CONSTRAINT `branch_phone_number_ibfk_1` FOREIGN KEY (`Branch_no`) REFERENCES `branch` (`Branch_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `buys`
 --
 ALTER TABLE `buys`
-  ADD CONSTRAINT `buys_ibfk_1` FOREIGN KEY (`O_UserID`) REFERENCES `owner` (`O_UserID`),
-  ADD CONSTRAINT `buys_ibfk_2` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`);
+  ADD CONSTRAINT `buys_ibfk_1` FOREIGN KEY (`O_UserID`) REFERENCES `owner` (`O_UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `buys_ibfk_2` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `contacts`
 --
 ALTER TABLE `contacts`
-  ADD CONSTRAINT `contacts_ibfk_1` FOREIGN KEY (`C_UserID`) REFERENCES `customer` (`C_UserID`),
-  ADD CONSTRAINT `contacts_ibfk_2` FOREIGN KEY (`Branch_no`) REFERENCES `branch` (`Branch_no`);
+  ADD CONSTRAINT `contacts_ibfk_1` FOREIGN KEY (`C_UserID`) REFERENCES `customer` (`C_UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `contacts_ibfk_2` FOREIGN KEY (`Branch_no`) REFERENCES `branch` (`Branch_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `customer`
 --
 ALTER TABLE `customer`
-  ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`C_UserID`) REFERENCES `users` (`UserID`);
+  ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`C_UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `employee`
@@ -649,86 +662,83 @@ ALTER TABLE `employee`
 -- Constraints for table `employs`
 --
 ALTER TABLE `employs`
-  ADD CONSTRAINT `employs_ibfk_1` FOREIGN KEY (`E_UserID`) REFERENCES `employee` (`E_UserID`),
-  ADD CONSTRAINT `employs_ibfk_2` FOREIGN KEY (`O_UserID`) REFERENCES `owner` (`O_UserID`);
+  ADD CONSTRAINT `employs_ibfk_1` FOREIGN KEY (`E_UserID`) REFERENCES `employee` (`E_UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `employs_ibfk_2` FOREIGN KEY (`O_UserID`) REFERENCES `owner` (`O_UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `features`
 --
 ALTER TABLE `features`
-  ADD CONSTRAINT `features_ibfk_1` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`);
+  ADD CONSTRAINT `features_ibfk_1` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `lease`
 --
 ALTER TABLE `lease`
-  ADD CONSTRAINT `lease_ibfk_1` FOREIGN KEY (`O_UserID`) REFERENCES `owner` (`O_UserID`),
-  ADD CONSTRAINT `lease_ibfk_2` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`);
+  ADD CONSTRAINT `lease_ibfk_1` FOREIGN KEY (`O_UserID`) REFERENCES `owner` (`O_UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `lease_ibfk_2` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `login`
 --
 ALTER TABLE `login`
-  ADD CONSTRAINT `login_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
+  ADD CONSTRAINT `login_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `owner`
 --
 ALTER TABLE `owner`
-  ADD CONSTRAINT `owner_ibfk_1` FOREIGN KEY (`O_UserID`) REFERENCES `users` (`UserID`);
+  ADD CONSTRAINT `owner_ibfk_1` FOREIGN KEY (`O_UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `payment`
 --
 ALTER TABLE `payment`
-  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`C_UserID`) REFERENCES `customer` (`C_UserID`);
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`C_UserID`) REFERENCES `customer` (`C_UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `permission`
 --
 ALTER TABLE `permission`
-  ADD CONSTRAINT `permission_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
+  ADD CONSTRAINT `permission_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `reservation`
 --
 ALTER TABLE `reservation`
-  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`PaymentID`) REFERENCES `payment` (`PaymentID`),
-  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`C_UserID`) REFERENCES `payment` (`C_UserID`),
-  ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`Branch_no`) REFERENCES `branch` (`Branch_no`),
-  ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`);
+  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`PaymentID`) REFERENCES `payment` (`PaymentID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`C_UserID`) REFERENCES `payment` (`C_UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`Branch_no`) REFERENCES `branch` (`Branch_no`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sells`
 --
 ALTER TABLE `sells`
-  ADD CONSTRAINT `sells_ibfk_1` FOREIGN KEY (`O_UserID`) REFERENCES `owner` (`O_UserID`),
-  ADD CONSTRAINT `sells_ibfk_2` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`);
+  ADD CONSTRAINT `sells_ibfk_1` FOREIGN KEY (`O_UserID`) REFERENCES `owner` (`O_UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `sells_ibfk_2` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `service_record`
 --
 ALTER TABLE `service_record`
-  ADD CONSTRAINT `service_record_ibfk_1` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`);
+  ADD CONSTRAINT `service_record_ibfk_1` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transfers`
 --
 ALTER TABLE `transfers`
   ADD CONSTRAINT `transfers_ibfk_1` FOREIGN KEY (`E_UserID`) REFERENCES `employee` (`E_UserID`),
-  ADD CONSTRAINT `transfers_ibfk_2` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`),
-  ADD CONSTRAINT `transfers_ibfk_3` FOREIGN KEY (`Start_branch`) REFERENCES `branch` (`Branch_no`),
-  ADD CONSTRAINT `transfers_ibfk_4` FOREIGN KEY (`End_branch`) REFERENCES `branch` (`Branch_no`);
-
+  ADD CONSTRAINT `transfers_ibfk_2` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`);
+  
 --
 -- Constraints for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  ADD CONSTRAINT `vehicle_ibfk_1` FOREIGN KEY (`Branch_no`) REFERENCES `branch` (`Branch_no`),
-  ADD CONSTRAINT `vehicle_ibfk_2` FOREIGN KEY (`InsuranceID`) REFERENCES `insurance` (`InsuranceID`);
+  ADD CONSTRAINT `vehicle_ibfk_1` FOREIGN KEY (`Branch_no`) REFERENCES `branch` (`Branch_no`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `vehicle_ibfk_2` FOREIGN KEY (`InsuranceID`) REFERENCES `insurance` (`InsuranceID`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
