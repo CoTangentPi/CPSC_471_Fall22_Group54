@@ -44,9 +44,8 @@
 
     <body>
         <h1>Employee <?php echo $_POST["First_name"]; ?> successfully added</h1><br>
-            <!-- change onclick to employee search page -->
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='new_emp.php'">Back</button>  
-    <button class= "addbutton" type="button" name="addbutton" value="addbutton" onclick="window.location.href='new_emp.php'">Add Another Employee</button></td>
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_emp_view.php'">Back</button>  
+    <button class= "addbutton" type="button" name="addbutton" value="addbutton" onclick="window.location.href='owner_emp_add.php'">Add Another Employee</button></td>
         <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {

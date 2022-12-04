@@ -274,8 +274,7 @@ Create New Employee
                 <td><input type = "password" name = "Employee_Password" required></td>
                 </tr>
             <tr>
-                <!-- change on click to employees page -->
-                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='login.php'">Back</button>  
+                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_emp_view.php'">Back</button>  
                 <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Create</button></td>
                 <!--
                 <div class = "popup">

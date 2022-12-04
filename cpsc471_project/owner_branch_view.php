@@ -167,7 +167,7 @@ View Branch
 </br>
 </br>
 </br>
-
+<button class= "button" type="button" onclick="window.location.href='owner_branch_add.php'">Add Branch</button>  
     <form action="owner_branch_search.php" class = "searchbar" method="post">
       <input type="search" placeholder="Search.." name="search">
      <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
@@ -175,7 +175,6 @@ View Branch
         <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
       </button>
     </form>
-
   <br>
   <br>
 
@@ -184,7 +183,7 @@ View Branch
         <th>Branch Number</th>
         <th>Branch Name</th>
         <th>Branch Address</th>
-        <th>Branch Phone Number</th>
+        <!-- <th>Branch Phone Number</th> -->
 </tr>
 
         </table>
@@ -209,7 +208,7 @@ View Branch
                 echo "<table class='ins_table2'>
                         <tr> 
                         <td>" . $row["Branch_no"] . "</td> <td>" . $row["Branch_name"] . "</td> <td>" . 
-                        $row["Street_no"] . " " . $row["Street_name"] . " " . $row["City"] . " " . $row["Province"] . "</td> <td>" . $row["Phone_number"] . "</td> </tr> </table>";
+                        $row["Street_no"] . " " . $row["Street_name"] . " " . $row["City"] . " " . $row["Province"] . "</td>  </tr> </table>";
         }
       } else {
         echo "<br>";
@@ -229,7 +228,7 @@ View Branch
   <table class="bottom_table">
   <tr>
     <td>
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_start.php'"> Back</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_start.php'"> Back</button>  
 </td>
 <td>
 </td>

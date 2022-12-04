@@ -45,8 +45,8 @@
     <body>
         <h1>Added <?php echo $_POST["Branch_Name"]; ?></h1><br>
                 <!-- change onclick to branch search page -->
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='new_branch.php'">Back</button>  
-    <button class= "addbutton" type="button" name="addbutton" value="addbutton" onclick="window.location.href='new_branch.php'">Add Another Employee</button></td>
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_branch_view.php'">Back</button>  
+    <button class= "addbutton" type="button" name="addbutton" value="addbutton" onclick="window.location.href='owner_branch_add.php'">Add Another Employee</button></td>
         <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {

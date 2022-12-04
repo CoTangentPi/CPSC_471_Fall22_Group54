@@ -204,7 +204,7 @@
     <td>
 </td>
     <td>
-    <button class= "empbutton" type="button" onclick="alert('Go to Employees')">Employees</button>  
+    <button class= "empbutton" type="button" onclick="window.location.href='owner_emp_view.php'">Employees</button>  
 </td>
     <td></td>
   </tr>
@@ -220,7 +220,7 @@
     <td>
 </td>
     <td>
-    <button class= "empbutton" type="button" onclick="alert('Go to Branches')">Branches</button>  
+    <button class= "empbutton" type="button" onclick="window.location.href='owner_branch_view.php'">Branches</button>  
 </td>
     <td></td>
   </tr>

@@ -129,7 +129,7 @@ Add Branch
 </br>
 </br>
 <div>
-    <form action='new_branch_post.php' method='post'>
+    <form action='owner_branch_add_post.php' method='post'>
         <table>
             <tr>
                 <td>Branch Number:</td>
@@ -179,8 +179,7 @@ Add Branch
                 <td><input type = "text" name = "Postal_code" required></td>
             </tr>
             <tr>
-                <!-- change location to search branch page -->
-                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='login.php'"> Back</button>  
+                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_branch_view.php'"> Back</button>  
                 <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Add</button></td>
             </tr>
             </table>

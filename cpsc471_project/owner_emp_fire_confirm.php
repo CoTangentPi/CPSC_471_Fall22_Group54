@@ -43,8 +43,8 @@
    </style>
 
     <body>
-    <form action='fire_emp_post.php' method='post'>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='fire_emp.php'">Cancel</button>  
+    <form action='owner_emp_fire_post.php' method='post'>
+        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_emp_search.php'">Cancel</button>  
         <button class= "addbutton" type="submit" name="addbutton" value="addbutton">Confirm Termination</button></td>
     </form>
         

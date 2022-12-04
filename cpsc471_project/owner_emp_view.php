@@ -203,6 +203,7 @@ View Employee
 </br>
 </br>
 
+    <button class= "button" type="button" onclick="window.location.href='owner_emp_add.php'">Add Employee</button>  
     <form action="owner_emp_search.php" class = "searchbar" method="post">
       <input type="search" placeholder="Search.." name="search">
      <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->

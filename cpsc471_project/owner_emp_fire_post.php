@@ -44,7 +44,7 @@
 
     <body>
         <h1>Employee Temp Terminated</h1>
-    <button class= "addbutton" type="button" name="addbutton" value="addbutton" onclick="window.location.href='new_branch.php'">Ok</button></td>
+    <button class= "addbutton" type="button" name="addbutton" value="addbutton" onclick="window.location.href='owner_emp_view.php'">Ok</button></td>
         <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
