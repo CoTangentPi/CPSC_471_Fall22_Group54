@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2022 at 05:05 AM
+-- Generation Time: Dec 05, 2022 at 07:37 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -80,6 +80,21 @@ CREATE TABLE `contacts` (
   `C_UserID` int(11) NOT NULL,
   `Branch_no` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`C_UserID`, `Branch_no`) VALUES
+(7, 1111),
+(7, 2222),
+(8, 1111),
+(8, 2222),
+(9, 0),
+(9, 1111),
+(9, 2222),
+(10, 0),
+(10, 2222);
 
 -- --------------------------------------------------------
 
@@ -179,14 +194,14 @@ CREATE TABLE `features` (
 --
 
 INSERT INTO `features` (`Year`, `Make`, `Model`, `VIN`, `Category`, `Trans_Driven_wheels`, `Fuel_Air_con`, `Type`, `Horse_power`, `Torque`, `Tonnage`, `Sunroof`, `Seat_material`, `Body_colour`, `Interior_colour`, `Fuel_economy`, `Childseat_compatibility`, `Number_of_passengers`) VALUES
-(2021, 'Chevrolet', 'Spark', '3ABCD12EFGH345678', 'E: Economy', 'A: Auto Unspecified Drive', 'V: Petrol Air', 'C: 2/4 Door', '98 hp', '94 ft-lbs', '1019', 'No', 'Cloth', 'Black', 'Dark Grey', '7 L / 100km', 'Yes', 4),
-(2021, 'Chrysler', '300', '8NMGH78GHJK456789', 'L: Luxury', 'N: Manual 4WD', 'V: Petrol Air', 'D: 4-5 Door', '363 hp', '394 lb-ft', '4515 lbs', 'Yes', 'Leather', 'Black', 'White', '12 L / 100 km', 'Yes', 5),
-(2021, 'Nissan', 'Versa', '4MNBV65LKJH765432', 'C: Compact', 'D: Auto AWD', 'V: Petrol Air', 'D: 4-5 Door', '109 hp', '107 lb-ft', '2519 lbs', 'No', 'Cloth', 'Blue', 'Grey', '7.5 L / 100 km', 'Yes', 5),
-(2022, 'Fiat', '500', '2ZYXW98ZYXW987654', 'M: Mini', 'C: Manual AWD', 'V: Petrol Air', 'B: 2-3 Door', '135 hp', '200 lb-ft', '2366 lbs', 'No', 'Leather', 'White', 'White', '3.8 L / 100 km', 'No', 4),
-(2022, 'Kia', 'Forte', '5POIU98MNBV987652', 'I: Intermediate', 'A: Auto Unspecified Drive', 'V: Petrol Air', 'D: 4-5 Door', '147 hp', '70 lb-ft', '3079 lbs', 'Yes', 'Cloth', 'Red', 'Grey', '7.5 L / 100km', 'Yes', 5),
-(2022, 'Nissan', 'Maxima', '7BVCX76NBVC876543', 'P: Premium', 'C: Manual AWD', 'V: Petrol Air', 'E: Coupe', '300 hp', '261 lb-ft', '2352 lbs', 'Yes', 'Leather', 'Orange', 'Grey', '9.9 L / 100 km', 'Yes', 5),
-(2022, 'Toyota', 'Camry', '6ASDF56ASDF567890', 'F: Fullsize', 'D: Auto AWD', 'H: Hybrid Air', 'D: 4-5 Door', '301 hp', '186 lb-ft', '3340 lbs', 'No', 'Cloth', 'Black', 'Black', '9.4 L / 100 km', 'Yes', 5),
-(2022, 'Volkswagon', 'Jetta', '1HGBH41JXMN109186', 'S: Standard', 'D: Auto AWD', 'D: Diesel Air', 'D: 4-5 Door', '147 hp', '184 lb-ft', '3213 lbs', 'Yes', 'Leather', 'Silver', 'Grey', '7 L / 100 km', 'Yes', 5);
+(2021, 'Chevrolet', 'Spark', '3ABCD12EFGH345678', 'E: Economy', 'A: Auto Unspecified Drive', 'V: Petrol Air', 'C: 2/4 Door', '98', '94', '1019', 'No', 'Cloth', 'Black', 'Dark Grey', '7', 'Yes', 4),
+(2021, 'Chrysler', '300', '8NMGH78GHJK456789', 'L: Luxury', 'N: Manual 4WD', 'V: Petrol Air', 'D: 4-5 Door', '363', '394', '4515', 'Yes', 'Leather', 'Black', 'White', '12', 'Yes', 5),
+(2021, 'Nissan', 'Versa', '4MNBV65LKJH765432', 'C: Compact', 'D: Auto AWD', 'V: Petrol Air', 'D: 4-5 Door', '109', '107', '2519', 'No', 'Cloth', 'Blue', 'Grey', '7.5', 'Yes', 5),
+(2022, 'Fiat', '500', '2ZYXW98ZYXW987654', 'M: Mini', 'C: Manual AWD', 'V: Petrol Air', 'B: 2-3 Door', '135', '200', '2366', 'No', 'Leather', 'White', 'White', '3.8', 'No', 4),
+(2022, 'Kia', 'Forte', '5POIU98MNBV987652', 'I: Intermediate', 'A: Auto Unspecified Drive', 'V: Petrol Air', 'D: 4-5 Door', '147', '70', '3079', 'Yes', 'Cloth', 'Red', 'Grey', '7.5', 'Yes', 5),
+(2022, 'Nissan', 'Maxima', '7BVCX76NBVC876543', 'P: Premium', 'C: Manual AWD', 'V: Petrol Air', 'E: Coupe', '300', '261', '2352', 'Yes', 'Leather', 'Orange', 'Grey', '9.9', 'Yes', 5),
+(2022, 'Toyota', 'Camry', '6ASDF56ASDF567890', 'F: Fullsize', 'D: Auto AWD', 'H: Hybrid Air', 'D: 4-5 Door', '301', '186', '3340', 'No', 'Cloth', 'Black', 'Black', '9.4', 'Yes', 5),
+(2022, 'Volkswagon', 'Jetta', '1HGBH41JXMN109186', 'S: Standard', 'D: Auto AWD', 'D: Diesel Air', 'D: 4-5 Door', '147', '184', '3213', 'Yes', 'Leather', 'Silver', 'Grey', '7', 'Yes', 5);
 
 -- --------------------------------------------------------
 
@@ -205,6 +220,8 @@ CREATE TABLE `insurance` (
 --
 
 INSERT INTO `insurance` (`InsuranceID`, `Ins_Type`, `Cost`) VALUES
+(56781234, 'Liability', 876),
+(87654321, 'Liability', 800),
 (98765432, 'Full', 1300.27),
 (1234567890, 'Liability', 543.21);
 
@@ -282,6 +299,57 @@ CREATE TABLE `payment` (
   `Payment_method` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`PaymentID`, `C_UserID`, `Price`, `Payment_method`) VALUES
+(1, 7, 120.12, 'Not Paid'),
+(2, 7, 120.12, 'Not Paid'),
+(3, 7, 120.12, 'Not Paid'),
+(5, 9, 20.02, 'Credit'),
+(8, 10, 120.12, 'Cash'),
+(9, 10, 120.12, 'Cash'),
+(10, 7, 20.02, 'Not Paid'),
+(11, 7, 20.02, 'Credit'),
+(12, 9, 0, 'Not Paid'),
+(13, 9, 0, 'Not Paid'),
+(14, 9, 120, 'Cash'),
+(16, 9, 0, 'Credit'),
+(17, 9, 980, 'Credit'),
+(18, 7, 90, 'Debit'),
+(19, 7, 90, 'Not Paid'),
+(20, 9, 80, 'Debit'),
+(21, 9, 0, 'Cash'),
+(22, 9, 40, 'Not Paid'),
+(23, 9, 40, 'Not Paid'),
+(24, 10, 20.02, 'Not Paid'),
+(26, 9, 180.18, 'Debit'),
+(27, 9, 120, 'Not Paid'),
+(29, 9, 544.5, 'Not Paid'),
+(31, 9, 120, 'Not Paid'),
+(32, 9, 30, 'Not Paid'),
+(35, 9, 450, 'Not Paid'),
+(36, 9, 270, 'Not Paid'),
+(37, 9, 450, 'Not Paid'),
+(39, 9, 220.22, 'Not Paid'),
+(41, 9, 480, 'Not Paid'),
+(42, 9, 330, 'Not Paid'),
+(44, 9, 30, 'Not Paid'),
+(46, 9, 100, 'Not Paid'),
+(47, 9, 210, 'Not Paid'),
+(48, 9, 480, 'Not Paid'),
+(50, 9, 400, 'Not Paid'),
+(51, 9, 450, 'Not Paid'),
+(52, 9, 240, 'Not Paid'),
+(53, 9, 240, 'Not Paid'),
+(54, 9, 30, 'Not Paid'),
+(55, 9, 240, 'Not Paid'),
+(56, 9, 450, 'Credit'),
+(57, 9, 700, 'Credit'),
+(58, 9, 400, 'Credit'),
+(59, 9, 560, 'Not Paid');
+
 -- --------------------------------------------------------
 
 --
@@ -326,6 +394,14 @@ CREATE TABLE `reservation` (
   `Dropoff_location` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`ReservationID`, `Start_date`, `End_date`, `PaymentID`, `C_UserID`, `Branch_no`, `VIN`, `Pickup_location`, `Dropoff_location`) VALUES
+(19, '2022-12-16', '2022-12-17', 24, 10, 0, '2ZYXW98ZYXW987654', 2222, 1111),
+(53, '2022-12-23', '2022-12-31', 58, 9, 0, '5POIU98MNBV987652', 2222, 1111);
+
 -- --------------------------------------------------------
 
 --
@@ -355,6 +431,18 @@ CREATE TABLE `service_record` (
   `VIN` char(17) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `service_record`
+--
+
+INSERT INTO `service_record` (`Invoice_no`, `Cost`, `Start_date`, `End_date`, `Type_of_service`, `Scheduled_maintenance`, `VIN`) VALUES
+(6541, 543.21, '2022-12-01', '2022-12-01', 'Oil Change', 'Yes', '1HGBH41JXMN109186'),
+(11114, 123, '2022-12-07', '2022-12-14', 'Repair', 'No', '5POIU98MNBV987652'),
+(12340, 1300.27, '2020-07-14', '2020-07-21', 'Repair', 'No', '1HGBH41JXMN109186'),
+(78907, 65.43, '2022-12-01', '2022-12-01', 'Oil Change', 'Yes', '5POIU98MNBV987652'),
+(111111, 765.43, '2022-12-06', '2022-12-31', 'Repair', 'No', '5POIU98MNBV987652'),
+(898989, 65.43, '2022-12-02', '2022-12-02', 'Oil Change', 'Yes', '2ZYXW98ZYXW987654');
+
 -- --------------------------------------------------------
 
 --
@@ -375,6 +463,7 @@ CREATE TABLE `transfers` (
 --
 
 INSERT INTO `transfers` (`E_UserID`, `VIN`, `Start_branch`, `End_branch`, `Start_date`, `End_date`) VALUES
+(3, '7BVCX76NBVC876543', 2222, 1111, '2022-12-03', '2022-12-03'),
 (5, '1HGBH41JXMN109186', 1111, 2222, '2022-11-30', '2022-12-01'),
 (11, '1HGBH41JXMN109186', 2222, 1111, '2022-12-02', '2022-12-02');
 
@@ -409,9 +498,9 @@ INSERT INTO `users` (`UserID`, `First_name`, `Middle_name`, `Last_name`, `Email`
 (3, 'Alice', 'Jane', 'Employee1', 'alice@cwcrs.com', '4035552345', '2002-09-01', 'F', '1', '1 Street SW', 'Calgary', 'AB', 'T1K1C1'),
 (5, 'Bob', 'Trevor', 'Employee2', 'bob@cwcrs.com', '4035553456', '2000-03-14', 'M', '2', '2nd Street NE', 'Calgary', 'AB', 'T2K2K2'),
 (7, 'Sylvestor', NULL, 'Stallone', 'sly@movies.com', '2504445432', '1946-07-06', 'M', '4', 'Mulholland Drive', 'Beverly Hills', 'ON', 'M4C4C4'),
-(8, 'Arthur', 'G', 'Bear', 'bear@mammal.com', '9876543210', '2022-11-04', 'm', '2', 'Forest Road', 'Rosetown', 'SK', 'S0K1K1'),
+(8, 'Arthur', 'G', 'Bear', 'bear@mammal.com', '9876543210', '1997-12-02', 'o', '2', 'Forest Road', 'Rosetown', 'SK', 'S0K1K1'),
 (9, 'Arnold', 'J', 'Schwarzenegger', 'arnie@bigdeal.com', '6047778876', '1947-07-30', 'm', '2', 'Da Choppa Drive', 'Malibu', 'PE', 'C0A0A0'),
-(10, 'Bill', 'k', 'Jones', 'jones@gmail.com', '4444444444', '2022-11-10', 'm', '3', 'g street', 'Calgary', 'AB', 't1a3g3'),
+(10, 'Bill', 'K', 'Jones', 'jones@gmail.com', '4444444444', '1996-06-28', 'o', '3', 'G Street', 'Calgary', 'AB', 'T2A3G3'),
 (11, 'Captain', 'James', 'Hook', 'hook@cwcrs.com', '3069199191', '1953-02-05', 'M', '10', 'Jolly Rodger Way', 'Never Never Land', 'NU', 'X0A0X0');
 
 -- --------------------------------------------------------
@@ -436,12 +525,12 @@ CREATE TABLE `vehicle` (
 
 INSERT INTO `vehicle` (`VIN`, `Status`, `Mileage`, `Licence_plate_no`, `Registration_province`, `InsuranceID`, `Branch_no`) VALUES
 ('1HGBH41JXMN109186', 'Ready', 90000002, 'ABC123', 'AB', 98765432, 1111),
-('2ZYXW98ZYXW987654', 'Ready', 9876, '777ABC', 'SK', 1234567890, 2222),
+('2ZYXW98ZYXW987654', 'Ready', 8765, '777ABC', 'SK', 87654321, 1111),
 ('3ABCD12EFGH345678', 'Ready', 15432, 'ZYX987', 'AB', 98765432, 1111),
-('4MNBV65LKJH765432', 'Ready', 67453, '888DEF', 'SK', 98765432, 2222),
-('5POIU98MNBV987652', 'Not Ready', 1234, 'LMN098', 'AB', 98765432, 1111),
+('4MNBV65LKJH765432', 'Not Ready', 67453, '888DEF', 'SK', 98765432, 2222),
+('5POIU98MNBV987652', 'Not Ready', 123, 'LMN098', 'AB', 98765432, 2222),
 ('6ASDF56ASDF567890', 'Ready', 7651, 'JKL567', 'AB', 98765432, 1111),
-('7BVCX76NBVC876543', 'Not Ready', 876, '890QWE', 'SK', 98765432, 2222),
+('7BVCX76NBVC876543', 'Ready', 123, '890QWE', 'SK', 56781234, 1111),
 ('8NMGH78GHJK456789', 'Ready', 3456, 'FGH876', 'AB', 1234567890, 1111);
 
 --
@@ -601,25 +690,31 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `LoginID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `LoginID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `PaymentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `permission`
 --
 ALTER TABLE `permission`
-  MODIFY `PermissionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `PermissionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `ReservationID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ReservationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
@@ -706,10 +801,10 @@ ALTER TABLE `permission`
 -- Constraints for table `reservation`
 --
 ALTER TABLE `reservation`
-  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`PaymentID`) REFERENCES `payment` (`PaymentID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`C_UserID`) REFERENCES `payment` (`C_UserID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`C_UserID`) REFERENCES `payment` (`C_UserID`),
   ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`Branch_no`) REFERENCES `branch` (`Branch_no`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservation_ibfk_5` FOREIGN KEY (`PaymentID`) REFERENCES `payment` (`PaymentID`);
 
 --
 -- Constraints for table `sells`
@@ -730,7 +825,7 @@ ALTER TABLE `service_record`
 ALTER TABLE `transfers`
   ADD CONSTRAINT `transfers_ibfk_1` FOREIGN KEY (`E_UserID`) REFERENCES `employee` (`E_UserID`),
   ADD CONSTRAINT `transfers_ibfk_2` FOREIGN KEY (`VIN`) REFERENCES `vehicle` (`VIN`);
-  
+
 --
 -- Constraints for table `vehicle`
 --
