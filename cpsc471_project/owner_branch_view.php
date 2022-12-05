@@ -94,7 +94,7 @@
     }
 
     .bottom_table{
-        position: absolute;
+        position: bottom;
         bottom:1vw;
         width: 98.5%;
         overflow: scroll;

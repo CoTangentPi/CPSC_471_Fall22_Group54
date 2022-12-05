@@ -43,16 +43,14 @@
    </style>
 
     <body>
-        <h1>Added <?php echo $_POST["Branch_Name"]; ?></h1><br>
                 <!-- change onclick to branch search page -->
     <button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_branch_view.php'">Back</button>  
-    <button class= "addbutton" type="button" name="addbutton" value="addbutton" onclick="window.location.href='owner_branch_add.php'">Add Another Employee</button></td>
+    <button class= "addbutton" type="button" name="addbutton" value="addbutton" onclick="window.location.href='owner_branch_add.php'">Add Another Branch</button></td>
         <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
     }
     
 
@@ -72,14 +70,14 @@
     $stmt->execute();
     //echo "New record created successfully";
     $last_id = $con->insert_id;
-    echo "New branch created successfully. Last inserted ID is: " . $last_id;
+    //echo "New branch created successfully. Last inserted ID is: " . $last_id;
     $stmt->close();
 
     $stmt2 = $con->prepare("INSERT INTO branch_phone_number
     VALUES (?, ?)");
     $stmt2->bind_param("ss", $Branch_Number, $Phone_number);
     $stmt2->execute();
-    echo "Phone number created successfully";
+    //echo "Phone number created successfully";
     $stmt2->close();
     
     $con->close();

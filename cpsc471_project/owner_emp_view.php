@@ -1,49 +1,12 @@
-
-
-
         <?php
 session_start();
     $con = mysqli_connect("localhost","root","","cwcrs_db");
+
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
        // echo "Connection successful\n";
     }
-
-    $sql2 = "SELECT * FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
-    $result2 = $con->query($sql2);
-
-   /* if ($result2->num_rows > 0) {
-
-        while($row = $result2->fetch_assoc()) {
-
-            if($row["UserID"] == $_SESSION["UserID"]) {
-                 echo "UserID: " . $row["UserID"]. " - Name: " . $row["First_name"] .  " works at Branch: " . $row["Branch_no"] . "<br>";
-            }
-        }
-      } else {
-         echo "Can't find employee";
-      }*/
-
-
-
-
-    $sql = "SELECT * FROM Reservation";
-    $result = $con->query($sql);
-
-
-    /*if ($result->num_rows > 0) {
-        // output data of each row
-        
-    
-        
-        while($row = $result->fetch_assoc()) {
-                echo "ReservationID: " . $row["ReservationID"]. " Start" . $row["Start_date"]. "<br>";
-        
-        }
-      } else {
-        echo "0 results";
-      }*/
         $con->close();
 ?>
 
@@ -113,13 +76,13 @@ session_start();
         border: 1px solid rgba(139,216,189,1);
     }
     th {
-        font-size:1.5vw;
+        font-size:1.0vw;
         text-align: left;
         padding: 1vw;
         border: 1px solid rgba(139,216,189,1);
     }
     .ins_table2 td {
-        font-size:1.5vw;
+        font-size:1.0vw;
         text-align: left;
         padding: 1vw;
         border: 1px solid rgba(139,216,189,1);
@@ -132,7 +95,7 @@ session_start();
     }
 
     .bottom_table{
-        position: absolute;
+        position: bottom;
         bottom:1vw;
         width: 98.5%;
         overflow: scroll;
@@ -204,7 +167,7 @@ View Employee
 </br>
 
     <button class= "button" type="button" onclick="window.location.href='owner_emp_add.php'">Add Employee</button>  
-    <form action="owner_emp_search.php" class = "searchbar" method="post">
+    <form action="owner_emp_view_post.php" class = "searchbar" method="post">
       <input type="search" placeholder="Search.." name="search">
      <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
      <button class = "searchbutton" class= "submitbutton" type="submit" name="submit" value="Submit">
@@ -217,20 +180,20 @@ View Employee
 
   <table class="ins_table">
     <tr>
-        <th>Employee Number</th>
-        <th>Name</th>
-        <th>SIN</th>
-        <th>Branch Number</th>
-        <th>Status</th>
-        <th>Email</th>
-        <th>Phone Number</th>
-        <th>DOB</th>
-        <th>Sex</th>
-        <th>Address</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Salary</th>
-        <th>Severance</th>
+        <th width = 20%>Employee Number</th>
+        <th width = 20%>Name</th>
+        <th width = 20%>SIN</th>
+        <th width = 15%>Branch Number</th>
+        <th width = 20%>Status</th>
+        <th width = 33%>Email</th>
+        <th width = 25%>Phone Number</th>
+        <th width = 20%>DOB</th>
+        <th width = 7%>Sex</th>
+        <th width = 20%>Address</th>
+        <th width = 20%>Start Date</th>
+        <th width = 20%>End Date</th>
+        <th width = 20%>Salary</th>
+        <th width = 20%>Severance</th>
 
 </tr>
 
@@ -243,19 +206,33 @@ View Employee
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Employee";
+    $sql = "SELECT * FROM employee as emp, employs as e, users as u
+            WHERE u.UserID = emp.E_UserID
+            AND emp.E_UserID = e.E_UserID";
+
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
-        // output data of each row
-        
-    
-        
         while($row = $result->fetch_assoc()) {
 
                 echo "<table class='ins_table2'>
                         <tr> 
-                        <td>" . $row["E_UserID"] . "</td> <td>" . $row["SIN"] . "</td> <td>" . 
-                        $row["Branch_no"] . "</td> </tr> </table>";
+                        
+                        <td width = 20%>" . $row["E_UserID"] . "</td> 
+                        <td width = 20%>" . $row["First_name"] . " " . $row["Middle_name"] . " " . $row["Last_name"] ."</td> 
+                        <td width = 20%>" . $row["SIN"] . "</td> 
+                        <td width = 15%>" . $row["Branch_no"] . "</td> 
+                        <td width = 20%>" . $row["Employment_status"] . "</td> 
+                        <td width = 33%>" . $row["Email"] . "</td> 
+                        <td width = 25%>" . $row["Phone_number"] . "</td> 
+                        <td width = 20%>" . $row["DOB"] . "</td> 
+                        <td width = 7%>" . $row["Sex"] . "</td> 
+                        <td width = 20%>" . $row["Street_no"] . " " . $row["Street_name"] . " " . $row["City"] . " " . $row["Province"] . " " . $row["Postal_code"] . "</td> 
+                        <td width = 20%>" . $row["Start_date"] . "</td> 
+                        <td width = 20%>" . $row["End_date"] . "</td> 
+                        <td width = 20%>" . $row["Salary"] . "</td> 
+                        <td width = 20%>" . $row["Severance"] . "</td> 
+
+                        </tr> </table>";
         }
       } else {
         echo "<br>";
@@ -270,7 +247,7 @@ View Employee
       }
     $con->close();
 
-?> 
+?>  
 </table>
   <table class="bottom_table">
   <tr>

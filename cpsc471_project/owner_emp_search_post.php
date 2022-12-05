@@ -4,8 +4,6 @@ session_start();
 ?>
 <html>
     <body>
-        Welcome <?php echo $_SESSION["UserID"]; ?><br> ?>
-
         <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
@@ -14,19 +12,18 @@ session_start();
         echo "Connection successful\n";
     }
 
-    $empID = $_REQUEST["E_UserID"];
+    $E_UserID = $_REQUEST["E_UserID"];
     
-    echo "Cost: " . $_SESSION["Cost"] . "<br>";
+    echo "Cost: " . $_SESSION["Cost"] . "<br>"; 
 
     if($_REQUEST["submitbutton"]=="Edit"){
         echo"You pressed edit";
-        $_SESSION["E_UserID"] = $empID;
+        $_SESSION["E_UserID"] = $E_UserID;
         header("Location: owner_emp_edit.php");
     } else if($_REQUEST["submitbutton"]=="Remove"){
         echo "You pressed terminate";
-        $_SESSION["E_UserID"] = $empID;
+        $_SESSION["E_UserID"] = $E_UserID;
         header("Location: owner_emp_fire.php");
-        // $_SESSION["RemoveEmp"] = true;
     }
     
     // if($_SESSION["RemoveEmp"]){

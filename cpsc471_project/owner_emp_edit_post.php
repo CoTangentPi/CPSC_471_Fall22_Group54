@@ -4,8 +4,6 @@ session_start();
 ?>
 <html>
     <body>
-        Welcome <?php echo $_POST["First_name"]; ?><br>
-        Your email address is: <?php echo $_POST["Email"]; ?>
 
         <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
@@ -28,6 +26,14 @@ session_start();
     $City = $_REQUEST["City"];
     $Province = $_REQUEST["Province"];
     $Postal_code = $_REQUEST["Postal_code"];
+    $SIN = $_REQUEST["SIN"];
+    $Branch_no = $_REQUEST["Branch_no"];
+    $Employment_status = $_REQUEST["Employment_status"];
+    $Start_date = $_REQUEST["Start_date"];
+    $End_date = $_REQUEST["End_date"];
+    $Salary = $_REQUEST["Salary"];
+    $Severance = $_REQUEST["Severance"];
+    $CurrentID = $_SESSION["E_UserID"];
 
     echo "Employee id: " . $_SESSION["E_UserID"] . "<br>";
     echo "name: " .$First_name . " " . $Middle_name . " " . $Last_name . "<br>";
@@ -40,13 +46,28 @@ session_start();
     $stmt = $con->prepare("UPDATE users SET First_name = ?, Middle_name = ?, Last_name = ?, Email = ?, Phone_number = ?,
     DOB = ?, Sex = ?, Street_no = ?, Street_name = ?, City = ?, Province = ?, Postal_code = ?
     WHERE UserID = ?");
-    $stmt->bind_param("sssssssssssss", $First_name, $Middle_name, $Last_name, $Email, $Phone_number, $DOB, $Sex, $Street_no, $Street_name, $City, $Province, $Postal_code, $_SESSION["C_UserID"]);
+    $stmt->bind_param("sssssssssssss", $First_name, $Middle_name, $Last_name, $Email, $Phone_number, $DOB, $Sex, $Street_no, $Street_name, $City, $Province, $Postal_code, $_SESSION["E_UserID"]);
+    $stmt->execute();
+    echo "Employee user edited successfully";
+
+    $stmt->close();
+
+    $stmt = $con->prepare("UPDATE employee SET SIN = ?, Branch_no = ?
+    WHERE E_UserID = ?");
+    $stmt->bind_param("sss", $SIN, $Branch_no, $_SESSION["E_UserID"]);
     $stmt->execute();
     echo "Employee edited successfully";
 
     $stmt->close();
 
-        
+    $stmt = $con->prepare("UPDATE employs SET Employment_status = ?, Start_date = ?, End_date = ?, Salary = ?, Severance = ?
+    WHERE E_UserID = ?");
+    $stmt->bind_param("ssssss", $Employment_status, $Start_date, $End_date, $Salary, $Severance, $_SESSION["E_UserID"]);
+    $stmt->execute();
+    echo "Employs edited successfully";
+
+    $stmt->close();
+
         header("Location: owner_emp_view.php");
         $con->close();
 ?>

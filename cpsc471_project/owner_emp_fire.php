@@ -113,7 +113,7 @@
     }
     
    </style>
-<title>Canada Wide Car Rental Service - Fire Employee</title>
+<title>Canada Wide Car Rental Service - Owner: Fire Employee</title>
 </head>
 
 <body>
@@ -121,35 +121,21 @@
 <div class="header">
 
 <h1 style="font-size:3vw">
+
 Fire Employee
+
 </h1>  
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
 </br>
 </br>
 </br>
-<div>
-    <form action='owner_emp_fire_confirm.php' method='post'>
-        <table>
-            <tr>
-                <p>Employee: Temp Employee #</p>
-                <p>Name: Temp name</p>
-            </tr>
-            <tr>
-                <td>Date Fired:</td>
-                <td><input type = "date" name = "Date_Fired" required></td>
-            </tr>
-            <tr>
-            <tr>
-                <td>Severance:</td>
-                <td><input type = "text" name = "Severance" required></td>
-            </tr>
-            <tr>
-                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_emp_search.php'">Back</button>  
-                <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Terminate</button></td>
-            </tr>
-            </table>
-    </form>
+<h1> Are you sure you want to fire this employee? </h1>
+<button class= "button" type="button" onclick="window.location.href='owner_emp_search.php'">Cancel</button>
+<button class= "button" type="button" onclick="window.location.href='owner_emp_fire_post.php'">Yes</button>  
+    
+  <br>
+  <br>
 
     </body>
     </html>

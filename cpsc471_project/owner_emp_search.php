@@ -7,41 +7,6 @@ session_start();
     } else {
        // echo "Connection successful\n";
     }
-
-    $sql2 = "SELECT * FROM Users, Owner WHERE Users.UserID = Owner.O_UserID";
-    $result2 = $con->query($sql2);
-
-   /* if ($result2->num_rows > 0) {
-
-        while($row = $result2->fetch_assoc()) {
-
-            if($row["UserID"] == $_SESSION["UserID"]) {
-                 echo "UserID: " . $row["UserID"]. " - Name: " . $row["First_name"] .  " works at Branch: " . $row["Branch_no"] . "<br>";
-            }
-        }
-      } else {
-         echo "Can't find employee";
-      }*/
-
-
-
-
-    // $sql = "SELECT * FROM Reservation";
-    // $result = $con->query($sql);
-
-
-    /*if ($result->num_rows > 0) {
-        // output data of each row
-        
-    
-        
-        while($row = $result->fetch_assoc()) {
-                echo "ReservationID: " . $row["ReservationID"]. " Start" . $row["Start_date"]. "<br>";
-        
-        }
-      } else {
-        echo "0 results";
-      }*/
         $con->close();
 ?>
 
@@ -212,44 +177,6 @@ Search Employees
 </br>
 </br>
 </br>
-<!--
-    <form action="cust_search.php" class = "searchbar">
-      <input type="search" placeholder="Search.." name="search">
-      <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> 
-     <button class = "searchbutton">
-        <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
-      </button>
-    </form>
-
-  <br>
-  <br>-->
-<!--
-  <table class="search_table">
-    <tr>
-        <th>Customer ID: <span> 
-        <?php
-            $con = mysqli_connect("localhost","root","","cwcrs_db");
-            if(!$con) {
-                exit("An error connecting occurred." .mysqli_connect_errno());
-            } else { }
-
-            $sql = "SELECT * FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
-            $result = $con->query($sql);
-            while($row = $result->fetch_assoc()) {
-                if($row["E_UserID"] == 3) {
-                
-               // if($row["UserID"] == $_SESSION["UserID"]) {
-                    echo $row["E_UserID"];
-                }
-            }
-            $con->close();
-
-        ?>
-        </span></th>
-        </tr>
-
-        </table>
-        <table> -->
 
 <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
@@ -257,37 +184,39 @@ Search Employees
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    //$sql = "SELECT * FROM Customer, Users WHERE Customer.C_UserID = Users.UserID";
-    //$result = $con->query($sql);
-    //if ($result->num_rows > 0) {
-        // output data of each row
-
         if(count($_SESSION["SearchResult"]) > 0){
         
         for($i = 0; $i < count($_SESSION["SearchResult"]); $i++) {
-          //echo $_SESSION["SearchResult"][$i]["C_UserID"] . "<br>";
-      //}
-        
-       // while($row = $result->fetch_assoc()) {
 
         echo "<table class='search_table2'><form action='owner_emp_search_post.php' method='post'>
-        <tr> <th> Employee ID: " . $_SESSION["SearchResult"][$i]["E_UserID"] . 
-        "</th> </tr> <tr> <td> <b> Name: </b>" . $_SESSION["SearchResult"][$i]["First_name"] . 
-        " " . $_SESSION["SearchResult"][$i]["Middle_name"] . " " . $_SESSION["SearchResult"][$i]["Last_name"] .
-        "</td> </tr> <tr> <td> <b> SIN: </b>" . $_SESSION["SearchResult"][$i]["SIN"] .
-        "</td> </tr> <tr> <td> <b> Branch_no: </b>" . $_SESSION["SearchResult"][$i]["Branch_no"] . 
-        "</td> </tr> <tr> <td> <b> Employment Status: </b>" . $_SESSION["SearchResult"][$i]["Employment_status"] .
-        "</td> </tr> <tr> <td> <b> Email: </b>" . $_SESSION["SearchResult"][$i]["Email"] . 
-        "</td> </tr> <tr> <td> <b> Phone Number: </b>" .  $_SESSION["SearchResult"][$i]["Phone_number"] . 
-        "</td> </tr> <tr> <td> <b> D.O.B.: </b>" . $_SESSION["SearchResult"][$i]["DOB"] . 
-        "</td> </tr> <tr> <td> <b> Sex: </b>" . $_SESSION["SearchResult"][$i]["Sex"] . 
-        "</td> </tr> <tr> <td> <div class = 'edit'> <b> Address: </b>" . $_SESSION["SearchResult"][$i]["Street_no"] . " " . 
-        $_SESSION["SearchResult"][$i]["Street_name"] . " " . $_SESSION["SearchResult"][$i]["City"] . ", " . 
-        $_SESSION["SearchResult"][$i]["Province"] . " " . $_SESSION["SearchResult"][$i]["Postal_code"] . 
-        "</td> </tr> <tr> <td> <b> Start Date: </b>" . $_SESSION["SearchResult"][$i]["Start_date"] .
-        "</td> </tr> <tr> <td> <b> End Date: </b>" . $_SESSION["SearchResult"][$i]["End_date"] .
-        "</td> </tr> <tr> <td> <b> Salary: </b>" . $_SESSION["SearchResult"][$i]["Salary"] .
-        "</td> </tr> <tr> <td> <b> Severance: </b>" . $_SESSION["SearchResult"][$i]["Severance"] ."
+        <tr> <th> Employee ID: " . $_SESSION["SearchResult"][$i]["E_UserID"] . "</th> </tr> 
+        
+        <tr> <td> <b> Name: </b>" 
+        . $_SESSION["SearchResult"][$i]["First_name"] . " " 
+        . $_SESSION["SearchResult"][$i]["Middle_name"] . " " 
+        . $_SESSION["SearchResult"][$i]["Last_name"] .
+        "</td> </tr> 
+        
+        <tr> <td> <b> SIN: </b>" . $_SESSION["SearchResult"][$i]["SIN"] . "</td> </tr> 
+        <tr> <td> <b> Branch_no: </b>" . $_SESSION["SearchResult"][$i]["Branch_no"] . "</td> </tr> 
+        <tr> <td> <b> Employment Status: </b>" . $_SESSION["SearchResult"][$i]["Employment_status"] ."</td> </tr> 
+        <tr> <td> <b> Email: </b>" . $_SESSION["SearchResult"][$i]["Email"] . "</td> </tr> 
+        <tr> <td> <b> Phone Number: </b>" .  $_SESSION["SearchResult"][$i]["Phone_number"] . "</td> </tr> 
+        <tr> <td> <b> D.O.B.: </b>" . $_SESSION["SearchResult"][$i]["DOB"] . "</td> </tr> 
+        <tr> <td> <b> Sex: </b>" . $_SESSION["SearchResult"][$i]["Sex"] . "</td> </tr> 
+        
+        <tr> <td> <div class = 'edit'> <b> Address: </b>" 
+        . $_SESSION["SearchResult"][$i]["Street_no"] . " " 
+        . $_SESSION["SearchResult"][$i]["Street_name"] . " " 
+        . $_SESSION["SearchResult"][$i]["City"] . ", " 
+        . $_SESSION["SearchResult"][$i]["Province"] . " " 
+        . $_SESSION["SearchResult"][$i]["Postal_code"] . 
+        "</td> </tr> 
+        
+        <tr> <td> <b> Start Date: </b>" . $_SESSION["SearchResult"][$i]["Start_date"] ."</td> </tr> 
+        <tr> <td> <b> End Date: </b>" . $_SESSION["SearchResult"][$i]["End_date"] . "</td> </tr> 
+        <tr> <td> <b> Salary: </b>" . $_SESSION["SearchResult"][$i]["Salary"] . "</td> </tr> 
+        <tr> <td> <b> Severance: </b>" . $_SESSION["SearchResult"][$i]["Severance"] ."
         <div class = 'edit'>
 
         <input type = 'hidden' name = 'E_UserID'  id = 'E_UserID' value = " . $_SESSION["SearchResult"][$i]["E_UserID"] .">

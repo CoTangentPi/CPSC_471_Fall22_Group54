@@ -7,18 +7,7 @@
     } else {
        // echo "Connection successful\n";
     }
-
-    //if($_SESSION["Taken"] != NULL){
-
-    //echo "Taken: " . $_SESSION["Taken"] . "<br>";
-    //}
-    if($_SESSION["Same_Username"] != NULL){
-    echo "Same Username: " . $_SESSION["Same_Username"] . "<br>";
-    }
-
         $con->close();
-
-    $_SESSION["E_UserID"] = 3;
 ?>
 
 <!DOCTYPE html>
@@ -493,12 +482,190 @@ Edit Employee
                 <td><b>New Postal Code:</b></td>
                 <td><input type = "text" name = "Postal_code" required pattern = "/[A-Z][0-9][A-Z]][0-9][A-Z]][0-9]/i"></td>
             </tr>
+
+            <tr>
+                <td><b>SIN:</b></td>
+                <td><?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
+
+            $sql = "SELECT * FROM Employee";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+                //if($row["C_UserID"] == 9) {
+                
+                if($row["E_UserID"] == $_SESSION["E_UserID"]) {
+                    echo $row["SIN"];
+                }
+            }
+            $con->close();
+
+        ?></td>
+                <td><b>New SIN:</b></td>
+                <td><input type = "text" name = "SIN"></td>
+            </tr>
+
+            <tr>
+                <td><b>Branch Number:</b></td>
+                <td><?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
+
+            $sql = "SELECT * FROM Employee";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+                //if($row["C_UserID"] == 9) {
+                
+                if($row["E_UserID"] == $_SESSION["E_UserID"]) {
+                    echo $row["Branch_no"];
+                }
+            }
+            $con->close();
+
+        ?></td>
+                <td><b>New Branch Number:</b></td>
+                <td><input type = "text" name = "Branch_no"></td>
+            </tr>
+
+            <tr>
+                <td><b>Status:</b></td>
+                <td><?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
+
+            $sql = "SELECT * FROM Employs as e, Employee as emp 
+                    WHERE e.E_UserID = emp.E_UserID";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+                //if($row["C_UserID"] == 9) {
+                
+                if($row["E_UserID"] == $_SESSION["E_UserID"]) {
+                    echo $row["Employment_status"];
+                }
+            }
+            $con->close();
+
+        ?></td>
+                <td><b>New Status:</b></td>
+                <td><input type = "text" name = "Employment_status"></td>
+            </tr>
+
+            <tr>
+                <td><b>Start Date:</b></td>
+                <td><?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
+
+            $sql = "SELECT * FROM Employs as e, Employee as emp 
+                    WHERE e.E_UserID = emp.E_UserID";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+                //if($row["C_UserID"] == 9) {
+                
+                if($row["E_UserID"] == $_SESSION["E_UserID"]) {
+                    echo $row["Start_date"];
+                }
+            }
+            $con->close();
+
+        ?></td>
+                <td><b>New Start Date:<b></td>
+                <td><input type = "date" name = "Start_date" required></td>
+            </tr>
+
+            <tr>
+                <td><b>End Date:</b></td>
+                <td><?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
+
+            $sql = "SELECT * FROM Employs as e, Employee as emp 
+                    WHERE e.E_UserID = emp.E_UserID";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+                //if($row["C_UserID"] == 9) {
+                
+                if($row["E_UserID"] == $_SESSION["E_UserID"]) {
+                    echo $row["End_date"];
+                }
+            }
+            $con->close();
+
+        ?></td>
+                <td><b>New End Date:<b></td>
+                <td><input type = "date" name = "End_date"></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td><b>Salary:</b></td>
+                <td><?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
+
+            $sql = "SELECT * FROM Employs as e, Employee as emp 
+                    WHERE e.E_UserID = emp.E_UserID";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+                //if($row["C_UserID"] == 9) {
+                
+                if($row["E_UserID"] == $_SESSION["E_UserID"]) {
+                    echo $row["Salary"];
+                }
+            }
+            $con->close();
+
+        ?></td>
+                <td><b>New Salary:<b></td>
+                <td><input type = "text" name = "Salary" required></td>
+            </tr>
+
+            <tr>
+                <td><b>Severance:</b></td>
+                <td><?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
+
+            $sql = "SELECT * FROM Employs as e, Employee as emp 
+                    WHERE e.E_UserID = emp.E_UserID";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+                //if($row["C_UserID"] == 9) {
+                
+                if($row["E_UserID"] == $_SESSION["E_UserID"]) {
+                    echo $row["Severance"];
+                }
+            }
+            $con->close();
+
+        ?></td>
+                <td><b>New Severance:<b></td>
+                <td><input type = "text" name = "Severance"></td>
+            </tr>
+
             <tr>
                 <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_emp_search.php'"> Back</button>  
                 <td></td>
                 <td></td>
                 <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Update</button></td>
             </tr>
+
             </table>
     </form>
 

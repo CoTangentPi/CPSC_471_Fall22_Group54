@@ -1,3 +1,16 @@
+
+<?php
+    $con = mysqli_connect("localhost","root","","cwcrs_db");
+    if(!$con) {
+        exit("An error connecting occurred." .mysqli_connect_errno());
+    } else {
+        echo "Connection successful\n";
+    }
+
+        $con->close();
+?>
+
+<!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +36,52 @@
         top: 50%;
         transform: translateY(50%);
     }
+    #Province{
+        width: 50%;
+        background-color: rgba(35,70,101,1);
+        color: rgba(139,216,189,1);
+        font-family: verdana;
+        font-size: 1.5vw;
+        padding: 1vw;
+        border: 1px solid rgba(139,216,189,1);
+    }
+
+    input[type=radio]{
+        width: 20%;
+    }
+
+    input[type=text], input[type=password], 
+    input[type=email], input[type=date]{
+        width: 50%;
+        padding: 1vw 4vw;
+        margin: 1vw 0;
+        display: inline-block;
+        border: 1px solid rgba(139,216,189,1);
+        box-sizing: border-box;
+        background-color: rgba(35,70,101,1);
+        color: rgba(139,216,189,1);
+        font-size:1.5vw;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size:1.5vw;
+    }
+    th {
+        font-size:1.5vw;
+        text-align: left;
+        padding: 2vw;
+    }
+    td {
+        text-align: center;
+        padding: 1.5vw;
+    }
+
+    .logout_table td {
+        text-align: right;
+        padding 1.5vw;
+    }
+
 
     button{
         background-color: rgba(35,70,101,1);
@@ -40,46 +99,59 @@
         background-color: rgba(139,216,189,1);
         color: rgba(35,70,101,1);
     }
-   </style>
+  
+    .bottom_table{
+        position: relative;
+        bottom:1vw;
+        width: 98.5%;
+        overflow: hidden;
+    }
 
-    <body>
-        <h1>Employee Temp Terminated</h1>
-    <button class= "addbutton" type="button" name="addbutton" value="addbutton" onclick="window.location.href='owner_emp_view.php'">Ok</button></td>
-        <?php
-    $con = mysqli_connect("localhost","root","","cwcrs_db");
-    if(!$con) {
-        exit("An error connecting occurred." .mysqli_connect_errno());
-    } else {
-        echo "Connection successful\n";
+    .bottom_table td {
+        text-align: center;
+        padding 1.5vw;
     }
     
+   </style>
+<title>Canada Wide Car Rental Service - Owner: Fire Employee</title>
+</head>
 
-    $Date_Fired = $_REQUEST["Date_Fired"];
-    $Severance = $_REQUEST["Severance"];
-    
-    /* Need to add sql statements 
+<body>
 
-    $stmt = $con->prepare("INSERT INTO branch 
-    VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $Branch_Number, $Branch_Name, $Street_no, $Street_name, $City, $Province, $Postal_code);
-    
-    $stmt->execute();
-    //echo "New record created successfully";
-    $last_id = $con->insert_id;
-    echo "New branch created successfully. Last inserted ID is: " . $last_id;
-    $stmt->close();
+<div class="header">
 
-    $stmt2 = $con->prepare("INSERT INTO branch_phone_number
-    VALUES (?, ?)");
-    $stmt2->bind_param("ss", $Branch_Number, $Phone_number);
-    $stmt2->execute();
-    echo "Phone number created successfully";
-    $stmt2->close();
-    
-    */
+<h1 style="font-size:3vw">
+Fire Employee
+</h1>  
+    <img src="logo.png" alt="logo" width=2vw height=2vw/>
+</div>
+</br>
+</br>
+</br>
+<div>
 
-    $con->close();
-?>
+    <form action='owner_emp_fire_confirm.php' method='post'>
+        <table>
+            <tr>
+                <td>Status:</td>
+                <td><input type = "text" name = "Employment_status" required></td>
+            </tr>
+            <tr>
+                <td>Date Fired:</td>
+                <td><input type = "date" name = "End_date" required></td>
+            </tr>
+            <tr>
+                <td>Severance:</td>
+                <td><input type = "text" name = "Severance" required></td>
+            </tr>
+            <tr>
+                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_emp_search.php'">Cancel</button>  
+                <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Terminate</button></td>
+            </tr>
+        </table>
+    </form>
+
+    </div>
 
 
     </body>
