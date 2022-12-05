@@ -1,14 +1,11 @@
 <?php
-session_start();
+    $_SESSION["RemoveBranch"] = false;
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-       // echo "Connection successful\n";
+    // echo "Connection successful\n";
     }
-
-    // $sql2 = "SELECT * FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
-    // $result2 = $con->query($sql2);
         $con->close();
 ?>
 
@@ -168,7 +165,7 @@ View Branch
 </br>
 </br>
 <button class= "button" type="button" onclick="window.location.href='owner_branch_add.php'">Add Branch</button>  
-    <form action="owner_branch_search.php" class = "searchbar" method="post">
+    <form action="owner_branch_view_post.php" class = "searchbar" method="post">
       <input type="search" placeholder="Search.." name="search">
      <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
      <button class = "searchbutton" class= "submitbutton" type="submit" name="submit" value="Submit">
@@ -183,6 +180,7 @@ View Branch
         <th>Branch Number</th>
         <th>Branch Name</th>
         <th>Branch Address</th>
+        <th>Branch Phone Number </th>
         <!-- <th>Branch Phone Number</th> -->
 </tr>
 
@@ -195,7 +193,7 @@ View Branch
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Branch";
+    $sql = "SELECT b.*, bp.Phone_Number FROM Branch AS b, branch_phone_number AS bp WHERE b.branch_no = bp.branch_no";
     $result = $con->query($sql);
 
     if ($result->num_rows > 0) {
@@ -208,7 +206,7 @@ View Branch
                 echo "<table class='ins_table2'>
                         <tr> 
                         <td>" . $row["Branch_no"] . "</td> <td>" . $row["Branch_name"] . "</td> <td>" . 
-                        $row["Street_no"] . " " . $row["Street_name"] . " " . $row["City"] . " " . $row["Province"] . "</td>  </tr> </table>";
+                        $row["Street_no"] . " " . $row["Street_name"] . " " . $row["City"] . " " . $row["Province"] . "</td>  <td>" . $row["Phone_Number"] . "</td> </tr> </table>";
         }
       } else {
         echo "<br>";

@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 session_start();
 $_SESSION["Invalid"] = false;
     $con = mysqli_connect("localhost","root","","cwcrs_db");
@@ -152,4 +152,4 @@ $_SESSION["Invalid"] = false;
 </tr>
 </table>
     </body>
-    </html>
+    </html> -->

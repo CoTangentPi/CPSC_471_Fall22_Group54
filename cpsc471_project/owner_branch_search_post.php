@@ -4,7 +4,6 @@ session_start();
 ?>
 <html>
     <body>
-        Welcome <?php echo $_SESSION["UserID"]; ?><br> ?>
 
         <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");

@@ -1,4 +1,4 @@
-
+ 
 <?php
 session_start();
 
@@ -208,8 +208,11 @@ Customers
     while($row = $result->fetch_assoc()) {
         if($row["UserID"] == $_SESSION["UserID"]) {
             echo "Hello " . $row["First_name"]. " " . $row["Last_name"]. "!" ."<br>";
+        } else {
+            
         }
     }
+    
     $con->close();
 
 ?> -->
@@ -225,6 +228,7 @@ Customers
     while($row = $result->fetch_assoc()) {
         if($row["UserID"] == $_SESSION["UserID"]) {
             echo "Hello " . $row["First_name"]. " " . $row["Last_name"]. "!" ."<br>";
+        } else {
         }
     }
     $con->close();

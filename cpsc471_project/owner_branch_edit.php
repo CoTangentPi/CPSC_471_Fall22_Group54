@@ -9,14 +9,6 @@
        // echo "Connection successful\n";
     }
 
-    //if($_SESSION["Taken"] != NULL){
-
-    //echo "Taken: " . $_SESSION["Taken"] . "<br>";
-    //}
-    if($_SESSION["Same_Username"] != NULL){
-    echo "Same Username: " . $_SESSION["Same_Username"] . "<br>";
-    }
-
         $con->close();
 
   //  $_SESSION["C_UserID"] = 8;
@@ -163,13 +155,13 @@ Edit Branch
                 exit("An error connecting occurred." .mysqli_connect_errno());
             } else { }
 
-            $sql = "SELECT * FROM Users, Customer WHERE Users.UserID = Customer.C_UserID";
+            $sql = "SELECT * FROM Branch";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
                 //if($row["C_UserID"] == 9) {
                 
-               if($row["C_UserID"] == $_SESSION["C_UserID"]) {
-                    echo $row["C_UserID"];
+               if($row["Branch_no"] == $_SESSION["Branch_no"]) {
+                    echo $row["Branch_no"];
                 }
             }
             $con->close();
@@ -185,15 +177,6 @@ Edit Branch
         <table> 
     <form action='owner_branch_edit_post.php' method='post'>
         <table>
-        <?php
-                //if user input is incorrect, display error message
-              /*  if($_SESSION["NotSame"] || $_SESSION["Same_Username"]){
-                    echo "<tr><td class = taken> 
-                    Errors exist below. Please correct them and try again.
-                    </td></tr>";
-                }*/
-
-            ?>
             <tr>
                 
                 <td><b>Branch Number:</b></td>
@@ -208,7 +191,7 @@ Edit Branch
             while($row = $result->fetch_assoc()) {
                 //if($row["C_UserID"] == 9) {
                 
-                if($row["Branch_no"] == $_SESSION["C_UserID"]) {
+                if($row["Branch_no"] == $_SESSION["Branch_no"]) {
                     echo $row["Branch_no"];
                 }
             }
@@ -229,9 +212,7 @@ Edit Branch
             $sql = "SELECT * FROM Branch";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
-               // if($row["C_UserID"] == 9) {
-                
-               if($row["Branch_name"] == $_SESSION["C_UserID"]) {
+               if($row["Branch_no"] == $_SESSION["Branch_no"]) {
                     echo $row["Branch_name"];
                 }
             }
@@ -252,9 +233,7 @@ Edit Branch
             $sql = "SELECT * FROM Branch";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
-                //if($row["C_UserID"] == 9) {
-                
-                if($row["C_UserID"] == $_SESSION["C_UserID"]) {
+                if($row["Branch_no"] == $_SESSION["Branch_no"]) {
                     echo $row["Street_no"];
                 }
             }
@@ -272,12 +251,12 @@ Edit Branch
                 exit("An error connecting occurred." .mysqli_connect_errno());
             } else { }
 
-            $sql = "SELECT * FROM Users, Customer WHERE Users.UserID = Customer.C_UserID";
+            $sql = "SELECT * FROM Branch";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
                // if($row["C_UserID"] == 9) {
                 
-                if($row["C_UserID"] == $_SESSION["C_UserID"]) {
+                if($row["Branch_no"] == $_SESSION["Branch_no"]) {
                     echo $row["Street_name"];
                 }
             }
@@ -295,12 +274,12 @@ Edit Branch
                 exit("An error connecting occurred." .mysqli_connect_errno());
             } else { }
 
-            $sql = "SELECT * FROM Users, Customer WHERE Users.UserID = Customer.C_UserID";
+            $sql = "SELECT * FROM Branch";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
                 //if($row["C_UserID"] == 9) {
                 
-                if($row["C_UserID"] == $_SESSION["C_UserID"]) {
+                if($row["Branch_no"] == $_SESSION["Branch_no"]) {
                     echo $row["City"];
                 }
             }
@@ -318,12 +297,12 @@ Edit Branch
                 exit("An error connecting occurred." .mysqli_connect_errno());
             } else { }
 
-            $sql = "SELECT * FROM Users, Customer WHERE Users.UserID = Customer.C_UserID";
+            $sql = "SELECT * FROM Branch";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
                 //if($row["C_UserID"] == 9) {
                 
-                if($row["C_UserID"] == $_SESSION["C_UserID"]) {
+                if($row["Branch_no"] == $_SESSION["Branch_no"]) {
                     echo $row["Province"];
                 }
             }
@@ -356,12 +335,12 @@ Edit Branch
                 exit("An error connecting occurred." .mysqli_connect_errno());
             } else { }
 
-            $sql = "SELECT * FROM Users, Customer WHERE Users.UserID = Customer.C_UserID";
+            $sql = "SELECT * FROM Branch";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
                 //if($row["C_UserID"] == 9) {
                 
-                if($row["C_UserID"] == $_SESSION["C_UserID"]) {
+                if($row["Branch_no"] == $_SESSION["Branch_no"]) {
                     echo $row["Postal_code"];
                 }
             }
