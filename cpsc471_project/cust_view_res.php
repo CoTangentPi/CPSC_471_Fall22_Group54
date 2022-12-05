@@ -9,7 +9,7 @@
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
+   //     echo "Connection successful\n";
     }
 
     $sql2 = "SELECT * FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
@@ -190,7 +190,7 @@
     }
 
     .searchbutton {
-        padding: 1.14vw 1vw;
+        padding: 0.9vw 1vw;
         border: 1px solid rgba(139,216,189,1);
     }
 

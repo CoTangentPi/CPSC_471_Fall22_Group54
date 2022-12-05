@@ -9,7 +9,7 @@
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
+    //    echo "Connection successful\n";
     }
 
     $sql2 = "SELECT * FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
