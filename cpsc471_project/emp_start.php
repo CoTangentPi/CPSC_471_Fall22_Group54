@@ -13,7 +13,7 @@
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
+      //  echo "Connection successful\n";
     }
 
     $sql = "SELECT * FROM Employee, Users WHERE Employee.E_UserID = Users.UserID";
@@ -26,7 +26,7 @@
     
         
         while($row = $result->fetch_assoc()) {
-                echo "E_UserID: " . $row["E_UserID"]. " - Name: " . $row["First_name"]. " " . $row["Middle_name"]. " " . $row["Last_name"]. "<br>";
+       //         echo "E_UserID: " . $row["E_UserID"]. " - Name: " . $row["First_name"]. " " . $row["Middle_name"]. " " . $row["Last_name"]. "<br>";
         
         }
       } else {

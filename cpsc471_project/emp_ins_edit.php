@@ -209,7 +209,7 @@ Edit Insurance
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
                if($row["InsuranceID"] == $_SESSION["InsuranceID"]) {
-                    echo "$". $row["Cost"];
+                    echo "$". number_format($row["Cost"], 2);
                 }
             }
             $con->close();

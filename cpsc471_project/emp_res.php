@@ -9,7 +9,7 @@
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
+   //     echo "Connection successful\n";
     }
 
     $sql2 = "SELECT * FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
@@ -20,11 +20,11 @@
         while($row = $result2->fetch_assoc()) {
 
             if($row["UserID"] == $_SESSION["UserID"]) {
-                echo "UserID: " . $row["UserID"]. " - Name: " . $row["First_name"] .  " works at Branch: " . $row["Branch_no"] . "<br>";
+   //             echo "UserID: " . $row["UserID"]. " - Name: " . $row["First_name"] .  " works at Branch: " . $row["Branch_no"] . "<br>";
             }
         }
       } else {
-        echo "Can't find employee";
+  //      echo "Can't find employee";
       }
 
 
@@ -196,7 +196,7 @@
     }
 
     .searchbutton {
-        padding: 1.14vw 1vw;
+        padding: 0.9vw 1vw;
         border: 1px solid rgba(139,216,189,1);
     }
 

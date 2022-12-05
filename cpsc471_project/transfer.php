@@ -1,13 +1,13 @@
 
 <?php
     session_start();
-    echo "current branch: " . $_SESSION["Current_branch"] . "<br>";
+ //   echo "current branch: " . $_SESSION["Current_branch"] . "<br>";
     
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
+ //       echo "Connection successful\n";
     }
 
         $con->close();
