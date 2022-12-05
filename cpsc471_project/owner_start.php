@@ -6,7 +6,7 @@
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
+   //     echo "Connection successful\n";
     }
 
     $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users";
@@ -20,7 +20,7 @@
         
         while($row = $result->fetch_assoc()) {
             if($row["UserID"] == 1) {
-                echo "UserID: " . $row["UserID"]. " - Name: " . $row["First_name"]. " " . $row["Middle_name"]. " " . $row["Last_name"]. "<br>";
+    //            echo "UserID: " . $row["UserID"]. " - Name: " . $row["First_name"]. " " . $row["Middle_name"]. " " . $row["Last_name"]. "<br>";
             }
         }
       } else {
@@ -212,7 +212,7 @@
     <td>
 </td>
     <td>
-    <button class= "empbutton" type="button" onclick="alert('Go to Vehicles')">Vehicles</button>  
+    <button class= "empbutton" type="button" onclick="window.location.href='own_veh.php'">Vehicles</button>  
 </td>
     <td></td>
   </tr>
