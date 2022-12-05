@@ -362,7 +362,7 @@ Search Insurance
     $con->close();
 
 ?> 
-</table>
+<!--
 <button onclick="document.getElementById('id01').style.display='block'">Open Modal</button>
 
 <div id="id01" class="modal">
@@ -374,7 +374,7 @@ Search Insurance
     
       <div class="clearfix">
         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-        <!--<button type="submit" class="deletebtn">Delete</button>-->
+        <!<button type="submit" class="deletebtn">Delete</button>
         <button class= "deletebtn" name='submitbutton'text-align=left type='submit' value='Remove'> Remove </button>
                         
       </div>
@@ -392,7 +392,7 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
-</script>
+</script>-->
 
   <table class="bottom_table">
   <tr>

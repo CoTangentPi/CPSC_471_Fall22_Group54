@@ -20,8 +20,9 @@ session_start();
     $end = $_REQUEST["End_date"];
     $pickup = $_REQUEST["pickup"];
     $dropoff = $_REQUEST["dropoff"];
-    $custid = $_REQUEST["custid"];
-    $vin = $_REQUEST["vin"];
+    $branch = 0000; //online reservation
+    //$custid = $_REQUEST["custid"];
+    //$vin = $_REQUEST["vin"];
     $cat = "none";
     $dailyrate = 0;
     //$branch = "none";
@@ -30,8 +31,8 @@ session_start();
     echo "End Date: " . $end ."<br>";
     echo "Pick-Up: " . $pickup ."<br>";
     echo "Drop-off: " . $dropoff ."<br>";
-    echo "cust id: " . $custid . "<br>";
-    echo "vin: " . $vin . "<br>";
+    echo "cust id: " . $_SESSION["UserID"] . "<br>";
+    echo "vin: " . $_SESSION["VIN"] . "<br>";
 
   
     //adapted from stack overflow
@@ -48,7 +49,7 @@ session_start();
     } else if ($days < 0) {
         echo $start . " is after " . $end . "<br>";
         $_SESSION["Start_after_end"] = true;    
-         header("Location: add_res.php");
+         header("Location: cust_add_res.php");
     } else {
         echo $start . " is the same as " . $end . "<br>";
         $days = 1;
@@ -63,7 +64,7 @@ session_start();
     if(!$_SESSION["Start_after_end"]) {
         $stmt = $con->prepare("SELECT * FROM Features 
                                 WHERE VIN = ?");
-        $stmt->bind_param("s", $vin);
+        $stmt->bind_param("s", $_SESSION["VIN"]);
         $stmt->execute();
 
         $result = $stmt->get_result();
@@ -123,7 +124,7 @@ session_start();
 
         $stmt = $con->prepare("INSERT INTO Payment 
                 VALUES (NULL, ?, ?, ?)");
-        $stmt->bind_param("sss", $custid, $price, $method);
+        $stmt->bind_param("sss", $_SESSION["UserID"], $price, $method);
     
         $stmt->execute();
         echo "Payment added<br>";
@@ -137,7 +138,7 @@ session_start();
         $stmtcheck = $con->prepare("SELECT * FROM Contacts 
         WHERE C_UserID = ? 
         AND Branch_no = ?;");
-        $stmtcheck->bind_param("ss", $custid, $_SESSION["Branch_no"]);
+        $stmtcheck->bind_param("ss", $_SESSION["UserID"], $branch);
         $stmtcheck->execute();
         $result = $stmtcheck->get_result();
         if($result->num_rows > 0) {
@@ -155,53 +156,23 @@ session_start();
                 echo "not in contacts";
                 $stmt = $con->prepare("INSERT INTO contacts
                 VALUES (?, ?);");
-                $stmt->bind_param("ss", $custid, $_SESSION["Branch_no"]);
+                $stmt->bind_param("ss", $_SESSION["UserID"], $branch);
                 $stmt->execute();
                 echo "Contact added<br>";
                 $stmt->close();
         }
 
-        /*$stmt = $con->prepare("INSERT INTO contacts
-            VALUES (?, ?);");
-        $stmt->bind_param("ss", $custid, $_SESSION["Branch_no"]);
-        $stmt->execute();
-        echo "Contact added<br>";
-        $stmt->close();*/
 
-        /*
-        $stmt = $con->prepare("SELECT * FROM Employee, Users 
-                                WHERE Employee.E_UserID = Users.UserID
-                                AND Employee.E_UserID = ?");
-        $stmt->bind_param("s", $_SESSION["UserID"]);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        if($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-
-                echo "Branch: " . $row["Branch_no"] . "<br>";
-                $branch = $row["Branch_no"];
-                // $data[] = $row;
-               // $_SESSION["SearchResult"][] = $row;
-                //echo $row["InsuranceID"] . " " . $row["Ins_Type"]."<br>";
-                //echo $
-                //$daily_rate = $row["Daily_Rate"];
-            }
-        } else {
-             echo "0 results";
-        }
-
-        echo "Branch: " . $branch . "<br>";*/
-        echo "session branch: " . $_SESSION["Branch_no"] . "<br>";
+        //echo "session branch: " . $_SESSION["Branch_no"] . "<br>";
 
         //use prepared statements to sanitize user inputs
         $stmt2 = $con->prepare("INSERT INTO Reservation 
                 VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt2->bind_param("ssssssss", $start, $end, $last_id, $custid, $_SESSION["Branch_no"], $vin, $pickup, $dropoff);
+        $stmt2->bind_param("ssssssss", $start, $end, $last_id, $_SESSION["UserID"], $branch, $_SESSION["VIN"], $pickup, $dropoff);
         $stmt2->execute();
         echo "Reservation created successfully";
         $stmt2->close();
-        header("Location: emp_res.php");
+        header("Location: cust_view_res.php");
     }
           
         $con->close();

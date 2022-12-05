@@ -1,7 +1,10 @@
 
 <?php
-session_start();
-$_SESSION["Start_after_end"] = false;    
+    session_start();
+    $_SESSION["Start_after_end"] = false;    
+    $_SESSION["EditRes"] = false;
+    $_SESSION["RemoveRes"] = false;
+
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -37,12 +40,21 @@ $_SESSION["Start_after_end"] = false;
     
         
         while($row = $result->fetch_assoc()) {
-                echo "ReservationID: " . $row["ReservationID"]. " Start" . $row["Start_date"]. "<br>";
+           //     echo "ReservationID: " . $row["ReservationID"]. " Start" . $row["Start_date"]. "<br>";
         
         }
       } else {
         echo "0 results";
       }
+
+      $_SESSION["Branches"] = [];
+      $sqlbranch = "SELECT * FROM Branch";
+      $resultbranch = $con->query($sqlbranch);
+      if ($resultbranch->num_rows > 0) {
+        while($row = $resultbranch->fetch_assoc()) {
+            $_SESSION["Branches"][$row["Branch_no"]] = $row["Branch_name"];
+            }
+        }
         $con->close();
 ?>
 
@@ -60,7 +72,7 @@ $_SESSION["Start_after_end"] = false;
          display:flex; 
          flex-direction:column;
          min-height: 100vh; 
-         margin:0.2vw;
+         margin:1vw;
         }
 
     footer{ 
@@ -119,10 +131,20 @@ $_SESSION["Start_after_end"] = false;
         vertical-align: middle;
     }
 
+    .ins_table2 {
+        border: 1px solid rgba(139,216,189,1);
+    }
     th {
         font-size:1.5vw;
         text-align: left;
-        padding: 2vw;
+        padding: 1vw;
+    }
+    
+    .ins_table2 td {
+        font-size:1.5vw;
+        text-align: left;
+        padding: 1vw;
+        border: 1px solid rgba(139,216,189,1);
     }
 
     .res_table {
@@ -147,7 +169,8 @@ $_SESSION["Start_after_end"] = false;
         position: relative;
         bottom:1vw;
         width: 98.5%;
-        overflow: hidden;
+        overflow: auto;
+        transform: translateY(1.5vw);
     }
 
     .bottom_table td {
@@ -219,7 +242,7 @@ Reservations
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
 
-<article>
+<!--<article>-->
 <table class = "toptable">
 <form action="emp_res_post.php" method="post">
   <tr>
@@ -238,16 +261,26 @@ Reservations
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
-
-    $sql = "SELECT End_date, COUNT(End_date) FROM Reservation Group by End_date";
+    $count = 0;
+    $totalRes = 0;
+    $today = date("Y-m-d");
+    $sql = "SELECT End_date, COUNT(End_date) FROM Reservation 
+    WHERE End_date >= $today
+    Group by End_date";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         if($row["End_date"] >= date("Y-m-d")) {
-
-            echo $row["COUNT(End_date)"];
+            $count++;
+            $totalRes += $row["COUNT(End_date)"];
+          //  echo "row".$row["COUNT(End_date)"];
         }
-    }
+    }//echo "count" . $count;
+   // echo "total" . $totalRes;
+     echo $totalRes;
+   
+    
+    //echo "count end date: " . $row["COUNT(End_date)"];
 }
     else{
         echo "0";
@@ -264,16 +297,24 @@ Reservations
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Reservation";
+    $count = 0;
+    $totalPickUp = 0;
+    //echo "today: " . date("Y-m-d");
+    $sql = "SELECT *
+    FROM Reservation";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
+       // echo "num rows: " . $result->num_rows;
         while($row = $result->fetch_assoc()) {
-            if($row["Start_date"] == date("Y-m-d") && $row["Pickup_location"] == $_SESSION["Branch_no"]) {
-    
-                echo $row["COUNT(Start_date)"];
-            }
+            if($row["Start_date"] == date("Y-m-d") && $row["Pickup_location"] == $_SESSION["Branch_no"]){
+
+                $totalPickUp++;
+            
         }
-    }
+            } 
+            echo $totalPickUp;
+        }
+
         else{
             echo "0";
             }
@@ -291,17 +332,22 @@ Reservations
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Reservation";
+    $count = 0;
+    $totalDropOff = 0;
+    $sql = "SELECT *
+    FROM Reservation";
     $result = $con->query($sql);
+   // echo "today: " . date("Y-m-d");
+    //echo "num rows" . $result->num_rows;
     if ($result->num_rows > 0) {
+       // echo "num rows in if: " . $result->num_rows;
         while($row = $result->fetch_assoc()) {
-            if($row["End_date"] == date("Y-m-d") && $row["Dropoff_location"] == $_SESSION["Branch_no"]) {
-    
-                echo $row["COUNT(Start_date)"];
+            if($row["End_date"] == date("Y-m-d") && $row["Dropoff_location"] == $_SESSION["Branch_no"]){
+                $totalDropOff++;
+            } 
             }
-        }
-    }
-        else{
+            echo $totalDropOff;
+        } else{
             echo "0";
             }
     $con->close();
@@ -318,22 +364,26 @@ Reservations
   <br>
   <br>
 
+  <div style="overflow-x:auto;">
   <table class="res_table">
     <tr>
-        <th>Reservation ID</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Pick-up Location</th>
-        <th>Drop-off Location</th>
-        <th>Payment ID</th>
-        <th>Customer ID</th>
-        <th>VIN</th>
-        <th>Branch Created</th>
+        <th width: 10%>Reservation ID</th>
+        <th width: 6%>Start Date</th>
+        <th width: 6%>End Date</th>
+        <th width: 5%>Pick-up Location</th>
+        <th width: 5%>Drop-off Location</th>
+        <th width: 4%>Payment ID</th>
+        <th width: 4%>Customer ID</th>
+        <th width: 55%>VIN</th>
+        <th width: 5%>Branch Created</th>
+        <th width: 5%>Price</th>
+        <th width: 5%>Payment Method</th>
 
 </tr>
 
-        </table>
-        <table>
+    <!--    </table>
+        </div>
+        <table>-->
 
 <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
@@ -341,7 +391,18 @@ Reservations
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Reservation";
+    
+
+    //foreach($branches as $key => $value) {
+      //  echo $key . " " . $value;
+    //}
+
+    //echo $branches;
+
+    $sql = "SELECT * FROM Reservation, Branch, Payment
+    WHERE Reservation.Branch_no = Branch.Branch_no
+    AND Reservation.PaymentID = Payment.PaymentID
+    AND Reservation.C_UserID = Payment.C_UserID;";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         // output data of each row
@@ -349,8 +410,35 @@ Reservations
     
         
         while($row = $result->fetch_assoc()) {
+            echo "
+            <tr> 
+            <td>" . $row["ReservationID"] . "</td> <td>" . $row["Start_date"] . "</td> <td>" . $row["End_date"] .
+            "</td> <td>" ;
+            foreach($_SESSION["Branches"] as $num => $name) {
+                if($row["Pickup_location"] == $num) {
+                    echo $name;
+                }
+                //echo $num . " " . $name;
+            }
+            //$row["Pickup_location"] .
+            echo  "</td> <td>";
+            foreach($_SESSION["Branches"] as $num => $name) {
+                if($row["Dropoff_location"] == $num) {
+                    echo $name;
+                }
+                //echo $num . " " . $name;
+            }//$row["Dropoff_location"] . 
+            echo "</td> <td>" . 
+            $row["PaymentID"] . "</td> <td>" . $row["C_UserID"] ."</td> <td>" . $row["VIN"] ."</td> <td>" . 
+            $row["Branch_name"] . "</td> <td>$" . number_format($row["Price"], 2) . "</td> <td>" . $row["Payment_method"] ."</td> </tr>";
+           /* echo "<table class='ins_table2'>
+            <tr> 
+            <td>" . $row["ReservationID"] . "</td> <td>" . $row["Start_date"] . "</td> <td>" . $row["End_date"] .
+            "</td> <td>" . $row["Pickup_location"] . "</td> <td>" . $row["Dropoff_location"] . "</td> <td>" . 
+            $row["PaymentID"] . "</td> <td>" . $row["C_UserID"] ."</td> <td>" . $row["VIN"] ."</td> <td>" . 
+            $row["Branch_name"] . "</td> </tr> </table>";*/
             
-                echo "ReservationID: " . $row["ReservationID"]. " - Start Date: " . $row["Start_date"]. " End Date: " . $row["End_date"]. " PaymentID" . $row["PaymentID"] . " CustomerID" . $row["C_UserID"] . " Branch No:" . $row["Branch_no"] . " VIN: " . $row["VIN"] . " Pickup Location: " . $row["Pickup_location"] . " Dropoff Location: " . $row["Dropoff_location"] . "<br>";
+              //  echo "ReservationID: " . $row["ReservationID"]. " - Start Date: " . $row["Start_date"]. " End Date: " . $row["End_date"]. " PaymentID" . $row["PaymentID"] . " CustomerID" . $row["C_UserID"] . " Branch No:" . $row["Branch_no"] . " VIN: " . $row["VIN"] . " Pickup Location: " . $row["Pickup_location"] . " Dropoff Location: " . $row["Dropoff_location"] . "<br>";
             
         }
       } else {
@@ -368,8 +456,10 @@ Reservations
 
 ?> 
 </table>
+</div>
+<!--<div style="overflow-x:auto;">
 </article>
-<footer>
+<footer>-->
   <table class="bottom_table">
   <tr>
     <td>

@@ -2,7 +2,9 @@
 <?php
 session_start();
 $_SESSION["SamePlate"] = false;
-$_SESSION["InvoiceExists"] = false;
+$_SESSION["NotOwned"] = false;
+$_SESSION["PurchaseAfterSell"] = false;
+$_SESSION["Start_after_end"] = false;
 //$_SESSION["VIN"] = "1HGBH41JXMN109186";
 //$_SESSION["VIN"] ="3ABCD12EFGH345678";
 //$_SESSION["VIN"] = "1HGBH41JXMN109999"; //this is a VIN that does not exist in the database
@@ -238,6 +240,10 @@ $_SESSION["InvoiceExists"] = false;
         bottom: -1vw;
         right:-40vw;
       }
+
+      .notLeased{
+        color: tomato;
+      }
     
     
    </style>
@@ -324,7 +330,7 @@ Search Vehicles
     <th><!--<form action='emp_veh_search_post.php' method='post'>
     <button class= "submitbutton" type="submit" name="submit" value="Submit">Edit</button>
     </form>-->
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='edit_veh.php'"> Edit</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='own_edit_veh.php'"> Edit</button>  
 
 
 </th>
@@ -413,35 +419,32 @@ Search Vehicles
 
 ?>  
 
-<!--
-<table class = "button_table">
-    <tr>
-        <td>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='transfer.php'"> Transfer</button>  
-        </td>
-        <td>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='add_ins.php'"> Add Insurance</button>  
-        </td>
-        <td>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='service_recs.php'"> Service Records</button>  
-        </td>
-    </tr>
-    </table> -->
   <table class="bottom_table">
+
+  <?php
+                //if sell date is before start date, display error message
+                if($_SESSION["NotLeased"]){
+                    echo "<tr> <td> </td> <td class = 'notLeased'> 
+                    Cannot Remove Lease from Vehicle that has not been Leased </td> <td></td></tr>";
+                    $_SESSION["NotLeased"] = false;
+                }
+
+
+            ?>
   <tr>
         <td>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='transfer.php'"> Transfer</button>  
+        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='add_lease.php'"> Add Lease</button>  
         </td>
         <td>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='edit_veh_ins.php'"> Update Insurance</button>  
+        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='own_veh_search_post.php'"> Remove Lease</button>  
         </td>
         <td>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='service_recs_veh.php'"> Service Records</button>  
+        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='sell_veh.php'"> Sell Vehicle</button>  
         </td>
     </tr>
   <tr>
     <td>
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_veh.php'"> Back</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='own_veh.php'"> Back</button>  
 </td>
 <td>
 </td>

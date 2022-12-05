@@ -38,7 +38,7 @@
         top: 50%;
         transform: translateY(50%);
     }
-    #pickup, #dropoff, #custid, #vin{
+    #SchMain, #Type{
         width: 40%;
         background-color: rgba(35,70,101,1);
         color: rgba(139,216,189,1);
@@ -129,7 +129,7 @@
     }
     
    </style>
-<title>Canada Wide Car Rental Service - Employee: Make Reservation</title>
+<title>Canada Wide Car Rental Service - Employee: Add Service Record</title>
 </head>
 
 <body>
@@ -137,15 +137,71 @@
 <div class="header">
 
 <h1 style="font-size:3vw">
-Make Reservation
+Add Service Record
 </h1>  
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
 </br>
 
+<?php
+    $con = mysqli_connect("localhost","root","","cwcrs_db");
+    if(!$con) {
+        exit("An error connecting occurred." .mysqli_connect_errno());
+    } else { }
+
+    $sql = "SELECT * FROM Vehicle, Features
+            WHERE  Vehicle.VIN = Features.VIN";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        // output data of each row
+        
+    
+        
+        while($row = $result->fetch_assoc()) {
+
+            if(strcmp($row["VIN"],$_SESSION["VIN"]) == 0){
+
+                echo "<table class='search_table2'>
+                        <tr> <td> <b>VIN: </b> </td><td>" . $row["VIN"]. "</td> <td> <b> Year: </b></td><td>" . 
+                        $row["Year"] . "</td> <td> <b> Make: </b></td><td>" . $row["Make"] . 
+                        "</td> <td> <b> Model: </b></td><td>" . $row["Model"] . "</td>  </tr> </table> <br> <br>";
+            
+            }
+        }
+      } else {
+        echo "<br>";
+        echo "<br>";
+        echo "<table class='no_veh'>";
+        echo "<tr>";
+        echo "<td>";
+        echo "No Records Found for VIN: " . $_SESSION["VIN"];
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
+      }
+    $con->close();
+
+?> 
+
 <div>
-    <form action='add_res_post.php' method='post'>
+    <form action='add_serv_rec_veh_post.php' method='post'>
         <table class = "formtable">
+        <?php
+                //if start date is after end date, display error message
+                if($_SESSION["InvoiceExists"]){
+                    echo "<tr> <td> </td> <td class = 'start_after_end'> 
+                    Oops! Invoice No: " . $_SESSION["InvoiceNo"]. " already exists. Please try again.
+                    </td></tr>";
+                    $_SESSION["InvoiceExists"] = false;
+                }
+
+            ?>
+        <tr> <td> Invoice Number: </td> 
+        <td> <input type="text" name="InvoiceNo" id="InvoiceNo" required pattern = "[0-9]+"> </td> </tr>
+        <tr><td> Cost: </td>
+         <!--https://stackoverflow.com/questions/20050245/regular-expression-for-numbers-and-one-decimal -->
+         <td><input type = "text" name = "Cost"  id = "Cost" required pattern = "(?:0|[1-9]\d+|)?(?:.?\d{0,2})?$"></td></tr>
+            
         <?php
                 //if start date is after end date, display error message
                 if($_SESSION["Start_after_end"]){
@@ -166,99 +222,26 @@ Make Reservation
                 <td><input type = "date" name = "End_date" min="3000-01-01" onfocus="this.min=new Date().toISOString().split('T')[0]" required></td>
             </tr>
             <tr>
-                <td>Pick-Up Location:</td>
-                <td> <select name = "pickup" id = "pickup" required>
-                    <?php
-                      $con = mysqli_connect("localhost","root","","cwcrs_db");
-                      if(!$con) {
-                          exit("An error connecting occurred." .mysqli_connect_errno());
-                      } else { }
-                  
-                      $sql = "SELECT * FROM Branch";
-                      $result = $con->query($sql);
-                      if ($result->num_rows > 0) {
-                          // output data of each row
-                          
-                      
-                          
-                          while($row = $result->fetch_assoc()) {
-
-                            if(!($row["Branch_no"] == 0)){
-                              
-                                  echo "<option value = '" . $row["Branch_no"] . "' >" .$row["Branch_name"].
-                                  " </option>";
-                              }
-                            }
-                          }
-
-                      $con->close();
-
-                    ?>
+                <td>Type of Service:</td>
+                <td> <select name = "Type" id = "Type" required>
+                <option value = "Oil Change" > Oil Change </option>
+                <option value = "Repair" > Repair </option>
+                <option value = "Tune-Up" > Tune-Up </option>
+                    
     </select>
 </td>
             </tr>
             <tr>
-                <td>Drop-Off Location:</td>
-                <td> <select name = "dropoff" id = "dropoff" required>
-                    <?php
-                      $con = mysqli_connect("localhost","root","","cwcrs_db");
-                      if(!$con) {
-                          exit("An error connecting occurred." .mysqli_connect_errno());
-                      } else { }
-                  
-                      $sql = "SELECT * FROM Branch";
-                      $result = $con->query($sql);
-                      if ($result->num_rows > 0) {
-                          // output data of each row
-                          
-                      
-                          
-                          while($row = $result->fetch_assoc()) {
-                              
-                            if(!($row["Branch_no"] == 0)){
-                              
-                                echo "<option value = '" . $row["Branch_no"] . "' >" .$row["Branch_name"].
-                                " </option>";
-                            }
-                          }
-                          }
-
-                      $con->close();
-
-                    ?>
+                <td>Scheduled Maintenance:</td>
+                <td> <select name = "SchMain" id = "SchMain" required>
+                <option value = "Yes" > Yes </option>
+                <option value = "No" > No </option>
+                    
     </select>
 </td>
             </tr>
-            <tr>
-                <td>Customer ID:</td>
-                <td> <select name = "custid" id = "custid" required>
-                    <?php
-                      $con = mysqli_connect("localhost","root","","cwcrs_db");
-                      if(!$con) {
-                          exit("An error connecting occurred." .mysqli_connect_errno());
-                      } else { }
-                  
-                      $sql = "SELECT * FROM Users, Customer WHERE Users.UserID = Customer.C_UserID";
-                      $result = $con->query($sql);
-                      if ($result->num_rows > 0) {
-                          // output data of each row
-                          
-                      
-                          
-                          while($row = $result->fetch_assoc()) {
-                              
-                                  echo "<option value = '" . $row["C_UserID"] . "' >" .$row["C_UserID"].
-                                  " </option>";
-                              }
-                          }
 
-                      $con->close();
-
-                    ?>
-    </select>
-</td>
-            </tr>
-            <tr>
+          <!--  <tr>
                 <td>VIN:</td>
                 <td> <select name = "vin" id = "vin" required>
                     <?php
@@ -286,11 +269,11 @@ Make Reservation
                     ?>
     </select>
 </td>
-            </tr>
+            </tr> -->
             
             <tr>
-                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_res.php'"> Back</button>  
-                <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Create</button></td>
+                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='service_recs_veh.php'"> Back</button>  
+                <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Add</button></td>
             </tr>
             </table>
     </form>

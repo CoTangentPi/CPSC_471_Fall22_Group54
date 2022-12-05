@@ -12,9 +12,12 @@ session_start();
     } else {
         echo "Connection successful\n";
     }
-    
+
     $search = $_REQUEST["search"];
     echo "search: " . $search . "<br>";
+    
+    $_SESSION["SearchRes"] = true;
+
 
     $stmt = $con->prepare("SELECT * FROM reservation, branch, payment
     WHERE reservation.Branch_no = branch.Branch_no
@@ -131,7 +134,7 @@ session_start();
 
     
     $con->close();
-   header("Location: emp_res_search.php");
+   //header("Location: cust_view_res.php");
 ?>
 
 

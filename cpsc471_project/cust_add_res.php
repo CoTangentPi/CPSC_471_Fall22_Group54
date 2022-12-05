@@ -129,7 +129,7 @@
     }
     
    </style>
-<title>Canada Wide Car Rental Service - Employee: Make Reservation</title>
+<title>Canada Wide Car Rental Service - Customer: Make Reservation</title>
 </head>
 
 <body>
@@ -144,7 +144,7 @@ Make Reservation
 </br>
 
 <div>
-    <form action='add_res_post.php' method='post'>
+    <form action='cust_add_res_post.php' method='post'>
         <table class = "formtable">
         <?php
                 //if start date is after end date, display error message
@@ -227,69 +227,14 @@ Make Reservation
 
                     ?>
     </select>
+    
 </td>
             </tr>
-            <tr>
-                <td>Customer ID:</td>
-                <td> <select name = "custid" id = "custid" required>
-                    <?php
-                      $con = mysqli_connect("localhost","root","","cwcrs_db");
-                      if(!$con) {
-                          exit("An error connecting occurred." .mysqli_connect_errno());
-                      } else { }
-                  
-                      $sql = "SELECT * FROM Users, Customer WHERE Users.UserID = Customer.C_UserID";
-                      $result = $con->query($sql);
-                      if ($result->num_rows > 0) {
-                          // output data of each row
-                          
-                      
-                          
-                          while($row = $result->fetch_assoc()) {
-                              
-                                  echo "<option value = '" . $row["C_UserID"] . "' >" .$row["C_UserID"].
-                                  " </option>";
-                              }
-                          }
-
-                      $con->close();
-
-                    ?>
-    </select>
-</td>
-            </tr>
-            <tr>
-                <td>VIN:</td>
-                <td> <select name = "vin" id = "vin" required>
-                    <?php
-                      $con = mysqli_connect("localhost","root","","cwcrs_db");
-                      if(!$con) {
-                          exit("An error connecting occurred." .mysqli_connect_errno());
-                      } else { }
-                  
-                      $sql = "SELECT * FROM Vehicle";
-                      $result = $con->query($sql);
-                      if ($result->num_rows > 0) {
-                          // output data of each row
-                          
-                      
-                          
-                          while($row = $result->fetch_assoc()) {
-                              
-                                  echo "<option value = '" . $row["VIN"] . "' >" .$row["VIN"].
-                                  " </option>";
-                              }
-                          }
-
-                      $con->close();
-
-                    ?>
-    </select>
-</td>
+          
             </tr>
             
             <tr>
-                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_res.php'"> Back</button>  
+                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='cust_veh_search.php'"> Back</button>  
                 <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Create</button></td>
             </tr>
             </table>

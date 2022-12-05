@@ -9,6 +9,7 @@ session_start();
 $_SESSION["Same_Username"] = false; //if username already exists
 $_SESSION["NotSame"] = false; //if passwords do not match
 $_SESSION["Under25"] = false; //if user is under 25
+$_SESSION["Search"] = false;
 ?>
 
 <!-- code heavily adapted from W3 Schools HTML Tutorials
