@@ -12,20 +12,24 @@ session_start();
     } else {
         echo "Connection successful\n";
     }
-    
+
     $search = $_REQUEST["search"];
     echo "search: " . $search . "<br>";
+    
+    $_SESSION["SearchRes"] = true;
 
-    $stmt = $con->prepare("SELECT * FROM reservation, branch, payment
+
+    $stmt = $con->prepare("SELECT * FROM reservation, branch, payment, features
     WHERE reservation.Branch_no = branch.Branch_no
     AND reservation.PaymentID = payment.PaymentID
     AND reservation.C_UserID = payment.C_UserID
+    AND reservation.VIN = features.VIN
     AND (Start_date LIKE  CONCAT( '%',?,'%')
     OR End_date LIKE CONCAT( '%',?,'%')
     OR payment.PaymentID LIKE CONCAT( '%',?,'%')
     OR payment.C_UserID LIKE CONCAT( '%',?,'%')
     OR branch.Branch_no LIKE CONCAT( '%',?,'%')
-    OR VIN LIKE CONCAT( '%',?,'%')
+    OR reservation.VIN LIKE CONCAT( '%',?,'%')
     OR Pickup_location LIKE CONCAT( '%',?,'%')
     OR Dropoff_location LIKE CONCAT( '%',?,'%')
     OR ReservationID LIKE CONCAT( '%',?,'%')
@@ -51,9 +55,10 @@ session_start();
     }
     } //else {
         $stmt->close();
-        $stmt2 = $con->prepare("SELECT * FROM reservation, branch, payment
+        $stmt2 = $con->prepare("SELECT * FROM reservation, branch, payment, features
         WHERE reservation.Pickup_location = branch.Branch_no
         AND reservation.PaymentID = payment.PaymentID
+        AND reservation.VIN = features.VIN
         AND reservation.C_UserID = payment.C_UserID
         AND (Branch_name LIKE CONCAT( '%',?,'%')
         OR Price LIKE CONCAT( '%',?,'%')
@@ -85,10 +90,11 @@ session_start();
             //} //else {
                 $stmt2->close();
                 $count = 0;
-                $stmt3 = $con->prepare("SELECT * FROM reservation, branch, payment
+                $stmt3 = $con->prepare("SELECT * FROM reservation, branch, payment, features
                 WHERE reservation.Dropoff_location = branch.Branch_no
                 AND reservation.PaymentID = payment.PaymentID
                 AND reservation.C_UserID = payment.C_UserID
+                AND reservation.VIN = features.VIN
                 AND (Branch_name LIKE CONCAT( '%',?,'%')
                 OR Price LIKE CONCAT( '%',?,'%')
                 OR Payment_method LIKE CONCAT( '%',?,'%'));");
@@ -121,7 +127,12 @@ session_start();
 
 
    for($i = 0; $i < count($_SESSION["SearchResult"]); $i++) {
-        echo $_SESSION["SearchResult"][$i]["ReservationID"] . "<br>";
+        echo $_SESSION["SearchResult"][$i]["ReservationID"] . ": Year: ".
+        $_SESSION["SearchResult"][$i]["Year"] . ": Make: ".
+        $_SESSION["SearchResult"][$i]["Make"] . ": Model: ".
+        $_SESSION["SearchResult"][$i]["Model"] . ": color: ".
+        $_SESSION["SearchResult"][$i]["Body_colour"] .
+        "<br>";
     }
 
     
@@ -131,7 +142,7 @@ session_start();
 
     
     $con->close();
-   header("Location: emp_res_search.php");
+   header("Location: cust_view_res.php");
 ?>
 
 

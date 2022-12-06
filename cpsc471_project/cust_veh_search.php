@@ -1,8 +1,8 @@
 
 <?php
 session_start();
-$_SESSION["SamePlate"] = false;
-$_SESSION["InvoiceExists"] = false;
+$_SESSION["Start_after_end"] = false;
+
 //$_SESSION["VIN"] = "1HGBH41JXMN109186";
 //$_SESSION["VIN"] ="3ABCD12EFGH345678";
 //$_SESSION["VIN"] = "1HGBH41JXMN109999"; //this is a VIN that does not exist in the database
@@ -36,25 +36,6 @@ $_SESSION["InvoiceExists"] = false;
          echo "Can't find employee";
       }*/
 
-
-
-
-    $sql = "SELECT * FROM Reservation";
-    $result = $con->query($sql);
-
-
-    /*if ($result->num_rows > 0) {
-        // output data of each row
-        
-    
-        
-        while($row = $result->fetch_assoc()) {
-                echo "ReservationID: " . $row["ReservationID"]. " Start" . $row["Start_date"]. "<br>";
-        
-        }
-      } else {
-        echo "0 results";
-      }*/
         $con->close();
 ?>
 
@@ -238,10 +219,15 @@ $_SESSION["InvoiceExists"] = false;
         bottom: -1vw;
         right:-40vw;
       }
+
+      .hasRes {
+        color: tomato;
+        text-align: center;
+      }
     
     
    </style>
-<title>Canada Wide Car Rental Service - Employee: Search Vehicles</title>
+<title>Canada Wide Car Rental Service - Customer: Search Vehicles</title>
 </head>
 
 <body>
@@ -259,44 +245,20 @@ Search Vehicles
 </br>
 
 <table class = "searched_car">
+<?php
+                //if customer has a pending reservation, display error message
+                if($_SESSION["HasRes"]){
+                    echo "</table><table><tr><td class = 'hasRes'>
+                    Oh No! You already have a pending reservation.<br>
+                    Please contact us to edit your current reservation!
+                    </td></tr></table><table class = 'searched_car'>";
+                    $_SESSION["HasRes"] = false;
+                }
+
+            ?>
 <tr>
     <th>
-<?php
-    $con = mysqli_connect("localhost","root","","cwcrs_db");
-    if(!$con) {
-        exit("An error connecting occurred." .mysqli_connect_errno());
-    } else { }
-
-    $sql = "SELECT * FROM Vehicle";
-    $result = $con->query($sql);
-    if ($result->num_rows > 0) {
-        // output data of each row
-        
-    $count = $result->num_rows;
-    //echo $count;
-    $check = 0;
-        
-        while($row = $result->fetch_assoc()) {
-
-            if(strcmp($row["VIN"],$_SESSION["VIN"]) == 0){
-
-                echo "Status: ". $row["Status"];
-                $_SESSION["Current_branch"] = $row["Branch_no"];
-            
-            }else {
-                $check++;
-              }
-        }
-        if($check == $count){
-          //  echo "No Vehicle Found";
-          echo "Status: N/A";
-        }
-      } else {
-        //echo "Status: N/A";
-      }
-    $con->close();
-
-?>  </th>
+ </th>
     <th>
             <?php 
                 if(strcmp($_SESSION["VIN"],"1HGBH41JXMN109186") == 0){
@@ -321,11 +283,14 @@ Search Vehicles
                 }
             ?>
     </th>
-    <th><!--<form action='emp_veh_search_post.php' method='post'>
-    <button class= "submitbutton" type="submit" name="submit" value="Submit">Edit</button>
-    </form>-->
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='edit_veh.php'"> Edit</button>  
+    <th><form action='cust_check_res_post.php' method='post'>
+    <button class= "submitbutton" type="submit" name="submit" value="Submit">Make Reservation</button>
+    </form>
 
+   
+    
+    <!--<button class= "backbutton" text-align=left type="button" onclick="window.location.href='cust_add_res.php'"> Make Reservation</button>  
+            -->
 
 </th>
     </tr>
@@ -358,11 +323,9 @@ Search Vehicles
             if(strcmp($row["VIN"],$_SESSION["VIN"]) == 0){
 
                 echo "<table class='search_table2'>
-                        <tr> <td> <b>VIN: </b> </td><td>" . $row["VIN"]. "</td> <td> <b> Year: </b></td><td>" . 
-                        $row["Year"] . "</td> </tr><tr> <td> <b> Make: </b></td><td>" . $row["Make"] . 
-                        "</td> <td> <b> Model: </b></td><td>" . $row["Model"] . "</td> </tr><tr> <td> <b> Branch Located: </b></td><td>"
-                        . $row["Branch_name"] . "</td> <td> <b> Mileage: </b></td><td>" . $row["Mileage"] . " km</td> </tr><tr> <td> <b> Licence Plate Number: </b></td><td>"
-                        . $row["Licence_plate_no"] . "</td> <td> <b> Registration Province: </b></td><td>" . $row["Registration_province"] . 
+                        <tr> <td> <b>Year: </b> </td><td>" . $row["Year"]. "</td> <td> <b> Make: </b></td><td>" . 
+                        $row["Make"] . "</td> </tr><tr> <td> <b> Model: </b></td><td>" . $row["Model"] . 
+                        "</td> <td> <b> Branch Located: </b></td><td>" . $row["Branch_name"] . 
                         "</td> </tr><tr> <td> <b> Category: </b></td><td>" 
                         . $row["Category"] . "</td> <td> <b> Trans / Driven Wheels: </b></td><td>" . $row["Trans_Driven_wheels"] . 
                         "</td> </tr><tr> <td> <b> Fuel / Air Conditioning: </b></td><td>" . $row["Fuel_Air_con"] . 
@@ -374,9 +337,7 @@ Search Vehicles
                         $row["Interior_colour"] . "</td> <td> <b> Fuel Economy: </b></td><td>" . $row["Fuel_economy"] . 
                         " L / 100 km</td> </tr><tr><td> <b> Child Seat Compatible: </b></td><td>" . $row["Childseat_compatibility"] . 
                         "</td> <td> <b> Number of Passengers: </b></td><td>".                        
-                        $row["Number_of_passengers"] . "</td> </tr><tr><td> <b> Insurance Type: </b></td><td>" . $row["Ins_Type"] . 
-                        "</td> <td> <b> Insurance Cost: </b></td><td>$".                        
-                        number_format($row["Cost"], 2) . "</td>  </tr> </table> <br> <br>";
+                        $row["Number_of_passengers"] .  "</td>  </tr> </table> <br> <br>";
             
             } else {
                 $check++;
@@ -429,19 +390,9 @@ Search Vehicles
     </table> -->
   <table class="bottom_table">
   <tr>
-        <td>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='transfer.php'"> Transfer</button>  
-        </td>
-        <td>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='edit_veh_ins.php'"> Update Insurance</button>  
-        </td>
-        <td>
-        <button class= "backbutton" text-align=left type="button" onclick="window.location.href='service_recs_veh.php'"> Service Records</button>  
-        </td>
-    </tr>
   <tr>
     <td>
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_veh.php'"> Back</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='cust.php'"> Back</button>  
 </td>
 <td>
 </td>

@@ -1,6 +1,7 @@
 
 <?php
 session_start();
+$_SESSION["NotLeased"] = false;
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -249,7 +250,7 @@ Vehicles
 </br>
 </br>
 
-    <form action="veh_search_emp_post.php" class = "searchbar" method="post">
+    <form action="veh_search_own_post.php" class = "searchbar" method="post">
       <input type="search" placeholder="Search.." name="search">
      <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
      <button class = "searchbutton" class= "submitbutton" type="submit" name="submit" value="Submit">
@@ -269,9 +270,9 @@ Vehicles
     </div>
   <div class="column">
   <table class='car_table'>
-  <!--<form action='emp_veh_post.php' method='post'>-->
+  <!--<form action='own_veh_post.php' method='post'>-->
 
-<?php
+  <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -286,7 +287,7 @@ Vehicles
     //echo "Number of rows: " . $result->num_rows;
         
         while($row = $result->fetch_assoc()) {
-         // echo "<form action='emp_veh_post.php' method='post'>";
+         // echo "<form action='own_veh_post.php' method='post'>";
 
             if($count % 3 == 0) {
                 echo "<tr>";
@@ -295,55 +296,55 @@ Vehicles
                 echo "<td >";
 
                 if(strcmp($row["VIN"],"1HGBH41JXMN109186") == 0){
-                  echo "<form action='emp_veh_post.php' method='post'>
+                  echo "<form action='own_veh_post.php' method='post'>
                         <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                         <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                         <div class = 'car'><img src='vw jetta.png' alt='vw jetta'/></div></button></form>";
                  // echo "<div class = 'car'><img src='vw jetta.png' alt='vw jetta'/></div>";
                } else if (strcmp($row["VIN"],"3ABCD12EFGH345678") == 0){
-                  echo "<form action='emp_veh_post.php' method='post'>
+                  echo "<form action='own_veh_post.php' method='post'>
                         <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                         <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                         <div class = 'car'><img src='chevy spark.png' alt='chevy spark'/></div></button></form>";
                   // echo "<div class = 'car'><img src='chevy spark.png' alt='chevy spark'/></div>";
                } else if (strcmp($row["VIN"],"2ZYXW98ZYXW987654") == 0){
-                echo "<form action='emp_veh_post.php' method='post'>
+                echo "<form action='own_veh_post.php' method='post'>
                       <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                         <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                         <div class = 'car'><img src='fiat 500.png' alt='fiat 500'/></div></button></form>";
                  //  echo "<div class = 'car'><img src='fiat 500.png' alt='fiat 500'/></div>";
                }else if (strcmp($row["VIN"],"4MNBV65LKJH765432") == 0){
-                echo "<form action='emp_veh_post.php' method='post'>
+                echo "<form action='own_veh_post.php' method='post'>
                       <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                       <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                       <div class = 'car'><img src='nissan versa.png' alt='nissan versa'/></div></button></form>";
                   // echo "<div class = 'car'><img src='nissan versa.png' alt='nissan versa'/></div>";
                }else if (strcmp($row["VIN"],"5POIU98MNBV987652") == 0){
-                echo "<form action='emp_veh_post.php' method='post'>
+                echo "<form action='own_veh_post.php' method='post'>
                       <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                       <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                       <div class = 'car'><img src='kia forte.png' alt='kia forte'/></div></button></form>";
                   // echo "<div class = 'car'><img src='kia forte.png' alt='kia forte'/></div>";
                }else if (strcmp($row["VIN"],"6ASDF56ASDF567890") == 0){
-                echo "<form action='emp_veh_post.php' method='post'>
+                echo "<form action='own_veh_post.php' method='post'>
                       <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                       <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                       <div class = 'car'><img src='toyota camry.png' alt='toyota camry'/></div></button></form>";
                   // echo "<div class = 'car'><img src='toyota camry.png' alt='toyota camry'/></div>";
                }else if (strcmp($row["VIN"],"7BVCX76NBVC876543") == 0){
-                echo "<form action='emp_veh_post.php' method='post'>
+                echo "<form action='own_veh_post.php' method='post'>
                       <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                       <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                       <div class = 'car'><img src='nissan maxima.png' alt='nissan maxima'/></div></button></form>";
                   // echo "<div class = 'car'><img src='nissan maxima.png' alt='nissan maxima'/></div>";
                }else if (strcmp($row["VIN"],"8NMGH78GHJK456789") == 0){
-                echo "<form action='emp_veh_post.php' method='post'>
+                echo "<form action='own_veh_post.php' method='post'>
                       <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                       <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                       <div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div></button></form>";
                   // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
                }else{
-                echo "<form action='emp_veh_post.php' method='post'>
+                echo "<form action='own_veh_post.php' method='post'>
                       <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                       <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                       <div class = 'no_pic'>IMAGE <br> COMING <br> SOON!</div></button></form>";
@@ -378,55 +379,55 @@ Vehicles
             echo "<td >";
 
             if(strcmp($_SESSION["SearchResult"][$i]["VIN"],"1HGBH41JXMN109186") == 0){
-              echo "<form action='emp_veh_post.php' method='post'>
+              echo "<form action='own_veh_post.php' method='post'>
                     <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                     <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                     <div class = 'car'><img src='vw jetta.png' alt='vw jetta'/></div></button></form>";
              // echo "<div class = 'car'><img src='vw jetta.png' alt='vw jetta'/></div>";
            } else if (strcmp($_SESSION["SearchResult"][$i]["VIN"],"3ABCD12EFGH345678") == 0){
-              echo "<form action='emp_veh_post.php' method='post'>
+              echo "<form action='own_veh_post.php' method='post'>
                     <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                     <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                     <div class = 'car'><img src='chevy spark.png' alt='chevy spark'/></div></button></form>";
               // echo "<div class = 'car'><img src='chevy spark.png' alt='chevy spark'/></div>";
            } else if (strcmp($_SESSION["SearchResult"][$i]["VIN"],"2ZYXW98ZYXW987654") == 0){
-            echo "<form action='emp_veh_post.php' method='post'>
+            echo "<form action='own_veh_post.php' method='post'>
                   <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                     <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                     <div class = 'car'><img src='fiat 500.png' alt='fiat 500'/></div></button></form>";
              //  echo "<div class = 'car'><img src='fiat 500.png' alt='fiat 500'/></div>";
            }else if (strcmp($_SESSION["SearchResult"][$i]["VIN"],"4MNBV65LKJH765432") == 0){
-            echo "<form action='emp_veh_post.php' method='post'>
+            echo "<form action='own_veh_post.php' method='post'>
                   <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                   <div class = 'car'><img src='nissan versa.png' alt='nissan versa'/></div></button></form>";
               // echo "<div class = 'car'><img src='nissan versa.png' alt='nissan versa'/></div>";
            }else if (strcmp($_SESSION["SearchResult"][$i]["VIN"],"5POIU98MNBV987652") == 0){
-            echo "<form action='emp_veh_post.php' method='post'>
+            echo "<form action='own_veh_post.php' method='post'>
                   <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                   <div class = 'car'><img src='kia forte.png' alt='kia forte'/></div></button></form>";
               // echo "<div class = 'car'><img src='kia forte.png' alt='kia forte'/></div>";
            }else if (strcmp($_SESSION["SearchResult"][$i]["VIN"],"6ASDF56ASDF567890") == 0){
-            echo "<form action='emp_veh_post.php' method='post'>
+            echo "<form action='own_veh_post.php' method='post'>
                   <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                   <div class = 'car'><img src='toyota camry.png' alt='toyota camry'/></div></button></form>";
               // echo "<div class = 'car'><img src='toyota camry.png' alt='toyota camry'/></div>";
            }else if (strcmp($_SESSION["SearchResult"][$i]["VIN"],"7BVCX76NBVC876543") == 0){
-            echo "<form action='emp_veh_post.php' method='post'>
+            echo "<form action='own_veh_post.php' method='post'>
                   <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                   <div class = 'car'><img src='nissan maxima.png' alt='nissan maxima'/></div></button></form>";
               // echo "<div class = 'car'><img src='nissan maxima.png' alt='nissan maxima'/></div>";
            }else if (strcmp($_SESSION["SearchResult"][$i]["VIN"],"8NMGH78GHJK456789") == 0){
-            echo "<form action='emp_veh_post.php' method='post'>
+            echo "<form action='own_veh_post.php' method='post'>
                   <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                   <div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div></button></form>";
               // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
            }else{
-            echo "<form action='emp_veh_post.php' method='post'>
+            echo "<form action='own_veh_post.php' method='post'>
                   <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                   <div class = 'no_pic'>IMAGE <br> COMING <br> SOON!</div></button></form>";
@@ -457,6 +458,7 @@ Vehicles
     $con->close();
 
 ?> 
+
 </form>
 </table>
 </div>
@@ -464,7 +466,7 @@ Vehicles
   <table class="bottom_table">
   <tr>
     <td>
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_start.php'"> Back</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='owner_start.php'"> Back</button>  
 </td>
 <td>
 </td>

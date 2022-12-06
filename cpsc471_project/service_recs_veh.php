@@ -2,7 +2,9 @@
 <?php
 session_start();
 
-$_SESSION["RemoveCust"] = false;
+    $_SESSION["EditRec"] = false;
+    $_SESSION["RemoveRec"] = false;
+    $_SESSION["InvoiceExists"] = false;
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -84,7 +86,7 @@ $_SESSION["RemoveCust"] = false;
     }
 
     input[type=search]{
-        width: 20%;
+        width: 40%;
         padding: 1.5vw 3vw;
         margin: 1vw 0;
         display: inline-block;
@@ -105,11 +107,11 @@ $_SESSION["RemoveCust"] = false;
         table-layout: fixed;
     }
 
-    .cust_table {
+    .rec_table {
         border: 1px solid rgba(139,216,189,1);
     }
 
-    .cust_table2 {
+    .rec_table2 {
         border: 1px solid rgba(139,216,189,1);
     }
     th {
@@ -118,14 +120,14 @@ $_SESSION["RemoveCust"] = false;
         padding: 1vw;
         border: 1px solid rgba(139,216,189,1);
     }
-    .cust_table2 td {
+    .rec_table td {
         font-size:1.5vw;
         text-align: left;
         padding: 1vw;
         border: 1px solid rgba(139,216,189,1);
     }
 
-    .no_cust {
+    .no_rec {
         text-align: center;
         font-size: 2vw;
         padding: 2vw;
@@ -182,10 +184,13 @@ $_SESSION["RemoveCust"] = false;
         flex-direction:row;
         align-items:center;
       }
+      .addbutton{
+        text-align: right;
+      }
     
     
    </style>
-<title>Canada Wide Car Rental Service - Employee: View Customers</title>
+<title>Canada Wide Car Rental Service - Employee: View Service Records</title>
 </head>
 
 <body>
@@ -194,83 +199,21 @@ $_SESSION["RemoveCust"] = false;
 
 <h1 style="font-size:3vw">
 
-Customers
+Service Records
 
-<!--
-<?php
-    $con = mysqli_connect("localhost","root","","cwcrs_db");
-    if(!$con) {
-        exit("An error connecting occurred." .mysqli_connect_errno());
-    } else { }
-
-    $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
-    $result = $con->query($sql);
-    while($row = $result->fetch_assoc()) {
-        if($row["UserID"] == $_SESSION["UserID"]) {
-            echo "Hello " . $row["First_name"]. " " . $row["Last_name"]. "!" ."<br>";
-        }
-    }
-    $con->close();
-
-?> -->
-<!--<var id="E_UserID" style="display:none">
-<?php
-    $con = mysqli_connect("localhost","root","","cwcrs_db");
-    if(!$con) {
-        exit("An error connecting occurred." .mysqli_connect_errno());
-    } else { }
-
-    $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
-    $result = $con->query($sql);
-    while($row = $result->fetch_assoc()) {
-        if($row["UserID"] == $_SESSION["UserID"]) {
-            echo "Hello " . $row["First_name"]. " " . $row["Last_name"]. "!" ."<br>";
-        }
-    }
-    $con->close();
-
-?> 
-</var>-->
 </h1>  
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
-</br>
-</br>
-</br>
-
-    <form action="emp_cust_post.php" class = "searchbar" method="post">
-      <input type="search" placeholder="Search.." name="search" required>
-     <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
-     <button class = "searchbutton" class= "submitbutton" type="submit" name="submit" value="Submit">
-        <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
-      </button>
-    </form>
-
-  <br>
-  <br>
-
-  <table class="cust_table">
-    <tr>
-        <th width = 11.35%>Customer ID</th>
-        <th width = 20%>Name</th>
-        <th width = 18%>Email</th>
-        <th width = 12%>Phone Number</th>
-        <th width = 7%>D.O.B</th>
-        <th width = 4%>Sex</th>
-        <th width = 35%>Address</th>
-
-</tr>
-
-        </table>
-        <table>
-
+<br>
+<br>
 <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    $sql = "SELECT * FROM Customer, Users WHERE Customer.C_UserID = Users.UserID";
+    $sql = "SELECT * FROM Vehicle, Features
+            WHERE  Vehicle.VIN = Features.VIN";
     $result = $con->query($sql);
     if ($result->num_rows > 0) {
         // output data of each row
@@ -279,28 +222,117 @@ Customers
         
         while($row = $result->fetch_assoc()) {
 
-                echo "<table class='cust_table2'>
-                        <tr> 
-                        <td width = 11.35%>" . $row["C_UserID"] . "</td> <td width = 20%>" . $row["First_name"] . 
-                        " " . $row["Middle_name"] . " " . $row["Last_name"] . "</td> <td width = 18%>" . 
-                        $row["Email"] . "</td> <td width = 12%>" . $row["Phone_number"] . "</td> <td width = 7%>" . 
-                        $row["DOB"] . "</td> <td width = 4%>" . $row["Sex"] . "</td> <td width = 35%>" . 
-                        $row["Street_no"] . " " . $row["Street_name"] . " " . $row["City"] . "," . $row["Province"] . " " .
-                        $row["Postal_code"] . "</td> </tr> </table>";
+            if(strcmp($row["VIN"],$_SESSION["VIN"]) == 0){
+
+                echo "<table class='search_table2'>
+                        <tr> <td> <b>VIN: </b> </td><td width = 30%>" . $row["VIN"]. "</td> <td> <b> Year: </b></td><td>" . 
+                        $row["Year"] . "</td> <td> <b> Make: </b></td><td>" . $row["Make"] . 
+                        "</td> <td> <b> Model: </b></td><td>" . $row["Model"] . "</td>  </tr> </table> <br> <br>";
             
-               /* echo "Customer ID: " . $row["C_UserID"]. " Name: " . $row["First_name"] . " " . $row["Middle_name"] . 
-                " " . $row["Last_name"] . " Email: " . $row["Email"] . " Phone Number :" . $row["Phone_number"] . 
-                " DOB: " . $row["DOB"] . " Sex: " . $row["Sex"] . " Address: " . $row["Street_no"] . " " .
-                $row["Street_name"] . " " . $row["City"] . "," . $row["Province"] . " " .$row["Postal_code"] ."<br>";*/
-            
+            }
         }
       } else {
         echo "<br>";
         echo "<br>";
-        echo "<table class='no_cust'>";
+        echo "<table class='no_veh'>";
         echo "<tr>";
         echo "<td>";
-        echo "No Customers to Display";
+        echo "No Records Found for VIN: " . $_SESSION["VIN"];
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
+      }
+    $con->close();
+
+?> 
+
+    <table class = "toptable">
+    <form action="service_recs_veh_post.php"  method="post">
+      <tr>
+        <td>
+          <div class = "searchbar">
+      <input type="search" placeholder="Search.." name="search" required>
+     <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
+     <button class = "searchbutton" class= "submitbutton" type="submit" name="submit" value="Submit">
+        <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
+      </button>
+      </form>
+          </div>
+    </td>
+    <td class = "addbutton">
+    <button class= "backbutton" text-align=right type="button" onclick="window.location.href='add_serv_rec_veh.php'"> Add Service Record</button> 
+    </td>
+      </tr>
+</table>
+
+  <br>
+  <br>
+
+  <table class="rec_table">
+    <tr>
+        <th width = 15%>Invoice No.</th>
+        <th width = 12%>Cost</th>
+        <th width = 25%>VIN</th>
+        <th width = 12%>Start Date</th>
+        <th width = 12%>End Date</th>
+        <th width = 20%>Type of Service</th>
+        <th width = 15%>Scheduled Maintenance</th>
+
+</tr>
+
+        
+
+<?php
+    $con = mysqli_connect("localhost","root","","cwcrs_db");
+    if(!$con) {
+        exit("An error connecting occurred." .mysqli_connect_errno());
+    } else { }
+
+    $sql = "SELECT * FROM Service_record, Vehicle WHERE Service_record.VIN = Vehicle.VIN";
+    $result = $con->query($sql);
+    $count = mysqli_num_rows($result);
+    $check = 0;
+    if ($result->num_rows > 0) {
+        // output data of each row
+        
+    
+        
+        while($row = $result->fetch_assoc()) {
+
+          if(strcasecmp($row["VIN"], $_SESSION["VIN"]) == 0) {
+
+                echo "
+                        <tr> 
+                        <td>" . $row["Invoice_no"] . "</td> <td>$" . number_format($row["Cost"], 2) . "</td> <td>" . 
+                        $row["VIN"] . "</td> <td>" . $row["Start_date"]. "</td> <td>" . $row["End_date"] . 
+                        "</td> <td>" . $row["Type_of_service"] . "</td> <td>" . $row["Scheduled_maintenance"] . 
+                        "</td> </tr>";
+            
+        } else {
+          $check++;
+        }
+      } if ($count == $check){
+        echo "</table>";
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        echo "<table class='no_rec'>";
+        echo "<tr>";
+        echo "<td>";
+        echo "No Service Records to Display for VIN: " . $_SESSION["VIN"];
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
+      }
+      } else {
+        echo "</table>";
+        echo "<br>";
+        echo "<br>";
+        echo "<table class='no_rec'>";
+        echo "<tr>";
+        echo "<td>";
+        echo "No Service Records to Display";
         echo "</td>";
         echo "</tr>";
         echo "</table>";
@@ -312,7 +344,7 @@ Customers
   <table class="bottom_table">
   <tr>
     <td>
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_start.php'"> Back</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_veh_search.php'"> Back</button>  
 </td>
 <td>
 </td>

@@ -139,7 +139,7 @@
     
     
    </style>
-<title>Canada Wide Car Rental Service - Employee: Edit Vehicle</title>
+<title>Canada Wide Car Rental Service - Owner: Edit Vehicle</title>
 </head>
 
 <body>
@@ -193,7 +193,7 @@ Edit Vehicle
 
 ?>  
         <table> 
-    <form action='edit_veh_post.php' method='post'>
+    <form action='own_edit_veh_post.php' method='post'>
         <table>
         <?php
 
@@ -397,7 +397,7 @@ Edit Vehicle
             </tr>
            
             <tr>
-                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_veh_search.php'"> Back</button>  
+                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='own_veh_search.php'"> Back</button>  
                 <td></td>
                 <td></td>
                 <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Update</button></td>

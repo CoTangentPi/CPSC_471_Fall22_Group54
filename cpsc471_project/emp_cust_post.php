@@ -11,7 +11,7 @@ session_start();
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
         echo "Connection successful\n";
-    } 
+    }
     
     $search = $_REQUEST["search"];
     echo "search: " . $search . "<br>";

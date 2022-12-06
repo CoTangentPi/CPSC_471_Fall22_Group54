@@ -9,17 +9,7 @@
        // echo "Connection successful\n";
     }
 
-    //if($_SESSION["Taken"] != NULL){
-
-    //echo "Taken: " . $_SESSION["Taken"] . "<br>";
-    //}
-    if($_SESSION["Same_Username"] != NULL){
-    echo "Same Username: " . $_SESSION["Same_Username"] . "<br>";
-    }
-
         $con->close();
-
-  //  $_SESSION["C_UserID"] = 8;
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +38,7 @@
         top: 50%;
         transform: translateY(50%);
     }
-    #Province, #Status, #Branch_no, #InsuranceID{
+     #SchMain, #Type{
         width: 80%;
         background-color: rgba(35,70,101,1);
         color: rgba(139,216,189,1);
@@ -58,14 +48,7 @@
         border: 1px solid rgba(139,216,189,1);
     }
 
-    input[type=radio]{
-        width: 20%;
-    }
-
-
-
-    input[type=text], input[type=password], 
-    input[type=email], input[type=date]{
+    input[type=text], input[type=date]{
         width: 80%;
         padding: 1vw 4vw;
         margin: 1vw 0;
@@ -76,15 +59,15 @@
         color: rgba(139,216,189,1);
         font-size:1.5vw;
     }
-
-    input[type=date]{
-        padding: 1vw 3vw;
-    }
     table {
         border-collapse: collapse;
         width: 100%;
         font-size:1.5vw;
         
+    }
+
+    input[type=date]{
+        padding: 1vw 2vw;
     }
     th {
         font-size:1.5vw;
@@ -122,7 +105,7 @@
     }
   
     .bottom_table{
-        position: relative;
+        position: absolute;
         bottom:1vw;
         width: 98.5%;
         overflow: hidden;
@@ -133,13 +116,12 @@
         padding 1.5vw;
     }
 
-    .same_plate{
+    .start_after_end{
         color: tomato;
     }
     
-    
    </style>
-<title>Canada Wide Car Rental Service - Employee: Edit Vehicle</title>
+<title>Canada Wide Car Rental Service - Employee: Edit Service Record</title>
 </head>
 
 <body>
@@ -147,12 +129,11 @@
 <div class="header">
 
 <h1 style="font-size:3vw">
-Edit Vehicle
+Edit Service Record
 </h1>  
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
 </br>
-
 <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
@@ -191,221 +172,167 @@ Edit Vehicle
       }
     $con->close();
 
-?>  
-        <table> 
-    <form action='edit_veh_post.php' method='post'>
-        <table>
+?> 
+<div>
+
+    
+  <table class="edit_table">
+    <tr>
+        <th>Invoice Number: <span> 
         <?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
 
-            ?>
-            <tr>
-                
-                <td><b>Mileage:</b></td>
+            $sql = "SELECT * FROM service_record;";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+               if($row["Invoice_no"] === $_SESSION["InvoiceNum"]) {
+                    echo $row["Invoice_no"];
+                }
+            }
+            $con->close();
+
+        ?>
+        </span></th>
+        <th></th>
+        </tr>
+
+        </table>
+        <table> 
+    <form action='edit_veh_serv_rec_post.php' method='post'>
+        <table>
+        <tr><td><b>Cost:</b></td>
                 <td><?php
             $con = mysqli_connect("localhost","root","","cwcrs_db");
             if(!$con) {
                 exit("An error connecting occurred." .mysqli_connect_errno());
             } else { }
 
-            $sql = "SELECT * FROM Vehicle WHERE VIN = '" . $_SESSION["VIN"] . "'";
+            $sql = "SELECT * FROM Service_record";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
-                    echo $row["Mileage"];
+                if($row["Invoice_no"] === $_SESSION["InvoiceNum"] && $row["VIN"] === $_SESSION["VIN"]) {
+                    echo "$" . number_format($row["Cost"], 2);
+                }
             }
             $con->close();
 
         ?></td>
-                <td><b>New Mileage:</b></td>
-                <td><input type = "text" name = "Mileage" required></td>
-            </tr>
-            <tr>
-                <td><b>Status:</b></td>
-                <td><?php
-            $con = mysqli_connect("localhost","root","","cwcrs_db");
-            if(!$con) {
-                exit("An error connecting occurred." .mysqli_connect_errno());
-            } else { }
-
-            $sql = "SELECT * FROM Vehicle WHERE VIN = '" . $_SESSION["VIN"] . "'";
-            $result = $con->query($sql);
-            while($row = $result->fetch_assoc()) {
-                
-                    echo $row["Status"];
-                
-            }
-            $con->close();
-
-        ?></td>
-                <td><b>New Status:</b></td>
-                <td><select name = "Status" id = "Status" required>
-                <option value = "Ready">Ready</option>
-                <option value = "Not Ready">Not Ready</option>
-    </select></td>
-            </tr>
-            <?php
+            <td><b>New Cost:</b> </td>
+         <!--https://stackoverflow.com/questions/20050245/regular-expression-for-numbers-and-one-decimal -->
+         <td><input type = "text" name = "Cost"  id = "Cost" required pattern = "(?:0|[1-9]\d+|)?(?:.?\d{0,2})?$"></td></tr>
+            
+        <?php
                 //if start date is after end date, display error message
-                if($_SESSION["SamePlate"]){
-                    echo "<tr> <td> </td> <td></td><td></td><td class = 'same_plate'> 
-                    Oops! Cannot have the same licence plate for two vehicles.
+                if($_SESSION["Start_after_end"]){
+                    echo "<tr> <td> </td> <td></td><td></td><td class = 'start_after_end'> 
+                    Oops! Start date cannot be after end date.
                     </td></tr>";
-                    $_SESSION["SamePlate"] = false;
+                    $_SESSION["Start_after_end"] = false;
                 }
 
             ?>
-            <tr>
-                <td><b>Licence Plate Number:</b></td>
+            <tr><td><b>Start Date:</b></td>
                 <td><?php
             $con = mysqli_connect("localhost","root","","cwcrs_db");
             if(!$con) {
                 exit("An error connecting occurred." .mysqli_connect_errno());
             } else { }
 
-            $sql = "SELECT * FROM Vehicle WHERE VIN = '" . $_SESSION["VIN"] . "'";
+            $sql = "SELECT * FROM Service_record";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
-                    echo $row["Licence_plate_no"];
+                if($row["Invoice_no"] === $_SESSION["InvoiceNum"] && $row["VIN"] === $_SESSION["VIN"]) {
+                    echo $row["Start_date"];
                 }
-            $con->close();
-
-        ?></td>
-                <td><b>New Licence Plate Number:</b></td>
-                <td><input type = "text" name = "Licence_plate" required></td>
-            </tr>
-            <tr>
-                <td><b>Registration Province:</b></td>
-                <td><?php
-            $con = mysqli_connect("localhost","root","","cwcrs_db");
-            if(!$con) {
-                exit("An error connecting occurred." .mysqli_connect_errno());
-            } else { }
-
-            $sql = "SELECT * FROM Vehicle WHERE VIN = '" . $_SESSION["VIN"] . "'";
-            $result = $con->query($sql);
-            while($row = $result->fetch_assoc()) {
-                    echo $row["Registration_province"];
-                }
-            $con->close();
-
-        ?></td>
-                <td><b>New Registration Province:</b></td>
-                <td> <select name = "Province" id = "Province" required>
-        <option value = "AB" > Alberta </option>
-        <option value = "BC" > British Columbia </option>
-        <option value = "MB" > Manitoba </option>
-        <option value = "NB" > New Brunswick </option>
-        <option value = "NL" > Newfoundland and Labrador </option>
-        <option value = "NT" > Northwest Territories </option>
-        <option value = "NS" > Nova Scotia </option>
-        <option value = "NU" > Nunavut </option>
-        <option value = "ON" > Ontario </option>
-        <option value = "PE" > Prince Edward Island </option>
-        <option value = "QC" > Quebec </option>
-        <option value = "SK" > Saskatchewan </option>
-        <option value = "YT" > Yukon </option>
-    </select>
-</td>
-            </tr>
-            <tr>
-                <td><b>Insurance ID:</b></td>
-                <td><?php
-            $con = mysqli_connect("localhost","root","","cwcrs_db");
-            if(!$con) {
-                exit("An error connecting occurred." .mysqli_connect_errno());
-            } else { }
-
-            $sql = "SELECT * FROM Vehicle WHERE VIN = '" . $_SESSION["VIN"] . "'";
-            $result = $con->query($sql);
-            while($row = $result->fetch_assoc()) {
-                    echo $row["InsuranceID"];
-                
             }
             $con->close();
 
         ?></td>
-                <td><b>New Insurance ID:</b></td>
-                <td><select name = "InsuranceID" id = "InsuranceID" required>
-                    <?php
-                      $con = mysqli_connect("localhost","root","","cwcrs_db");
-                      if(!$con) {
-                          exit("An error connecting occurred." .mysqli_connect_errno());
-                      } else { }
-                  
-                      $sql = "SELECT * FROM Insurance";
-                      $result = $con->query($sql);
-                      if ($result->num_rows > 0) {
-                          // output data of each row        
-                          while($row = $result->fetch_assoc()) {
-
-                              
-                                  echo "<option value = '" . $row["InsuranceID"] . "' >" .$row["InsuranceID"].
-                                  " </option>";
-                              }
-                          }
-
-                      $con->close();
-
-                    ?>
-    </select></td>
+                <!-- https://stackoverflow.com/questions/32378590/set-date-input-fields-max-date-to-today -->
+            <td><b>New Start Date:</b></td>
+                <td><input type = "date" name = "Start_date" min="3000-01-01" onfocus="this.min=new Date().toISOString().split('T')[0]" required></td>
             </tr>
-            <tr>
-                <td><b>Branch Number:</b></td>
+            <tr><td><b>End Date:</b></td>
                 <td><?php
             $con = mysqli_connect("localhost","root","","cwcrs_db");
             if(!$con) {
                 exit("An error connecting occurred." .mysqli_connect_errno());
             } else { }
 
-            $sql = "SELECT * FROM Vehicle, Branch WHERE VIN = '" . $_SESSION["VIN"] . "'
-            AND Vehicle.Branch_no = Branch.Branch_no";
+            $sql = "SELECT * FROM Service_record";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
-                    echo $row["Branch_name"];
+                if($row["Invoice_no"] === $_SESSION["InvoiceNum"] && $row["VIN"] === $_SESSION["VIN"]) {
+                    echo $row["End_date"];
+                }
             }
             $con->close();
 
         ?></td>
-                <td><b>New Branch Number:<b></td>
-                <td> <select name = "Branch_no" id = "Branch_no" required>
-                    <?php
-                      $con = mysqli_connect("localhost","root","","cwcrs_db");
-                      if(!$con) {
-                          exit("An error connecting occurred." .mysqli_connect_errno());
-                      } else { }
-                  
-                      $sql = "SELECT * FROM Branch";
-                      $result = $con->query($sql);
-                      if ($result->num_rows > 0) {
-                          // output data of each row
-                          
-                      
-                          
-                          while($row = $result->fetch_assoc()) {
+            <td><b>New End Date:</b></td>
+                <td><input type = "date" name = "End_date" min="3000-01-01" onfocus="this.min=new Date().toISOString().split('T')[0]" required></td>
+            </tr>
+            <tr><td><b>Type of Service:</b></td>
+                <td><?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
 
-                                    if($row["Branch_no"] != 0){
-                              
-                                  echo "<option value = '" . $row["Branch_no"] . "' >" .$row["Branch_name"].
-                                  " </option>";
-                                    }
-                              }
-                          }
+            $sql = "SELECT * FROM Service_record";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+                if($row["Invoice_no"] === $_SESSION["InvoiceNum"] && $row["VIN"] === $_SESSION["VIN"]) {
+                    echo $row["Type_of_service"];
+                }
+            }
+            $con->close();
 
-                      $con->close();
-
-                    ?>
+        ?></td>
+                <td><b>New Type of Service:</b></td>
+                <td> <select name = "Type" id = "Type" required>
+                <option value = "Oil Change" > Oil Change </option>
+                <option value = "Repair" > Repair </option>
+                <option value = "Tune-Up" > Tune-Up </option>
+                    
     </select>
 </td>
             </tr>
-           
+            <tr><td><b>Scheduled Maintenance:</b></td>
+                <td><?php
+            $con = mysqli_connect("localhost","root","","cwcrs_db");
+            if(!$con) {
+                exit("An error connecting occurred." .mysqli_connect_errno());
+            } else { }
+
+            $sql = "SELECT * FROM Service_record";
+            $result = $con->query($sql);
+            while($row = $result->fetch_assoc()) {
+                if($row["Invoice_no"] === $_SESSION["InvoiceNum"] && $row["VIN"] === $_SESSION["VIN"]) {
+                    echo $row["Scheduled_maintenance"];
+                }
+            }
+            $con->close();
+
+        ?></td>
+                <td><b>New Scheduled Maintenance:</b></td>
+                <td> <select name = "SchMain" id = "SchMain" required>
+                <option value = "Yes" > Yes </option>
+                <option value = "No" > No </option>
+                    
+    </select>
+</td>
+            </tr>
             <tr>
-                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_veh_search.php'"> Back</button>  
+                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='veh_serv_recs_search.php'"> Back</button>  
                 <td></td>
                 <td></td>
                 <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Update</button></td>
             </tr>
             </table>
     </form>
-<!-- Name: <input type="text" name="name" value="<?php echo $name;?>"> </br>-->
-
-
     </body>
     </html>

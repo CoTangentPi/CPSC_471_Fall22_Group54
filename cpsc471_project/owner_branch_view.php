@@ -195,7 +195,7 @@ View Branch
 
     $sql = "SELECT b.*, bp.Phone_Number FROM Branch AS b, branch_phone_number AS bp WHERE b.branch_no = bp.branch_no";
     $result = $con->query($sql);
-
+//echo "num rows: " . $result->num_rows;
     if ($result->num_rows > 0) {
         // output data of each row
         

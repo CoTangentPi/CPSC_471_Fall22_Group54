@@ -1,7 +1,6 @@
 
 <?php
 session_start();
-$_SESSION["Start_after_end"] = false;    
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -118,9 +117,6 @@ $_SESSION["Start_after_end"] = false;
         table-layout: fixed;
     }
 
-    .search_table {
-        border: 1px solid rgba(139,216,189,1);
-    }
 
     .search_table2 {
         border: 1px solid rgba(139,216,189,1);
@@ -138,7 +134,7 @@ $_SESSION["Start_after_end"] = false;
         padding: 1vw;
     }
 
-    .no_res {
+    .no_rec {
         text-align: center;
         font-size: 2vw;
         padding: 2vw;
@@ -205,41 +201,65 @@ $_SESSION["Start_after_end"] = false;
       .removebutton{
         position: absolute;
         bottom: -1vw;
-        right:-47vw;
-      }
-      .cashbutton{
-        position: absolute;
-        bottom: 30vw;
-        right:-35vw;
-      }
-      .creditbutton{
-        position: absolute;
-        bottom: 20vw;
-        right:-35vw;
-      }
-      .debitbutton{
-        position: absolute;
-        bottom: 10vw;
-        right:-35vw;
+        right:-40vw;
       }
     
     
    </style>
-<title>Canada Wide Car Rental Service - Employee: Search Reservations</title>
+<title>Canada Wide Car Rental Service - Employee: Search Vehicle Service Records</title>
 </head>
 
 <body>
 
 <div class="header">
 
-<h1 style="font-size:3vw">
-Search Reservations
+<h1 style="font-size:2.7vw"> <!--3-->
+Search Service Records
 </h1>  
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
 
 </br>
 </br>
+<?php
+    $con = mysqli_connect("localhost","root","","cwcrs_db");
+    if(!$con) {
+        exit("An error connecting occurred." .mysqli_connect_errno());
+    } else { }
+
+    $sql = "SELECT * FROM Vehicle, Features
+            WHERE  Vehicle.VIN = Features.VIN";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+        // output data of each row
+        
+    
+        
+        while($row = $result->fetch_assoc()) {
+
+            if(strcmp($row["VIN"],$_SESSION["VIN"]) == 0){
+
+                echo "<table class='search_table'>
+                        <tr> <td> <b>VIN: </b> </td><td width = 30%>" . $row["VIN"]. "</td> <td> <b> Year: </b></td><td>" . 
+                        $row["Year"] . "</td> <td> <b> Make: </b></td><td>" . $row["Make"] . 
+                        "</td> <td> <b> Model: </b></td><td>" . $row["Model"] . "</td>  </tr> </table> <br> <br>";
+            
+            }
+        }
+      } else {
+        echo "<br>";
+        echo "<br>";
+        echo "<table class='no_veh'>";
+        echo "<tr>";
+        echo "<td>";
+        echo "No Records Found for VIN: " . $_SESSION["VIN"];
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
+      }
+    $con->close();
+
+?> 
 </br>
 <article>
 <?php
@@ -248,71 +268,49 @@ Search Reservations
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-    //$sql = "SELECT * FROM Reservation, Branch
-    //WHERE Reservation.Branch_no = Branch.Branch_no";
-    //$result = $con->query($sql);
+   // $sql = "SELECT * FROM Service_record";
+   // $result = $con->query($sql);
     //if ($result->num_rows > 0) {
         // output data of each row
         
     
         
-        //while($row = $result->fetch_assoc()) {
-
-          if(count($_SESSION["SearchResult"]) > 0){
+      //  while($row = $result->fetch_assoc()) {
+        if(count($_SESSION["SearchResult"]) > 0){
         
             for($i = 0; $i < count($_SESSION["SearchResult"]); $i++) {
-      
 
-                echo "<table class='search_table2'><form action='emp_res_search_post.php' method='post'>
-                        <tr> <th> Reservation ID: " . $_SESSION["SearchResult"][$i]["ReservationID"]. 
-                        "</th> </tr> <tr> <td> <b> Start Date: </b>" . 
-                        $_SESSION["SearchResult"][$i]["Start_date"] . "</td> </tr> <tr> <td> <b> End Date: </b>" . 
-                        $_SESSION["SearchResult"][$i]["End_date"] . 
-                        "</td> </tr> <tr> <td> <b> Pick-Up Location: </b>";
-                        foreach($_SESSION["Branches"] as $num => $name) {
-                          if($_SESSION["SearchResult"][$i]["Pickup_location"] == $num) {
-                              echo $name;
-                          } 
-                        }
-                        echo "</td> </tr> <tr> <td> <b> Drop-Off Location: </b>";
-                        foreach($_SESSION["Branches"] as $num => $name) {
-                          if($_SESSION["SearchResult"][$i]["Dropoff_location"] == $num) {
-                              echo $name;
-                          }
-                        }
-                        echo "</td> </tr> <tr> <td> <b> Payment ID: </b>" . $_SESSION["SearchResult"][$i]['PaymentID'] .
-                        "</td> </tr> <tr> <td> <b> Customer ID: </b>" . $_SESSION["SearchResult"][$i]['C_UserID'] .
-                        "</td> </tr> <tr> <td> <b> VIN: </b>" . $_SESSION["SearchResult"][$i]['VIN'] . 
-                        "</td> </tr> <tr> <td> <b> Price: $ </b>" . number_format($_SESSION["SearchResult"][$i]['Price'], 2) . 
-                        "</td> </tr> <tr> <td> <b> Payment Method: </b>" . $_SESSION["SearchResult"][$i]['Payment_method'] . 
-                        "</td> </tr> <tr> <td> <div class = 'edit'> <b> Branch Created: </b>";
-                        foreach($_SESSION["Branches"] as $num => $name) {
-                          if($_SESSION["SearchResult"][$i]["Branch_no"] == $num) {
-                              echo $name;
-                          }
-                        }
-                        echo "<input type = 'hidden' name = 'PaymentID'  id = 'PaymentID' value = " . $_SESSION["SearchResult"][$i]["PaymentID"] .">
-                        <input type = 'hidden' name = 'CustID'  id = 'CustID' value = " . $_SESSION["SearchResult"][$i]["C_UserID"] .">
-                        <input type = 'hidden' name = 'ResID'  id = 'ResID' value = " . $_SESSION["SearchResult"][$i]["ReservationID"] .">
-                        <input type = 'hidden' name = 'Price'  id = 'Price' value = " . $_SESSION["SearchResult"][$i]["Price"] .">";
-                        if(strcasecmp($_SESSION["SearchResult"][$i]['Payment_method'], "Not Paid") == 0){
-                        
-                        echo "<button class= 'cashbutton' name='submitbutton' text-align=left type='submit' value='Cash'>Paid Cash</button>
-                        <button class= 'creditbutton' name='submitbutton' text-align=left type='submit' value='Credit'>Paid Credit</button>
-                        <button class= 'debitbutton' name='submitbutton' text-align=left type='submit' value='Debit'>Paid Debit</button>";
-                        }
-                        echo "<button class= 'editbutton' name='submitbutton' text-align=left type='submit' value='Edit'>Edit</button>
+                echo "<table class='search_table2'><form action='veh_serv_recs_search_post.php' method='post'>
+                        <tr> <th> Invoice No: " . $_SESSION["SearchResult"][$i]["Invoice_no"]. "</th> </tr> <tr> <td> <b> Cost: </b> $" . 
+                        number_format($_SESSION["SearchResult"][$i]["Cost"], 2) . "</th> </tr> <tr> <td> <b> VIN: </b>" . 
+                        $_SESSION["SearchResult"][$i]["VIN"] . "</th> </tr> <tr> <td> <b> Start Date: </b>" . 
+                        $_SESSION["SearchResult"][$i]["Start_date"] . "</td> </tr> <tr> <td> <b> End Date: </b>" . $_SESSION["SearchResult"][$i]["End_date"] . 
+                        "</td> </tr> <tr> <td> <b> Type of Service: </b>" . $_SESSION["SearchResult"][$i]["Type_of_service"] . 
+                        "</td> </tr> <tr> <td> <div class = 'edit'> <b> Scheduled Maintenance: </b>" . 
+                        $_SESSION["SearchResult"][$i]["Scheduled_maintenance"] . 
+                        "<input type = 'hidden' name = 'Invoice_no'  id = 'Invoice_no' value = " . $_SESSION["SearchResult"][$i]["Invoice_no"] .">
+                        <button class= 'editbutton' name='submitbutton' text-align=left type='submit' value='Edit'>Edit</button>
                         <button class= 'removebutton' name='submitbutton'text-align=left type='submit' value='Remove'> Remove </button>
                         </div></form></td> </tr> </table> <br> <br>";
+
+                       /* "<div class = 'edit'>
+                        <input type = 'hidden' name = 'InsuranceID'  id = 'InsuranceID' value = " . $_SESSION["SearchResult"][$i]["InsuranceID"] .">
+                        <input type = 'hidden' name = 'Ins_type'  id = 'Ins_type' value = " . $_SESSION["SearchResult"][$i]["Ins_Type"] .">
+                        <input type = 'hidden' name = 'Cost'  id = 'Cost' value = " . $_SESSION["SearchResult"][$i]["Cost"] .">
+                        <button class= 'editbutton' name='submitbutton' text-align=left type='submit' value='Edit'>Edit</button>
+                        <button class= 'removebutton' name='submitbutton'text-align=left type='submit' value='Remove'> Remove </button>
+                        </div></form>"*/
+            
                
         }
+    
       } else {
         echo "<br>";
         echo "<br>";
-        echo "<table class='no_res'>";
+        echo "<table class='no_rec'>";
         echo "<tr>";
         echo "<td>";
-        echo "No Reservations to Display";
+        echo "No Service Records to Display";
         echo "</td>";
         echo "</tr>";
         echo "</table>";
@@ -321,15 +319,13 @@ Search Reservations
 
 ?> 
 
-
-
 </article>
 <footer>
 </table>
   <table class="bottom_table">
   <tr>
     <td>
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_res.php'"> Back</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='service_recs_veh.php'"> Back</button>  
 </td>
 <td>
 </td>

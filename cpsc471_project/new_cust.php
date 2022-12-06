@@ -175,7 +175,7 @@ Create New Customer
             </tr>
             <tr>
                 <td>Phone Number:</td>
-                <td><input type = "text" name = "Phone_number" required></td>
+                <td><input type = "text" name = "Phone_number" required pattern = "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]"></td>
             </tr>
             <?php
                 //if user is not over 25, display error message

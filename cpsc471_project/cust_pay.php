@@ -1,6 +1,7 @@
 
 <?php
     session_start();
+  //  $_SESSION["VehIns"] = 0;
     
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
@@ -38,7 +39,7 @@
         top: 50%;
         transform: translateY(50%);
     }
-    #Ins_type{
+    #InsuranceID{
         width: 80%;
         background-color: rgba(35,70,101,1);
         color: rgba(139,216,189,1);
@@ -66,26 +67,57 @@
         font-size:1.5vw;
     }
 
+    input[type=text], input[type=date]{
+        width: 80%;
+        padding: 1vw 2vw;
+        margin: 1vw 0;
+        display: inline-block;
+        border: 1px solid rgba(139,216,189,1);
+        box-sizing: border-box;
+        background-color: rgba(35,70,101,1);
+        color: rgba(139,216,189,1);
+        font-size:1.5vw;
+    }
+
     input[type=date]{
         padding: 1vw 3vw;
     }
-    table {
+
+    #PayMethod{
+        width: 80%;
+        background-color: rgba(35,70,101,1);
+        color: rgba(139,216,189,1);
+        font-family: verdana;
+        font-size: 1.5vw;
+        padding: 1vw;
+        border: 1px solid rgba(139,216,189,1);
+    }
+
+   table {
         border-collapse: collapse;
         width: 100%;
         font-size:1.5vw;
         
     }
+
     th {
         font-size:1.5vw;
         text-align: left;
         padding: 2vw;
-        width: 25%;
     }
     td {
         text-align: center;
         padding: 1.5vw;
+    }
+    
+    .edit_table th {
         width: 25%;
     }
+    .edit_table td {
+        width: 25%;
+    }
+
+
 
     .logout_table td {
         text-align: right;
@@ -127,7 +159,7 @@
     }
     
    </style>
-<title>Canada Wide Car Rental Service - Employee: Edit Insurance</title>
+<title>Canada Wide Car Rental Service - Customer: Make Payment</title>
 </head>
 
 <body>
@@ -135,29 +167,26 @@
 <div class="header">
 
 <h1 style="font-size:3vw">
-Edit Insurance
+Make Payment
 </h1>  
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
 </br>
 
-<div>
-
-    
-  <table class="edit_table">
+<table class="edit_table">
     <tr>
-        <th>Insurance ID: <span> 
+        <th>Reservation ID: <span> 
         <?php
             $con = mysqli_connect("localhost","root","","cwcrs_db");
             if(!$con) {
                 exit("An error connecting occurred." .mysqli_connect_errno());
             } else { }
 
-            $sql = "SELECT * FROM insurance";
+            $sql = "SELECT * FROM Reservation";
             $result = $con->query($sql);
             while($row = $result->fetch_assoc()) {
-               if($row["InsuranceID"] == $_SESSION["InsuranceID"]) {
-                    echo $row["InsuranceID"];
+               if($row["ReservationID"] == $_SESSION["ReservationID"]) {
+                    echo $row["ReservationID"];
                 }
             }
             $con->close();
@@ -169,60 +198,61 @@ Edit Insurance
 
         </table>
         <table> 
-    <form action='edit_ins_post.php' method='post'>
-        <table>
+
+<div>
+
+        <table> 
+    <form action='cust_pay_post.php' method='post'>
+        <table class="edit_table">
             <tr>
                 
-                <td><b>Type:</b></td>
+                <td><b>Price:</b></td>
                 <td><?php
             $con = mysqli_connect("localhost","root","","cwcrs_db");
             if(!$con) {
+                
                 exit("An error connecting occurred." .mysqli_connect_errno());
+                
             } else { }
 
-            $sql = "SELECT * FROM insurance";
+            $sql = "SELECT * FROM Reservation, Payment
+            WHERE Reservation.PaymentID = Payment.PaymentID
+            AND Reservation.C_UserID = Payment.C_UserID";
             $result = $con->query($sql);
+           // echo "num rows: " . $result->num_rows;
+           // echo "session payment id: " . $_SESSION["PaymentID"];
+            //echo "session user id: " . $_SESSION["UserID"];
             while($row = $result->fetch_assoc()) {
-                 if($row["InsuranceID"] == $_SESSION["InsuranceID"]) {
-                    echo $row["Ins_Type"];
+                 if($row["PaymentID"] == $_SESSION["PaymentID"] && $row["C_UserID"] == $_SESSION["UserID"]) {
+                    echo "$". number_format($row["Price"], 2);
+                  //  echo "price";
+                  //  $_SESSION["VehIns"] = $row["InsuranceID"];
                 }
             }
             $con->close();
 
         ?></td>
-                <td><b>New Type:</b></td>
-                <td> <select name = "Ins_type" id = "Ins_type" required>
-                    <option value = "Full">Full</option>
-                    <option value = "Liability">Liability</option>
+                <td><b> Payment Method:</b></td>
+                <td> <select name = "PayMethod" id = "PayMethod" required>
+                    <option value = "Credit">Credit</option>
+                    <option value = "Debit">Debit</option>
                     </select>
+                    </td>
                     </td>
             </tr>
             <tr>
-                <td><b>Cost:</b></td>
-                <td><?php
-            $con = mysqli_connect("localhost","root","","cwcrs_db");
-            if(!$con) {
-                exit("An error connecting occurred." .mysqli_connect_errno());
-            } else { }
 
-            $sql = "SELECT * FROM insurance";
-            $result = $con->query($sql);
-            while($row = $result->fetch_assoc()) {
-               if($row["InsuranceID"] == $_SESSION["InsuranceID"]) {
-                    echo "$". number_format($row["Cost"], 2);
-                }
-            }
-            $con->close();
-
-        ?></td>
-                <td><b>New Cost:</b></td>
-                <td><input type = "text" name = "Cost"required></td>
-        </tr>
+                <td><b>Card Number:</b></td>
+                <td><input type="text" name="CardNum" id="CardNum" required pattern = "[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]"></td>
+                <td><b>Card Expiry Date:</b></td>
+                <td><input type="date" name="CardExp" id="CardExp" min="3000-01-01" onfocus="this.min=new Date().toISOString().split('T')[0]" required></td>
+                
+        
             <tr>
-                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_ins_search.php'"> Back</button>  
+                <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='cust_view_res.php'"> Back</button>  
                 <td></td>
                 <td></td>
-                <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Update</button></td>
+                <td><button class= "submitbutton" type="submit" name="submit" value="Submit">Pay</button></td>
             </tr>
             </table>
     </form>
