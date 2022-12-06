@@ -177,6 +177,14 @@
 </td>
     <td></td>
   </tr>
+  <tr>
+    <td>
+</td>
+    <td>
+    <button class= "servRecsbutton" type="button" onclick="window.location.href='emp_serv_recs.php'">Service Records</button>  
+</td>
+    <td></td>
+  </tr>
 </table>
   <table class="logout_table">
   <tr>

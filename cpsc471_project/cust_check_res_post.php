@@ -18,7 +18,7 @@ session_start();
     WHERE Reservation.C_UserID = Customer.C_UserID";
     $result = $con->query($sql);
 
-
+    $check = 0;
     if ($result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
@@ -29,6 +29,7 @@ session_start();
                        echo "start date is after today";
                         $_SESSION["HasRes"] = true;
                         header("Location: cust_veh_search.php");
+                        $check++;
                     } else {
                         echo "start date is before today";
                         //$_SESSION["HasRes"] = false;
@@ -39,9 +40,13 @@ session_start();
                 } else {
                     echo "user: ".$_SESSION["UserID"]." has no reservation";
                   //  $_SESSION["HasRes"] = false;
-                    header("Location: cust_add_res.php");
+                  //  header("Location: cust_add_res.php");
                 }
         
+        }
+        if($check == 0){
+           // $_SESSION["HasRes"] = false;
+            header("Location: cust_add_res.php");
         }
       } else {
       //  echo "0 results";

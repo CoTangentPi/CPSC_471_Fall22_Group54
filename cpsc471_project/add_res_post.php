@@ -60,7 +60,48 @@ session_start();
     echo "start < end" .var_dump($start < $end)."<br>";  // bool(true)
     echo "start > end" . var_dump($start > $end) . "<br>";  // bool(false)
 
-    if(!$_SESSION["Start_after_end"]) {
+    $sql = "SELECT * FROM Reservation, Customer
+    WHERE Reservation.C_UserID = Customer.C_UserID";
+    $result = $con->query($sql);
+
+    $check = 0;
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+               // echo "ReservationID: " . $row["ReservationID"]. " Start" . $row["Start_date"]. "<br>";
+                if($row["C_UserID"] == $custid){
+                 //   echo "has reservation";
+                    if($row["Start_date"] > date("Y-m-d")){
+                       echo "start date is after today";
+                        $_SESSION["HasRes"] = true;
+                        $_SESSION["CurrentRes"] = $row["ReservationID"];
+                       // echo "cust has"
+                        echo "current res: " . $_SESSION["CurrentRes"] . "<br>";
+                        header("Location: add_res.php");
+                        $check++;
+                    } else {
+                        echo "start date is before today";
+                        //$_SESSION["HasRes"] = false;
+                    }
+
+                    
+                } else {
+                    echo "customer: ".$row["C_UserID"]." has no reservation";
+                  //  $_SESSION["HasRes"] = false;
+                }
+        
+        }
+        if($check == 0){
+           // $_SESSION["HasRes"] = false;
+           // header("Location: add_res.php"); // ok to add
+        }
+      } else {
+      //  echo "0 results";
+      }
+        
+        
+
+    if(!$_SESSION["Start_after_end"] && !$_SESSION["HasRes"]) {
         $stmt = $con->prepare("SELECT * FROM Features 
                                 WHERE VIN = ?");
         $stmt->bind_param("s", $vin);

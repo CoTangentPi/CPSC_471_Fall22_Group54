@@ -16,7 +16,7 @@ session_start();
 
     $custID = $_REQUEST["C_UserID"];
     
-    echo "Cost: " . $_SESSION["Cost"] . "<br>";
+    echo "Cust ID: " . $custID . "<br>";
 
     if($_REQUEST["submitbutton"]=="Edit"){
         echo"You pressed edit";
@@ -28,6 +28,18 @@ session_start();
     }
     
     if($_SESSION["RemoveCust"]){
+        $stmt = $con->prepare("DELETE FROM payment WHERE C_UserID = ?");
+        $stmt->bind_param("s", $custID);
+        $stmt->execute();
+        echo "customer payments removed successfully";
+        $stmt->close();
+
+        $stmt = $con->prepare("DELETE FROM reservation WHERE C_UserID = ?");
+        $stmt->bind_param("s", $custID);
+        $stmt->execute();
+        echo "customer reservations removed successfully";
+        $stmt->close();
+
         $stmt = $con->prepare("DELETE FROM customer WHERE C_UserID = ?");
         $stmt->bind_param("s", $custID);
         $stmt->execute();

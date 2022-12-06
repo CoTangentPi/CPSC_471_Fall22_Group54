@@ -261,10 +261,11 @@ Transfer Vehicle
                       
                           
                           while($row = $result->fetch_assoc()) {
-                              
+                                if($row["Branch_no"] != 0){
                                   echo "<option value = '" . $row["Branch_no"] . "' >" .$row["Branch_name"].
                                   " </option>";
                               }
+                            }
                           }
 
                       $con->close();

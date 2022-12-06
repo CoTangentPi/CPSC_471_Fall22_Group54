@@ -4,6 +4,7 @@
     $_SESSION["Start_after_end"] = false;    
     $_SESSION["EditRes"] = false;
     $_SESSION["RemoveRes"] = false;
+    $_SESSION["HasRes"] = false;
 
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {

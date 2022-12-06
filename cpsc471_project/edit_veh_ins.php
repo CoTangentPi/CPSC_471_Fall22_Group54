@@ -241,8 +241,8 @@ Edit Vehicle Insurance
     </select>
                     </td>
             </tr>
-            <tr>
-           <!--     <td><b>Cost:</b></td>
+           <!-- <tr>
+           <td><b>Cost:</b></td>
                 <td><?php
             $con = mysqli_connect("localhost","root","","cwcrs_db");
             if(!$con) {

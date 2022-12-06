@@ -1,6 +1,10 @@
 
 <?php
 session_start();
+
+    $_SESSION["EditRec"] = false;
+    $_SESSION["RemoveRec"] = false;
+    $_SESSION["InvoiceExists"] = false;
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
@@ -54,21 +58,7 @@ session_start();
          background-color: rgba(0,0,0,0.6499999761581421);
          font-family: verdana;
          color: rgba(139,216,189,1);
-         overflow: auto;
-         display:flex; 
-         flex-direction:column;
-         min-height: 100vh; 
-         margin:1vw;
         }
-
-    footer{ 
-     min-height:7vw; 
-    }
-
-    /* The article fills all the space between header & footer */
-    article{ 
-        flex:1; 
-    }
 
 
       .header{
@@ -96,7 +86,7 @@ session_start();
     }
 
     input[type=search]{
-        width: 20%;
+        width: 40%;
         padding: 1.5vw 3vw;
         margin: 1vw 0;
         display: inline-block;
@@ -117,10 +107,12 @@ session_start();
         table-layout: fixed;
     }
 
-
-    .search_table2 {
+    .rec_table {
         border: 1px solid rgba(139,216,189,1);
-        width: 50%;
+    }
+
+    .rec_table2 {
+        border: 1px solid rgba(139,216,189,1);
     }
     th {
         font-size:1.5vw;
@@ -128,10 +120,11 @@ session_start();
         padding: 1vw;
         border: 1px solid rgba(139,216,189,1);
     }
-    .search_table2 td {
+    .rec_table td {
         font-size:1.5vw;
         text-align: left;
         padding: 1vw;
+        border: 1px solid rgba(139,216,189,1);
     }
 
     .no_rec {
@@ -141,7 +134,7 @@ session_start();
     }
 
     .bottom_table{
-        position: relative;
+        position: absolute;
         bottom:1vw;
         width: 98.5%;
         overflow: scroll;
@@ -175,11 +168,15 @@ session_start();
     }
 
     svg {
-        color: #fff;
+        color: rgba(139,216,189,1);
         fill: currentColor;
         width: 2.5vw;
         height: 2.5vw;
         
+      }
+
+      svg:hover {
+        color: rgba(35,70,101,1);
       }
 
       .searchbar {
@@ -187,85 +184,108 @@ session_start();
         flex-direction:row;
         align-items:center;
       }
-
-      .edit{
-        position: relative;
-      }
-
-      .editbutton{
-        position: absolute;
-        bottom: -1vw;
-        right:-19vw;
-      }
-
-      .removebutton{
-        position: absolute;
-        bottom: -1vw;
-        right:-40vw;
+      .addbutton{
+        text-align: right;
       }
     
     
    </style>
-<title>Canada Wide Car Rental Service - Employee: Search Vehicle Service Records</title>
+<title>Canada Wide Car Rental Service - Employee: View Service Records</title>
 </head>
 
 <body>
 
 <div class="header">
 
-<h1 style="font-size:2.7vw"> <!--3-->
-Search Service Records
+<h1 style="font-size:3vw">
+
+Service Records
+
 </h1>  
     <img src="logo.png" alt="logo" width=2vw height=2vw/>
 </div>
+<br>
+<br>
 
-</br>
-</br>
 
-<article>
+    <table class = "toptable">
+    <form action="search_serv_recs_post.php"  method="post">
+      <tr>
+        <td>
+          <div class = "searchbar">
+      <input type="search" placeholder="Search.." name="search" required>
+     <!-- <button type="submit" class = "searchbutton"><i class="fa fa-search"></i></button> -->
+     <button class = "searchbutton" class= "submitbutton" type="submit" name="submit" value="Submit">
+        <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
+      </button>
+      </form>
+          </div>
+    </td>
+    <td class = "addbutton">
+    <button class= "backbutton" text-align=right type="button" onclick="window.location.href='add_serv_rec.php'"> Add Service Record</button> 
+    </td>
+      </tr>
+</table>
+
+  <br>
+  <br>
+
+  <table class="rec_table">
+    <tr>
+        <th width = 15%>Invoice No.</th>
+        <th width = 12%>Cost</th>
+        <th width = 25%>VIN</th>
+        <th width = 12%>Start Date</th>
+        <th width = 12%>End Date</th>
+        <th width = 20%>Type of Service</th>
+        <th width = 15%>Scheduled Maintenance</th>
+
+</tr>
+
+        
+
 <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
-   // $sql = "SELECT * FROM Service_record";
-   // $result = $con->query($sql);
-    //if ($result->num_rows > 0) {
+    $sql = "SELECT * FROM Service_record, Vehicle WHERE Service_record.VIN = Vehicle.VIN";
+    $result = $con->query($sql);
+    $count = mysqli_num_rows($result);
+    $check = 0;
+    if ($result->num_rows > 0) {
         // output data of each row
         
     
         
-      //  while($row = $result->fetch_assoc()) {
-        if(count($_SESSION["SearchResult"]) > 0){
-        
-            for($i = 0; $i < count($_SESSION["SearchResult"]); $i++) {
+        while($row = $result->fetch_assoc()) {
 
-                echo "<table class='search_table2'><form action='serv_recs_search_post.php' method='post'>
-                        <tr> <th> Invoice No: " . $_SESSION["SearchResult"][$i]["Invoice_no"]. "</th> </tr> <tr> <td> <b> Cost: </b> $" . 
-                        number_format($_SESSION["SearchResult"][$i]["Cost"], 2) . "</th> </tr> <tr> <td> <b> VIN: </b>" . 
-                        $_SESSION["SearchResult"][$i]["VIN"] . "</th> </tr> <tr> <td> <b> Start Date: </b>" . 
-                        $_SESSION["SearchResult"][$i]["Start_date"] . "</td> </tr> <tr> <td> <b> End Date: </b>" . $_SESSION["SearchResult"][$i]["End_date"] . 
-                        "</td> </tr> <tr> <td> <b> Type of Service: </b>" . $_SESSION["SearchResult"][$i]["Type_of_service"] .  
-                        "</td> </tr> <tr> <td> <div class = 'edit'> <b> Scheduled Maintenance: </b>" . 
-                        $_SESSION["SearchResult"][$i]["Scheduled_maintenance"] . 
-                        "<input type = 'hidden' name = 'Invoice_no'  id = 'Invoice_no' value = " . $_SESSION["SearchResult"][$i]["Invoice_no"] .">
-                        <button class= 'editbutton' name='submitbutton' text-align=left type='submit' value='Edit'>Edit</button>
-                        <button class= 'removebutton' name='submitbutton'text-align=left type='submit' value='Remove'> Remove </button>
-                        </div></form></td> </tr> </table> <br> <br>";
-
-                       /* "<div class = 'edit'>
-                        <input type = 'hidden' name = 'InsuranceID'  id = 'InsuranceID' value = " . $_SESSION["SearchResult"][$i]["InsuranceID"] .">
-                        <input type = 'hidden' name = 'Ins_type'  id = 'Ins_type' value = " . $_SESSION["SearchResult"][$i]["Ins_Type"] .">
-                        <input type = 'hidden' name = 'Cost'  id = 'Cost' value = " . $_SESSION["SearchResult"][$i]["Cost"] .">
-                        <button class= 'editbutton' name='submitbutton' text-align=left type='submit' value='Edit'>Edit</button>
-                        <button class= 'removebutton' name='submitbutton'text-align=left type='submit' value='Remove'> Remove </button>
-                        </div></form>"*/
+          
+                echo "
+                        <tr> 
+                        <td>" . $row["Invoice_no"] . "</td> <td>$" . number_format($row["Cost"], 2) . "</td> <td>" . 
+                        $row["VIN"] . "</td> <td>" . $row["Start_date"]. "</td> <td>" . $row["End_date"] . 
+                        "</td> <td>" . $row["Type_of_service"] . "</td> <td>" . $row["Scheduled_maintenance"] . 
+                        "</td> </tr>";
             
-               
-        }
-    
+        
+      } if ($count == $check){
+        echo "</table>";
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        echo "<table class='no_rec'>";
+        echo "<tr>";
+        echo "<td>";
+        echo "No Service Records to Display";
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
+      }
       } else {
+        echo "</table>";
         echo "<br>";
         echo "<br>";
         echo "<table class='no_rec'>";
@@ -279,14 +299,11 @@ Search Service Records
     $con->close();
 
 ?> 
-
-</article>
-<footer>
 </table>
   <table class="bottom_table">
   <tr>
     <td>
-    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_serv_recs.php'"> Back</button>  
+    <button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_start.php'"> Back</button>  
 </td>
 <td>
 </td>
@@ -300,6 +317,6 @@ Search Service Records
     <button class= "logoutbutton" type="button" onclick="window.location.href='login.php'"> Log Out</button>  
 </td>
 </tr>
-</table> </footer>
+</table>
     </body>
     </html>

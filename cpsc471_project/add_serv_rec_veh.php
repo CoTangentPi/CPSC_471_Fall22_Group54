@@ -215,11 +215,11 @@ Add Service Record
             <tr>
                 <!-- https://stackoverflow.com/questions/32378590/set-date-input-fields-max-date-to-today -->
             <td>Start Date:</td>
-                <td><input type = "date" name = "Start_date" min="3000-01-01" onfocus="this.min=new Date().toISOString().split('T')[0]" required></td>
+                <td><input type = "date" name = "Start_date" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]" required></td>
             </tr>
             <tr>
             <td>End Date:</td>
-                <td><input type = "date" name = "End_date" min="3000-01-01" onfocus="this.min=new Date().toISOString().split('T')[0]" required></td>
+                <td><input type = "date" name = "End_date" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]" required></td>
             </tr>
             <tr>
                 <td>Type of Service:</td>
