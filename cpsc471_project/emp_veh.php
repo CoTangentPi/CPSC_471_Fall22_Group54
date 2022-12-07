@@ -103,6 +103,10 @@ session_start();
         table-layout: fixed;
     }
 
+    .features{
+      border: 1px solid rgba(139,216,189,1);
+    }
+
     .veh_table {
         border: 1px solid rgba(139,216,189,1);
     }
@@ -119,7 +123,7 @@ session_start();
     }
     .car_table td {
         font-size:1.5vw;
-        text-align: left;
+        text-align: center;
         padding: 1vw;
     }
 
@@ -216,18 +220,25 @@ session_start();
       }
 
       .column {
-        float: left;
+        float: right;
         width: 80%;
         padding: 0 10px;
+        text-align: center;
       }
       .column2{
         float: left;
         width: 20%;
         padding: 0 10px;
+        text-align: center;
       }
+
+      .features td {
+        text-align: left;
+      }
+
       * {
-  box-sizing: border-box;
-}
+          box-sizing: border-box;
+        }
 
     
    </style>
@@ -260,13 +271,373 @@ Vehicles
   <br>
   <br>
   <div class="row">
-  <div class="column2">
-  <table class = "features">
+  <div class="column2" style="overflow:auto;height:40vw;">
+  <form action="features_table_post.php" method="post">
+    <table class = "features">
+      <!-- dealing with the checkboxes adapted from 
+      https://stackoverflow.com/questions/18421988/getting-checkbox-values-on-submit-->
     <tr>
       <th>Features</th>
     </tr>
+    <tr><td><b>Year</b></td></tr>
+    <tr><td>                    <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $year = [];
+                      
+                      $sql = "SELECT DISTINCT Year FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                                  echo "<input type = 'checkbox' ' name = 'Year[]' value = '".$row["Year"]. "'>
+                                  <label for = 'Year[]' >" .$row["Year"].
+                                  " </label><br>";
+                              }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Make</b></td></tr>
+    <tr><td>                    <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Make FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Make[]' value = '".$row["Make"]. "'>
+                            <label for = 'Make[]' >" .$row["Make"].
+                            " </label><br>";
+                        }
+                    }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Model</b></td></tr>
+    <tr><td>               
+           <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Model FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Model[]' value = '".$row["Model"]. "'>
+                            <label for = 'Model[]' >" .$row["Model"].
+                            " </label><br>";
+                        }
+                      }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Colour</b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Body_colour FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Body_colour[]' value = '".$row["Body_colour"]. "'>
+                            <label for = 'Body_colour[]' >" .$row["Body_colour"].
+                            " </label><br>";
+                        }
+                      }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Category</b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Category FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Category[]' value = '".$row["Category"]. "'>
+                            <label for = 'Category[]' >" .$row["Category"].
+                            " </label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Transmission/<br> Driven Wheels</b></td></tr>
+    <tr><td>                    <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Trans_Driven_wheels FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Trans_Driven_wheels[]' value = '".$row["Trans_Driven_wheels"]. "'>
+                            <label for = 'Trans_Driven_wheels[]' >" .$row["Trans_Driven_wheels"].
+                            " </label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Fuel Type/<br>Air Conditioning</b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Fuel_Air_con FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Fuel_Air_con[]' value = '".$row["Fuel_Air_con"]. "'>
+                            <label for = 'Fuel_Air_con[]' >" .$row["Fuel_Air_con"].
+                            " </label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Type</b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Type FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Type[]' value = '".$row["Type"]. "'>
+                            <label for = 'Type[]' >" .$row["Type"].
+                            " </label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Horse Power</b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Horse_power FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Horse_power[]' value = '".$row["Horse_power"]. "'>
+                            <label for = 'Horse_power[]' >" .$row["Horse_power"].
+                            " hp</label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Torque</b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Torque FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Torque[]' value = '".$row["Torque"]. "'>
+                            <label for = 'Torque[]' >" .$row["Torque"].
+                            " lb-ft</label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Tonnage</b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Tonnage FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Tonnage[]' value = '".$row["Tonnage"]. "'>
+                            <label for = 'Tonnage[]' >" .$row["Tonnage"].
+                            " lbs</label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Seat Material</b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Seat_material FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Seat_material[]' value = '".$row["Seat_material"]. "'>
+                            <label for = 'Seat_material[]' >" .$row["Seat_material"].
+                            " </label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Interior Colour<b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Interior_colour FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Interior_colour[]' value = '".$row["Interior_colour"]. "'>
+                            <label for = 'Interior_colour[]' >" .$row["Interior_colour"].
+                            " </label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Fuel Economy<b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Fuel_economy FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Fuel_economy[]' value = '".$row["Fuel_economy"]. "'>
+                            <label for = 'Fuel_economy[]' >" .$row["Fuel_economy"].
+                            " L / 100 km</label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Child Seat <br>Compatible<b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Childseat_compatibility FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Childseat_compatibility[]' value = '".$row["Childseat_compatibility"]. "'>
+                            <label for = 'Childseat_compatibility[]' >" .$row["Childseat_compatibility"].
+                            " </label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+    <tr><td><b>Number of <br>Passengers<b></td></tr>
+    <tr><td>                    
+      <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                      $sql = "SELECT DISTINCT Number_of_passengers FROM vehicle, features WHERE vehicle.VIN = features.VIN";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row       
+                          while($row = $result->fetch_assoc()) {
+                              
+                            echo "<input type = 'checkbox' ' name = 'Number_of_passengers[]' value = '".$row["Number_of_passengers"]. "'>
+                            <label for = 'Number_of_passengers[]' >" .$row["Number_of_passengers"].
+                            " </label><br>";
+                        }
+                          }
+                      $con->close();
+
+                    ?>
+</td></tr>
+         
     </table>
-    </div>
+                        
+    <br>
+    <button class= "submitbutton" type="submit" name="submit" value="Submit">Search</button>
+    
+                        </form>
+  </div>
   <div class="column">
   <table class='car_table'>
   <!--<form action='emp_veh_post.php' method='post'>-->
