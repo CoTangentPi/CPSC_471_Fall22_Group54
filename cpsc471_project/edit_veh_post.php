@@ -48,22 +48,6 @@ session_start();
             }
         }
     }
-            
-            
-           
-        //check if input end branch is the same as start branch
-       /* if ($row["Branch_no"] == $end_branch) {
-            echo "start branch is the same as end branch<br>";
-            $_SESSION["Start_branch_same_as_end_branch"] = true;
-            header("Location: transfer.php");
-        } */
-        //check if input mileage greater than the current mileage
-       /* if($row["Mileage"] > $mileage) {
-            echo "mileage is less than current mileage<br>";
-            $_SESSION["Current_mileage"] = $row["Mileage"];
-            $_SESSION["Mileage_less_than_current"] = true;
-            header("Location: transfer.php");
-        } */
         
         if(!$_SESSION["SamePlate"]){
 

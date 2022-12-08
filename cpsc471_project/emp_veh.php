@@ -8,6 +8,25 @@ session_start();
        // echo "Connection successful\n";
     }
 
+    /* vehicle images
+    Chevy spark : https://www.mikeandersonchevychicago.com/research-spark-trims/
+Nissan versa: https://www.autoblog.com/buy/2022-Nissan-Versa-1.6_SR__4dr_Sedan/
+
+
+
+Kia forte: https://www.motortrend.com/cars/kia/forte/2019/
+Ford focus : https://www.seekpng.com/ipng/u2w7e6e6y3e6y3y3_2018-ford-focus-titanium-ford-focus-s-sedan/
+
+Vw jetta: https://www.pngitem.com/middle/hRThixx_volkswagen-jetta-for-sale-honda-civic-ext-2018/
+
+Toyota camry: https://www.oaklawntoyota.com/2020-toyota-camry-configurations/
+
+Nissan máxima: https://www.group1auto.com/carresearch/VehicleOptions/section_StandardEquipment/year_2021/make_Nissan/model_Maxima/trim_3.5_Xtronic_CVT_Platinum/id_47257/confid_advantagecars/
+
+Chrysler 300: https://www.chrysler.ca/en/300
+
+*/
+
     $sql2 = "SELECT * FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
     $result2 = $con->query($sql2);
 
@@ -713,6 +732,13 @@ Vehicles
                       <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                       <div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div></button></form>";
                   // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
+               }
+               else if (strcmp($row["VIN"],"9ABCD98ZYXW987654") == 0){
+                echo "<form action='emp_veh_post.php' method='post'>
+                      <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                      <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                      <div class = 'car'><img src='ford focus.png' alt='ford focus'/></div></button></form>";
+                  // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
                }else{
                 echo "<form action='emp_veh_post.php' method='post'>
                       <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
@@ -796,7 +822,14 @@ Vehicles
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                   <div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div></button></form>";
               // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
-           }else{
+           }else if (strcmp($_SESSION["SearchResult"][$i]["VIN"],"9ABCD98ZYXW987654") == 0){
+            echo "<form action='emp_veh_post.php' method='post'>
+                  <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
+                  <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                  <div class = 'car'><img src='ford focus.png' alt='ford focus'/></div></button></form>";
+              // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
+           }
+           else{
             echo "<form action='emp_veh_post.php' method='post'>
                   <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>

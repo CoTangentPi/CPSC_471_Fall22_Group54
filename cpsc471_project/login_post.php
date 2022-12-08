@@ -44,7 +44,7 @@ session_start();
         echo "statement num rows before: " . $stmt->num_rows . "<br>";
         $stmt->close();
 
-        $sqlcheck = "SELECT * FROM login";
+        $sqlcheck = "SELECT * FROM login;";
 
         $resultcheck = $con->query($sqlcheck);
 

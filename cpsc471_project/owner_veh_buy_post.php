@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,7 +56,7 @@
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
+    //    echo "Connection successful\n";
     }
     
 
@@ -85,20 +88,65 @@
     $Price = $_REQUEST["Price"];
     $Temp_Type = 'Partial';
     $Temp_Cost = '0.00';
-    
-    $stmt100 = $con->prepare("INSERT INTO insurance 
-    VALUES (?, ?, ?)");
-    //VALUES (NULL, $First_name, $Middle_name, $Last_name, $Email, $Phone_number, $DOB, $Sex, $Street_no, $Street_name, $City, $Province, $Postal_code)";
-    $stmt100->bind_param("sss", $InsuranceID, $Temp_Type, $Temp_Cost);
 
-    $stmt100->execute();
-    $last_id = $con->insert_id;
-    $stmt100->close();
+    $sqlcheck = "SELECT * FROM vehicle";
+    $resultcheck = mysqli_query($con, $sqlcheck);
+    $count = mysqli_num_rows($resultcheck);
+    $same = 0;
+
+   // echo "count: " . $count . "<br>";
+
+    if($resultcheck->num_rows > 0) {
+      //  echo "num rows: " . $resultcheck->num_rows . "<br>";
+        while($row = $resultcheck->fetch_assoc()) {
+
+            if(strcasecmp($row["Licence_plate_no"], $Liscence_plate_no) == 0 && strcasecmp($row["Registration_province"], $Province) == 0) {
+                if($row["VIN"] != $VIN) {
+                    $same ++;
+          //      echo "same: " . $same . "<br>";
+                $_SESSION["SamePlate"] = true;
+             //   echo "same plate <br>";
+                }
+            }
+        }
+    }
+
+    $sqlcheck = "SELECT * FROM vehicle";
+    $resultcheck = mysqli_query($con, $sqlcheck);
+    $count = mysqli_num_rows($resultcheck);
+    $same = 0;
+
+   // echo "count: " . $count . "<br>";
+
+    if($resultcheck->num_rows > 0) {
+     //   echo "num rows: " . $resultcheck->num_rows . "<br>";
+        while($row = $resultcheck->fetch_assoc()) {
+
+            if(strcasecmp($row["VIN"], $VIN) == 0) {
+                //if($row["VIN"] != $_SESSION["VIN"]) {
+                  //  $same ++;
+                //echo "same: " . $same . "<br>";
+                $_SESSION["SameVIN"] = true;
+                $_SESSION["SameVINis"] = $row["VIN"];
+             //   echo "same vin <br>";
+                //}
+            }
+        }
+    }
+    if(!$_SESSION["SamePlate"] && !$_SESSION["SameVIN"]){
+   // $stmt100 = $con->prepare("INSERT INTO insurance 
+   // VALUES (?, ?, ?, ?)");
+    //VALUES (NULL, $First_name, $Middle_name, $Last_name, $Email, $Phone_number, $DOB, $Sex, $Street_no, $Street_name, $City, $Province, $Postal_code)";
+    //$stmt100->bind_param("sss", $InsuranceID, $Temp_Type, $Temp_Cost);
+
+   // $stmt100->execute();
+    //$last_id = $con->insert_id;
+    //$stmt100->close();
     
     $stmt = $con->prepare("INSERT INTO vehicle 
     VALUES (?, ?, ?, ?, ?, ?, ?)");
     //VALUES (NULL, $First_name, $Middle_name, $Last_name, $Email, $Phone_number, $DOB, $Sex, $Street_no, $Street_name, $City, $Province, $Postal_code)";
-    $stmt->bind_param("sssssss", $VIN, $Status, $Mileage, $Liscence_plate_no, $Province, $last_id, $Branch_Number);
+    $stmt->bind_param("sssssss", $VIN, $Status, $Mileage, $Liscence_plate_no, $Province, $InsuranceID, $Branch_Number);
 
     $stmt->execute();
     $last_id = $con->insert_id;
@@ -106,13 +154,20 @@
 
     $stmt2 = $con->prepare("INSERT INTO features
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt2->bind_param("ssssssssssssssssss", $Year, $Make, $Model, $last_id, $Category, $Trans_Driven_Wheels, $Fuel_Air_Conditioning, $Type, $Horse_Power, $Torque, $Tonnage, $Sunroof, $Seat_Material, $Body_Colour, $Interior_Colour, $Fuel_Economy, $Child_Seat_Compatible, $Passengers_no);
+    $stmt2->bind_param("ssssssssssssssssss", $Year, $Make, $Model, $VIN, $Category, $Trans_Driven_Wheels, $Fuel_Air_Conditioning, $Type, $Horse_Power, $Torque, $Tonnage, $Sunroof, $Seat_Material, $Body_Colour, $Interior_Colour, $Fuel_Economy, $Child_Seat_Compatible, $Passengers_no);
     $stmt2->execute();
     echo "Features created successfully";
     $stmt2->close();
 
+    $stmt3 = $con->prepare("INSERT INTO buys
+    VALUES (?, ?, ?, ?)");
+    $stmt3->bind_param("ssss", $_SESSION["UserID"], $VIN, $Date_Purchased, $Price);
+    $stmt3->execute();
+    echo "Vehicle bought successfully";
+    $stmt3->close();
 
-    $sql = "UPDATE owner SET Expenses += $Price";
+
+  /*  $sql = "UPDATE owner SET Expenses += $Price";
     $result = $con->query($sql);
 
 
@@ -120,7 +175,11 @@
         echo "Owner expenses updated successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $con->error;
-    }
+    }*/
+} else {
+    echo "Vehicle not edited";
+    header("Location: owner_veh_buy.php");
+}
         $con->close();
 ?>
 

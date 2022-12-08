@@ -124,13 +124,30 @@
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else { }
 
+    $check = 0;
     $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users, Employee WHERE Users.UserID = Employee.E_UserID";
     $result = $con->query($sql);
+    
+        
+    
+    while($row = $result->fetch_assoc()) {
+        if($row["UserID"] == $_SESSION["UserID"]) {
+            $check ++;
+            echo "Hello " . $row["First_name"]. " " . $row["Last_name"]. "!" ."<br>";
+        }
+    } 
+        if($check == 0){
+        $sql = "SELECT UserID, First_name, Middle_name, Last_name FROM Users, Owner WHERE Users.UserID = Owner.O_UserID";
+    $result = $con->query($sql);
+    if($result->num_rows != 0) {
+        
+    
     while($row = $result->fetch_assoc()) {
         if($row["UserID"] == $_SESSION["UserID"]) {
 
-            echo "Hello " . $row["First_name"]. " " . $row["Last_name"]. "!" ."<br>";
+            echo "Hello " . $row["First_name"]. " " . $row["Middle_name"]. " " . $row["Last_name"]."!" ."<br>";
         }
+    }}
     }
     $con->close();
 

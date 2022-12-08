@@ -143,7 +143,6 @@ Sell Vehicle
 </div>
 </br>
 
-
 <?php
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
@@ -183,6 +182,17 @@ Sell Vehicle
     $con->close();
 
 ?>  
+<?php
+                //if vehicle is not owned, display error message
+                if($_SESSION["AlreadySold"]){
+                    echo "<table class = 'error'><tr> <td class = 'purchAfterSell'> 
+                    Oops! Already sold VIN: " . $_SESSION["VIN"] . "
+                    </td></tr></table>";
+                    $_SESSION["AlreadySold"] = false;
+                }
+
+
+            ?>
 
 <?php
                 //if vehicle is not owned, display error message
@@ -215,7 +225,7 @@ Sell Vehicle
             ?>
             <tr>
                 <!-- https://stackoverflow.com/questions/32378590/set-date-input-fields-max-date-to-today -->
-            <td>Start Date:</td>
+            <td>Date Sold:</td>
                 <td><input type = "date" name = "Date_sold" max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]" required></td>
             </tr>
             <tr>

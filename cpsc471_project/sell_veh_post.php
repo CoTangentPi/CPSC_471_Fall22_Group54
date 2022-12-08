@@ -38,19 +38,47 @@ session_start();
             $_SESSION["NotOwned"] = true;
             header("Location: sell_veh.php");
         }
+        $stmt->close();
 
-        if(!$_SESSION["NotOwned"]){
+        $stmt = $con->prepare("SELECT * FROM sells
+                WHERE O_UserID = ?
+                AND VIN = ?;");
+        $stmt->bind_param("ss", $_SESSION["UserID"], $_SESSION["VIN"]);
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo $row["O_UserID"] . " " . $row["VIN"] . "<br>";
+               // $datePurch = $row["Date_purchased"];
+               $_SESSION["AlreadySold"] = true;
+            }
+        } else {
+            echo "0 results";
+            //$_SESSION["NotOwned"] = true;
+          //  header("Location: sell_veh.php");
+        }
+
+        if(!$_SESSION["NotOwned"] && !$_SESSION["AlreadySold"]){
             echo "ok to sell <br>";
 
             if($datePurch <= $dateSold){
 
             $stmt = $con->prepare("INSERT INTO sells
             VALUES (?, ?, ?, ?);");
-            $stmt2->bind_param("ssss", $_SESSION["UserID"], $_SESSION["VIN"], $dateSold, $price);
+            $stmt->bind_param("ssss", $_SESSION["UserID"], $_SESSION["VIN"], $dateSold, $price);
       
             $stmt->execute();
             $stmt->close();
             echo "inserted into sells <br>";
+
+            $stmt = $con->prepare("UPDATE vehicle
+            SET Status = 'Sold'
+            WHERE VIN = ?;");
+            $stmt->bind_param("s", $_SESSION["VIN"]);
+      
+            $stmt->execute();
+            $stmt->close();
             header("Location: own_veh_search.php");
 
             } else {
@@ -59,6 +87,8 @@ session_start();
                 header("Location: sell_veh.php");
             }
 
+        } else {
+            header("Location: sell_veh.php");
         }
 
 

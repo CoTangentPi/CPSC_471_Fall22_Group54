@@ -216,7 +216,7 @@ Edit Insurance
 
         ?></td>
                 <td><b>New Cost:</b></td>
-                <td><input type = "text" name = "Cost"required></td>
+                <td><input type = "text" name = "Cost"required pattern="(?:0|[1-9]\d+|)?(?:.?\d{0,2})?$"></td>
         </tr>
             <tr>
                 <td><button class= "backbutton" text-align=left type="button" onclick="window.location.href='emp_ins_search.php'"> Back</button>  

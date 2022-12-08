@@ -710,6 +710,7 @@ $_SESSION["SearchRes"] = false;
             }
 
                 echo "<td >";
+                
 
                 if(strcmp($row["VIN"],"1HGBH41JXMN109186") == 0){
                   echo "<form action='cust_veh_post.php' method='post'>
@@ -758,6 +759,13 @@ $_SESSION["SearchRes"] = false;
                       <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
                       <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                       <div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div></button></form>";
+                  // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
+               }
+               else if (strcmp($row["VIN"],"9ABCD98ZYXW987654") == 0){
+                echo "<form action='cust_veh_post.php' method='post'>
+                      <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $row["VIN"] .">
+                      <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                      <div class = 'car'><img src='ford focus.png' alt='ford focus'/></div></button></form>";
                   // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
                }else{
                 echo "<form action='cust_veh_post.php' method='post'>
@@ -842,7 +850,14 @@ $_SESSION["SearchRes"] = false;
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
                   <div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div></button></form>";
               // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
-           }else{
+           }else if (strcmp($_SESSION["SearchResult"][$i]["VIN"],"9ABCD98ZYXW987654") == 0){
+            echo "<form action='cust_veh_post.php' method='post'>
+                  <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
+                  <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>
+                  <div class = 'car'><img src='ford focus.png' alt='ford focus'/></div></button></form>";
+              // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
+           }
+           else{
             echo "<form action='cust_veh_post.php' method='post'>
                   <input type = 'hidden' name = 'VIN'  id = 'VIN' value = " . $_SESSION["SearchResult"][$i]["VIN"] .">
                   <button class= 'carbutton' name='submitbutton' type='submit' value='Chosen'>

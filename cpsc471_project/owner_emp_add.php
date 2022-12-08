@@ -36,7 +36,7 @@
         top: 50%;
         transform: translateY(50%);
     }
-    #Province{
+    #Province, #Branch_Number{
         width: 50%;
         background-color: rgba(35,70,101,1);
         color: rgba(139,216,189,1);
@@ -182,8 +182,37 @@ Create New Employee
             </tr>
             <tr>
                 <td>Branch Number:</td>
-                <td><input type = "text" name = "Branch_Number" required></td>
+              
+                <td> <select name = "Branch_Number" id = "Branch_Number" required>
+                    <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                  
+                      $sql = "SELECT * FROM Branch";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row
+                          
+                      
+                          
+                          while($row = $result->fetch_assoc()) {
+                                if($row["Branch_no"] != 0){
+                                  echo "<option value = '" . $row["Branch_no"] . "' >" .$row["Branch_no"].
+                                  " </option>";
+                              }
+                            }
+                          }
+
+                      $con->close();
+
+                    ?>
+    </select>
+</td>
             </tr>
+
+
 
             <!-- Not sure how to do this dynamically
             <tr>

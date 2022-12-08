@@ -1,9 +1,10 @@
 <?php
+    session_start();
     $con = mysqli_connect("localhost","root","","cwcrs_db");
     if(!$con) {
         exit("An error connecting occurred." .mysqli_connect_errno());
     } else {
-        echo "Connection successful\n";
+    //    echo "Connection successful\n";
     }
 
         $con->close();
@@ -35,7 +36,7 @@
         top: 50%;
         transform: translateY(50%);
     }
-    #Province{
+    #Province, #Branch_no, #InsuranceID, #Category{
         width: 50%;
         background-color: rgba(35,70,101,1);
         color: rgba(139,216,189,1);
@@ -43,6 +44,7 @@
         font-size: 1.5vw;
         padding: 1vw;
         border: 1px solid rgba(139,216,189,1);
+        text-align: left;
     }
 
     input[type=radio]{
@@ -110,6 +112,10 @@
         text-align: center;
         padding 1.5vw;
     }
+
+    .same_plate{
+        color: tomato;
+    }
     
     /*
     .popup {
@@ -163,13 +169,23 @@ Buy Vehicle
 
     <form action='owner_veh_buy_post.php' method='post'>
         <table>
+        <?php
+                //if start date is after end date, display error message
+                if($_SESSION["SameVIN"]){
+                    echo "<tr> <td> </td> <td class = 'same_plate'> 
+                    Oops! VIN: ". $_SESSION["SameVINis"] ." already exists!
+                    </td></tr>";
+                    $_SESSION["SameVIN"] = false;
+                }
+
+            ?>
             <tr>
                 <td>VIN:</td>
-                <td><input type = "text" name = "VIN" required></td>
+                <td><input type = "text" name = "VIN" required pattern = "[0-9][A-Z][A-Z][A-Z][A-Z][0-9][0-9][A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][0-9][0-9]"></td>
             </tr>
             <tr>
                 <td>Year:</td>
-                <td><input type = "text" name = "Year"></td>
+                <td><input type = "text" name = "Year" required pattern="[2][0][0-9][0-9"></td>
             </tr>
             <tr>
                 <td>Make:</td>
@@ -189,8 +205,18 @@ Buy Vehicle
             </tr>
             <tr>
                 <td>Mileage:</td>
-                <td><input type = "text" name = "Mileage" required></td>
+                <td><input type = "text" name = "Mileage" required pattern="[1-9][0-9]+"></td>
             </tr>
+            <?php
+                //if start date is after end date, display error message
+                if($_SESSION["SamePlate"]){
+                    echo "<tr> <td> </td> <td class = 'same_plate'> 
+                    Oops! Cannot have the same licence plate for two vehicles.
+                    </td></tr>";
+                    $_SESSION["SamePlate"] = false;
+                }
+
+            ?>
             <tr>
                 <td>Liscence Plate Number:</td>
                 <td><input type = "text" name = "Liscence_plate_no" required></td>
@@ -216,11 +242,61 @@ Buy Vehicle
             </tr>
             <tr>
                 <td>Insurance ID:</td>
-                <td><input type = "text" name = "InsuranceID" required></td>
+                <td><select name = "InsuranceID" id = "InsuranceID" required>
+                    <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                  
+                      $sql = "SELECT * FROM Insurance";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row        
+                          while($row = $result->fetch_assoc()) {
+
+                              
+                                  echo "<option value = '" . $row["InsuranceID"] . "' >" .$row["InsuranceID"].
+                                  " </option>";
+                              }
+                          }
+
+                      $con->close();
+
+                    ?>
+    </select></td>
             </tr>
             <tr>
                 <td>Branch Number:</td>
-                <td><input type = "text" name = "Branch_Number" required></td>
+                <td> <select name = "Branch_Number" id = "Branch_no" required>
+                    <?php
+                      $con = mysqli_connect("localhost","root","","cwcrs_db");
+                      if(!$con) {
+                          exit("An error connecting occurred." .mysqli_connect_errno());
+                      } else { }
+                  
+                      $sql = "SELECT * FROM Branch";
+                      $result = $con->query($sql);
+                      if ($result->num_rows > 0) {
+                          // output data of each row
+                          
+                      
+                          
+                          while($row = $result->fetch_assoc()) {
+
+                                    if($row["Branch_no"] != 0){
+                              
+                                  echo "<option value = '" . $row["Branch_no"] . "' >" .$row["Branch_name"].
+                                  " </option>";
+                                    }
+                              }
+                          }
+
+                      $con->close();
+
+                    ?>
+    </select>
+</td>
             </tr>
 
             <!-- Not sure how to do this dynamically
@@ -233,7 +309,7 @@ Buy Vehicle
             </tr> -->
             <tr>
                 <td>Category:</td>
-                <td> <select name = "Category" id = "Province" required>
+                <td> <select name = "Category" id = "Category" required>
                     <option value = "M: Mini" > M: Mini </option>
                     <option value = "N: Mini Elite" > N: Mini Elite</option>
                     <option value = "E: Economy" > E: Economy </option>
@@ -259,10 +335,10 @@ Buy Vehicle
             <tr>
                 <td>Trans Driven Wheels:</td>
                 <td> <select name = "Trans_Driven_Wheels" id = "Province" required>
-                    <option value = "M: Manual (drive unspecified)" > M: Manual (drive unspecified) </option>
+                    <option value = "M: Manual (Drive Unspecified)" > M: Manual (Drive Unspecified) </option>
                     <option value = "N: Manual 4WD" > N: Manual 4WD </option>
                     <option value = "C: Manual AWD" > C: Manual AWD </option>
-                    <option value = "A: Auto (drive unspecified)" > A: Auto (drive unspecified) </option>
+                    <option value = "A: Auto (Drive Unspecified)" > A: Auto (Drive Unspecified) </option>
                     <option value = "B: Auto 4WD" > B: Auto 4WD </option>
                     <option value = "D: Auto AWD" > D: Auto AWD </option>
                     </select>
@@ -325,15 +401,15 @@ Buy Vehicle
 
             <tr>
                 <td>Horse Power:</td>
-                <td><input type = "text" name = "Horse_Power" required></td>
+                <td><input type = "text" name = "Horse_Power" required pattern="[0-9]+"></td>
             </tr>
             <tr>
                 <td>Torque:</td>
-                <td><input type = "text" name = "Torque" required></td>
+                <td><input type = "text" name = "Torque" required pattern="[0-9]+"></td>
             </tr>
             <tr>
                 <td>Tonnage:</td>
-                <td><input type = "text" name = "Tonnage" required></td>
+                <td><input type = "text" name = "Tonnage" required pattern="[0-9+"></td>
             </tr>
 
             <tr>
@@ -363,7 +439,7 @@ Buy Vehicle
             </tr>
             <tr>
                 <td>Fuel Economy:</td>
-                <td><input type = "text" name = "Fuel_Economy" required></td>
+                <td><input type = "text" name = "Fuel_Economy" required ></td>
             </tr>
             <tr>
                 <td>Child Seat Compatible:</td>
@@ -383,7 +459,7 @@ Buy Vehicle
             </tr>
             <tr>
                 <td>Price:</td>
-                <td><input type = "text" name = "Price" required></td>
+                <td><input type = "text" name = "Price" required pattern="(?:0|[1-9]\d+|)?(?:.?\d{0,2})?$"></td>
             </tr>
             <tr>
                 <!-- href whould be owner_veh_view.php -->

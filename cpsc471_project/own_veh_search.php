@@ -3,6 +3,7 @@
 session_start();
 $_SESSION["SamePlate"] = false;
 $_SESSION["NotOwned"] = false;
+$_SESSION["AlreadySold"] = false;
 $_SESSION["PurchaseAfterSell"] = false;
 $_SESSION["Start_after_end"] = false;
 //$_SESSION["VIN"] = "1HGBH41JXMN109186";
@@ -321,7 +322,11 @@ Search Vehicles
                     echo "<div class = 'car'><img src='nissan maxima.png' alt='vw jetta'/></div>";
                 }else if (strcmp($_SESSION["VIN"],"8NMGH78GHJK456789") == 0){
                     echo "<div class = 'car'><img src='chrysler 300.png' alt='vw jetta'/></div>";
-                }else{
+                }else if (strcmp($_SESSION["VIN"],"9ABCD98ZYXW987654") == 0){
+                        echo " <div class = 'car'><img src='ford focus.png' alt='ford focus'/></div>";
+                          // echo "<div class = 'car'><img src='chrysler 300.png' alt='chrysler 300'/></div>";
+                       }
+                else{
                     echo "<div class = 'no_pic'>
                     IMAGE <br> COMING <br> SOON!</div>";
                 }

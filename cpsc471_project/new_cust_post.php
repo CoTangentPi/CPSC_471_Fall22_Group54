@@ -100,7 +100,7 @@ session_start();
 
         //use prepared statements to sanitize user inputs
     $stmt = $con->prepare("INSERT INTO users 
-    VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
     $stmt->bind_param("ssssssssssss", $First_name, $Middle_name, $Last_name, $Email, $Phone_number, $DOB, $Sex, $Street_no, $Street_name, $City, $Province, $Postal_code);
     
     $stmt->execute();
@@ -111,19 +111,19 @@ session_start();
 
     //use prepared statements to sanitize user inputs
     $stmt2 = $con->prepare("INSERT INTO login
-    VALUES (NULL, ?, ?, ?)");
+    VALUES (NULL, ?, ?, ?);");
     $stmt2->bind_param("sss", $Username, $Password, $last_id);
     $stmt2->execute();
     echo "Login record created successfully";
     $stmt2->close();
 
 
-    $sql = "INSERT INTO Customer VALUES ($last_id)";
+    $sql = "INSERT INTO Customer VALUES ($last_id);";
     $result = $con->query($sql);
 
     if($result) {
         echo "Customer record created successfully";
-        $sql2 = "INSERT INTO permission VALUES (NULL, 'Customer', $last_id)";
+        $sql2 = "INSERT INTO permission VALUES (NULL, 'Customer', $last_id);";
         $result2 = $con->query($sql2);
         if($result2) {
             echo "Permission record created successfully";
